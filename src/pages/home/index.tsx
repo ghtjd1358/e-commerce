@@ -156,7 +156,7 @@ export const HomePage: React.FC = () => {
             className={style.container__slider__image}
           />
           <div className={style.container__slider__overlay}>
-            <h2 className={style.container__slider__title}>
+            <h2 className={style.container__slider__overlay__title}>
               {heroSlides[currentSlide].title}
             </h2>
           </div>
@@ -182,10 +182,10 @@ export const HomePage: React.FC = () => {
 
       {/* list */}
       <main>
-        <section className="mt-12 p-10">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl font-bold">Our Products</h2>
-            <div className="flex items-center space-x-4">
+        <section className={style.container__product}>
+          <div className={style.container__product__control}>
+            <h2>Our Products</h2>
+            <div className={style.container__product__control__search}>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <Input
@@ -214,21 +214,29 @@ export const HomePage: React.FC = () => {
               </Select>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className={style.container__product__list}>
             {filteredProducts.slice(0, visibleProducts).map((product) => (
               <Card key={product.id} className="bg-gray-800 border-gray-700">
                 <CardContent className="p-4">
                   <img
                     src={`/placeholder.svg?height=200&width=300`}
                     alt={product.name}
-                    className="w-full h-48 object-cover mb-4 rounded"
+                    className={style.container__product__list__img}
                   />
-                  <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="text-gold font-bold">
+                  <h3 className={style.container__product__list__name}>
+                    {product.name}
+                  </h3>
+                  <div className={style.container__product__list__contents}>
+                    <span
+                      className={
+                        style.container__product__list__contents__price
+                      }
+                    >
                       ${product.price}
                     </span>
-                    <div className="flex items-center">
+                    <div
+                      className={style.container__product__list__contents__star}
+                    >
                       {[...Array(product.rating)].map((_, i) => (
                         <Star key={i} className="w-4 h-4 fill-gold text-gold" />
                       ))}
