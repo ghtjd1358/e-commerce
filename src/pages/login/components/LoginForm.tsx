@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import {
   userSchemas,
   LoginPayload,
@@ -15,13 +15,29 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { RHFInput } from "@/pages/common/components/RHFInput";
+import { useLoginUser } from "@/lib/auth/hooks/userLogin";
+import { GoogleLoginButton } from "./GoogleLoginButton";
+
+interface FormInput {
+  email: string;
+  password: string;
+}
 
 export const LoginForm: React.FC = () => {
   const form = useForm<LoginPayload>({
     mode: "onChange",
-    resolver: zodResolver(userSchemas.registerSchema),
-    defaultValues: userDefaultValues.signUpDefaultValues,
+    resolver: zodResolver(userSchemas.loginSchema),
+    defaultValues: userDefaultValues.loginDefaultValues,
   });
+
+  const { mutate: login, isPending: isLoading } = useLoginUser();
+
+  const onSubmit: SubmitHandler<FormInput> = (data) => {
+    login({
+      email: data.email,
+      password: data.password,
+    });
+  };
 
   return (
     <Card className="w-full max-w-md bg-gray-800 text-gray-100 border-gray-700">
@@ -35,7 +51,7 @@ export const LoginForm: React.FC = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         <Form {...form}>
-          <form className="space-y-5">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <div className="grid gap-4">
               <div className="grid gap-2">
                 <RHFInput
@@ -54,20 +70,24 @@ export const LoginForm: React.FC = () => {
                 />
               </div>
             </div>
+            <CardFooter className="flex flex-col space-y-4">
+              <Button
+                className="w-full bg-gold hover:bg-gold/90 text-gray-100 bg-gray-700 border-gray-600"
+                disabled={isLoading}
+              >
+                {isLoading ? "접속중입니다..." : "로그인"}
+              </Button>
+              <p className="text-right text-sm text-gray-400">
+                계성이 없습니까?{" "}
+                <a href="#" className="text-gold hover:underline">
+                  회원가입
+                </a>
+              </p>
+            </CardFooter>
           </form>
         </Form>
+        <GoogleLoginButton />
       </CardContent>
-      <CardFooter className="flex flex-col space-y-4">
-        <Button className="w-full bg-gold hover:bg-gold/90 text-gray-100 bg-gray-700 border-gray-600">
-          계정 생성
-        </Button>
-        <p className="text-right text-sm text-gray-400">
-          계성이 없습니까?{" "}
-          <a href="#" className="text-gold hover:underline">
-            회원가입
-          </a>
-        </p>
-      </CardFooter>
     </Card>
   );
 };

@@ -1,15 +1,26 @@
-import { pageRoutes } from "@/apiRouters";
-import { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+// import { useRef, useEffect } from "react";
+import { Header } from "./Header";
+import { Footer } from "./Footer";
+import { useAuthStore } from "@/store/auth/userAuthStore";
+import { useEffect } from "react";
 
-interface LayoutProps {
-  children: ReactNode;
-  containerClassName?: string;
+export default function Layout({ children }) {
+  const { isLogin, user, checkLoginStatus } = useAuthStore();
+  console.log("boolean", isLogin);
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, [checkLoginStatus]);
+
+  return (
+    <>
+      <div className="w-full">
+        <main>
+          <Header isLogin={isLogin} user={user} />
+          {children}
+          <Footer />
+        </main>
+      </div>
+    </>
+  );
 }
-
-export const Layout: React.FC<LayoutProps> = ({
-  children,
-  containerClassName = "",
-}) => {
-  return <div>Layout</div>;
-};

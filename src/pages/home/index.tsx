@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import style from "./home.module.scss";
-// Header
-import { LoginButton } from "../common/components/LoginButton";
-import { CartButton } from "../common/components/CartButton";
-import { ProfileButton } from "../common/components/ProfileButton";
+
 // Slider
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Search, Star } from "lucide-react";
@@ -17,9 +13,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
+import { useAuthStore } from "@/store/auth/userAuthStore";
 
 export const HomePage: React.FC = () => {
   // Slider
+
+  const { user } = useAuthStore();
+  console.log("유저 정보", user);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const heroSlides = [
@@ -136,27 +136,17 @@ export const HomePage: React.FC = () => {
   );
 
   return (
-    <div className={style.container}>
-      {/* Header */}
-      <header className={style.container__header}>
-        <h1 className={style.container__header__logo}>이커머스</h1>
-        <nav className={style.container__header__nav}>
-          <CartButton />
-          <ProfileButton />
-          <LoginButton />
-        </nav>
-      </header>
-
+    <div className="min-h-screen bg-gray-800 text-gray-200">
       {/* Slider */}
-      <aside className={style.container__slider}>
+      <aside className="flex mx-auto w-screen h-[85vh] mb-3 relative">
         <section aria-label="Featured Products Slideshow">
           <img
             src={heroSlides[currentSlide].image}
             alt={heroSlides[currentSlide].alt}
-            className={style.container__slider__image}
+            className="w-full h-full object-cover"
           />
-          <div className={style.container__slider__overlay}>
-            <h2 className={style.container__slider__overlay__title}>
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <h2 className="text-5xl font-bold text-yellow-500">
               {heroSlides[currentSlide].title}
             </h2>
           </div>
@@ -182,10 +172,10 @@ export const HomePage: React.FC = () => {
 
       {/* list */}
       <main>
-        <section className={style.container__product}>
-          <div className={style.container__product__control}>
+        <section className="mt-12 p-10">
+          <div className="flex justify-between items-center mb-6">
             <h2>Our Products</h2>
-            <div className={style.container__product__control__search}>
+            <div className="flex items-center gap-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <Input
@@ -214,29 +204,21 @@ export const HomePage: React.FC = () => {
               </Select>
             </div>
           </div>
-          <div className={style.container__product__list}>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filteredProducts.slice(0, visibleProducts).map((product) => (
               <Card key={product.id} className="bg-gray-800 border-gray-700">
                 <CardContent className="p-4">
                   <img
                     src={`/placeholder.svg?height=200&width=300`}
                     alt={product.name}
-                    className={style.container__product__list__img}
+                    className="w-full h-[192px] object-cover mb-4 rounded-lg"
                   />
-                  <h3 className={style.container__product__list__name}>
-                    {product.name}
-                  </h3>
-                  <div className={style.container__product__list__contents}>
-                    <span
-                      className={
-                        style.container__product__list__contents__price
-                      }
-                    >
+                  <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-yellow-500 font-bold">
                       ${product.price}
                     </span>
-                    <div
-                      className={style.container__product__list__contents__star}
-                    >
+                    <div className="flex items-center">
                       {[...Array(product.rating)].map((_, i) => (
                         <Star key={i} className="w-4 h-4 fill-gold text-gold" />
                       ))}

@@ -19,8 +19,21 @@ import { ProductListingHistoryPage } from "./pages/productListingHistory";
 import { PaymentPage } from "./pages/payment";
 import { ErrorPage } from "./pages/error/ErrorPage";
 import { NotFoundPage } from "./pages/error/NotFoundPage";
+import Layout from "./pages/common/components/Layout";
 
 const CommonLayout = () => (
+  <RootErrorHandler>
+    <RootSuspence>
+      <div className="flex">
+        <Layout>
+          <Outlet />
+        </Layout>
+      </div>
+    </RootSuspence>
+  </RootErrorHandler>
+);
+
+const AuthLayout = () => (
   <RootErrorHandler>
     <RootSuspence>
       <Outlet />
@@ -35,16 +48,6 @@ const router = createBrowserRouter([
       {
         path: pageRoutes.main,
         element: <HomePage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: pageRoutes.register,
-        element: <RegisterPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: pageRoutes.login,
-        element: <LoginPage />,
         errorElement: <ErrorPage />,
       },
       {
@@ -90,6 +93,21 @@ const router = createBrowserRouter([
       {
         path: "*",
         element: <NotFoundPage />,
+      },
+    ],
+  },
+  {
+    element: <AuthLayout />,
+    children: [
+      {
+        path: pageRoutes.register,
+        element: <RegisterPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: pageRoutes.login,
+        element: <LoginPage />,
+        errorElement: <ErrorPage />,
       },
     ],
   },

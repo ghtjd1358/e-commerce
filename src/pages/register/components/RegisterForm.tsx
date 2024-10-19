@@ -6,15 +6,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useForm } from "react-hook-form";
 import {
   userSchemas,
   RegisterPayload,
   userDefaultValues,
 } from "../../../schema/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { RHFInput } from "@/pages/common/components/RHFInput";
+import { useRegisterUser } from "@/lib/auth/hooks/userRegister";
+import { Form } from "@/components/ui/form";
+
+interface FormInputs {
+  name: string;
+  nickname: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export const RegisterForm: React.FC = () => {
   const form = useForm<RegisterPayload>({
@@ -22,6 +31,17 @@ export const RegisterForm: React.FC = () => {
     resolver: zodResolver(userSchemas.registerSchema),
     defaultValues: userDefaultValues.signUpDefaultValues,
   });
+
+  const { mutate: registerUser, isPending: isLoading } = useRegisterUser();
+
+  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    registerUser({
+      name: data.name,
+      nickname: data.nickname,
+      email: data.email,
+      password: data.password,
+    });
+  };
 
   return (
     <Card className="w-full max-w-md bg-gray-800 text-gray-100 border-gray-700">
@@ -35,7 +55,7 @@ export const RegisterForm: React.FC = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         <Form {...form}>
-          <form className="space-y-5">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <div className="grid gap-4">
               <div className="grid gap-2">
                 <RHFInput
@@ -78,20 +98,24 @@ export const RegisterForm: React.FC = () => {
                 />
               </div>
             </div>
+            <CardFooter className="flex flex-col space-y-4">
+              <Button
+                type="submit"
+                className="w-full bg-gold hover:bg-gold/90 text-gray-100 bg-gray-700 border-gray-600"
+                disabled={isLoading}
+              >
+                {isLoading ? "가입 중..." : "회원가입"}
+              </Button>
+              <p className="text-right text-sm text-gray-400">
+                이미 계성이 있습니까?{" "}
+                <a href="#" className="text-gold hover:underline">
+                  로그인
+                </a>
+              </p>
+            </CardFooter>
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex flex-col space-y-4">
-        <Button className="w-full bg-gold hover:bg-gold/90 text-gray-100 bg-gray-700 border-gray-600">
-          계정 생성
-        </Button>
-        <p className="text-right text-sm text-gray-400">
-          이미 계성이 있습니까?{" "}
-          <a href="#" className="text-gold hover:underline">
-            로그인
-          </a>
-        </p>
-      </CardFooter>
     </Card>
   );
 };
