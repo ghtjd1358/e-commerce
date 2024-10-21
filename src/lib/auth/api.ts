@@ -11,10 +11,10 @@ import {
   setDoc,
   serverTimestamp,
   FieldValue,
-  query,
   collection,
-  where,
   getDocs,
+  query,
+  where,
 } from "firebase/firestore";
 import Cookies from "js-cookie";
 import {
@@ -23,15 +23,9 @@ import {
   LoginResponseDto,
   RegisterUserReqDTO,
 } from "./types";
+import { FirebaseError } from "firebase/app";
 
-//이메일 중복 체크 API
-export const checkEmailExists = async (email: string): Promise<boolean> => {
-  const q = query(collection(db, "users"), where("email", "==", email));
-  const querySnapshot = await getDocs(q);
-  return !querySnapshot.empty;
-};
-
-//닉네임 중복 체크 API
+//닉넴 중복 확인
 export const checkNicknameExists = async (
   nickname: string,
 ): Promise<boolean> => {
@@ -88,9 +82,7 @@ export const googleSocialApi = async () => {
 
     const token = await user.getIdToken();
     Cookies.set("accessToken", token, { expires: 30 });
-    console.log("이것은 쿼리에서", user.email);
 
-    // 세션 상태 변경 감지 및 토큰 갱신
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         const newToken = await user.getIdToken(true);
@@ -159,9 +151,25 @@ export const loginAPI = async (
       throw new Error("사용자 정보를 Firestore에서 찾을 수 없습니다.");
     }
   } catch (error) {
-    if (process.env.NODE_ENV === "development") {
-      console.error("Error during login:", error);
+    const FirebaseError = error as FirebaseError;
+    if (FirebaseError.code) {
+      switch (FirebaseError.code) {
+        case "auth/user-not-found":
+          throw new Error("계정을 찾을 수 없습니다. 이메일을 확인하세요.");
+        case "auth/wrong-password":
+          throw new Error("비밀번호가 올바르지 않습니다. 다시 확인하세요.");
+        case "auth/invalid-email":
+          throw new Error("유효하지 않은 이메일 형식입니다.");
+        default:
+          throw new Error("로그인에 실패했습니다. 다시 시도하세요.");
+      }
+    } else {
+      if (process.env.NODE_ENV === "development") {
+        console.error("Error during login:", error);
+      }
+      throw new Error(
+        "로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.",
+      );
     }
-    throw new Error("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
   }
 };

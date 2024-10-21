@@ -8,6 +8,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 export const useAuthStore = create<AuthStore>((set) => ({
   isLogin: !!Cookies.get("accessToken"),
   user: null,
+  isSeller: false,
 
   checkLoginStatus: async () => {
     const token = Cookies.get("accessToken");
@@ -16,7 +17,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
         // Firebase Auth 상태 변경 감지 및 처리
         auth.onAuthStateChanged(async (currentUser) => {
           if (currentUser) {
-            console.log("현재 로그인된 사용자:", currentUser);
             const userDocRef = doc(db, "users", currentUser.uid);
             const userDocSnap = await getDoc(userDocRef);
 
@@ -40,17 +40,14 @@ export const useAuthStore = create<AuthStore>((set) => ({
               await setDoc(userDocRef, {
                 nickname: currentUser.displayName || "",
                 email: currentUser.email,
-                photoURL: currentUser.photoURL,
                 isSeller: false,
                 createdAt: new Date(),
                 updatedAt: new Date(),
               });
-              console.log("새 유저 정보가 Firestore에 저장되었습니다.");
 
               set({
                 user: {
                   uid: currentUser.uid,
-                  nickname: currentUser.displayName ?? "",
                   email: currentUser.email ?? "",
                   displayName: currentUser.displayName ?? "",
                   photoURL: currentUser.photoURL ?? "",
@@ -89,6 +86,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
   setIsLogin: (isLogin: boolean) => {
     set({ isLogin });
+  },
+
+  setIsSeller: (isSeller: boolean) => {
+    set({ isSeller });
   },
 
   setUser: (user?: IUser | GoogleUser) => {

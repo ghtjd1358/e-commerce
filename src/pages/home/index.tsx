@@ -17,7 +17,6 @@ import { useAuthStore } from "@/store/auth/userAuthStore";
 
 export const HomePage: React.FC = () => {
   // Slider
-
   const { user } = useAuthStore();
   console.log("유저 정보", user);
   const [currentSlide, setCurrentSlide] = useState(0);

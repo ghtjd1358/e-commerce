@@ -4,8 +4,8 @@ export interface IUser {
   uid: string;
   email: string;
   nickname: string;
-  displayName: string;
-  photoURL: string | null;
+  displayName?: string;
+  photoURL?: string | null;
   isSeller: boolean;
   createdAt: Date | FieldValue;
   updatedAt: Date | FieldValue;

@@ -12,10 +12,14 @@ import {
   userDefaultValues,
 } from "../../../schema/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { RHFInput } from "@/pages/common/components/RHFInput";
 import { useRegisterUser } from "@/lib/auth/hooks/userRegister";
 import { Form } from "@/components/ui/form";
+import { Link } from "react-router-dom";
+import { pageRoutes } from "@/apiRouters";
+import { useDebounce } from "@/hooks/useAuthCheck";
+import { useCheckNicknameExists } from "@/lib/auth/hooks/useCheckAuth";
 
 interface FormInputs {
   name: string;
@@ -33,6 +37,12 @@ export const RegisterForm: React.FC = () => {
   });
 
   const { mutate: registerUser, isPending: isLoading } = useRegisterUser();
+
+  const nickname = useWatch({ control: form.control, name: "nickname" });
+  const debouncedNickname = useDebounce(nickname, 500);
+
+  const { data: nicknameExists, isLoading: isCheckingNickname } =
+    useCheckNicknameExists(debouncedNickname);
 
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     registerUser({
@@ -72,6 +82,20 @@ export const RegisterForm: React.FC = () => {
                   placeholder="닉네임을 입력해주세요"
                   type="text"
                 />
+                {/* 닉네임 체크 상태 표시 */}
+                {isCheckingNickname ? (
+                  <p className="text-yellow-500 text-xs">닉네임 확인 중...</p>
+                ) : nicknameExists ? (
+                  <p className="text-red-500 text-xs">
+                    이미 존재하는 닉네임입니다.
+                  </p>
+                ) : (
+                  nickname && (
+                    <p className="text-green-500 text-xs">
+                      사용 가능한 닉네임입니다.
+                    </p>
+                  )
+                )}
               </div>
               <div className="grid gap-2">
                 <RHFInput
@@ -107,10 +131,13 @@ export const RegisterForm: React.FC = () => {
                 {isLoading ? "가입 중..." : "회원가입"}
               </Button>
               <p className="text-right text-sm text-gray-400">
-                이미 계성이 있습니까?{" "}
-                <a href="#" className="text-gold hover:underline">
+                이미 계정이 있습니까?{" "}
+                <Link
+                  to={pageRoutes.login}
+                  className="text-gold hover:underline"
+                >
                   로그인
-                </a>
+                </Link>
               </p>
             </CardFooter>
           </form>

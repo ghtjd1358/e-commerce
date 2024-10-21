@@ -26,6 +26,7 @@ export const useLoginUser = () => {
       navigate(pageRoutes.main);
     },
     onError: (error) => {
+      alert(error.message);
       console.error("로그인 중 오류가 발생하였습니다.", error);
     },
   });

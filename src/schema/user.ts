@@ -41,12 +41,7 @@ const registerSchema = z.object({
 
 // 비밀번호 일치 여부 검증 추가
 const refinedRegisterSchema = registerSchema.refine(
-  (data) => {
-    if (data.password !== data.confirmPassword) {
-      return false;
-    }
-    return true;
-  },
+  (data) => data.password === data.confirmPassword,
   {
     message: "비밀번호가 일치하지 않습니다.",
     path: ["confirmPassword"],

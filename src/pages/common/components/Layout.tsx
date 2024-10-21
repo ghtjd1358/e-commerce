@@ -6,7 +6,6 @@ import { useEffect } from "react";
 
 export default function Layout({ children }) {
   const { isLogin, user, checkLoginStatus } = useAuthStore();
-  console.log("boolean", isLogin);
 
   useEffect(() => {
     checkLoginStatus();

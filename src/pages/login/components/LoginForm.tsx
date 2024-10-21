@@ -33,6 +33,7 @@ export const LoginForm: React.FC = () => {
   const { mutate: login, isPending: isLoading } = useLoginUser();
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
+    console.log(data);
     login({
       email: data.email,
       password: data.password,

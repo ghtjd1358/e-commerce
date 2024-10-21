@@ -18,7 +18,7 @@ export const useGoogleLoginUser = () => {
         uid: data.uid,
         email: data.email,
         displayName: data.displayName ?? "",
-        photoURL: data.photoURL ?? null,
+        photoURL: data.photoURL ?? "",
         isSeller: data.isSeller,
       });
       navigate(pageRoutes.main);
