@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { useAuthStore } from "@/store/auth/userAuthStore";
+import { useAuthStore } from "@/store/auth/useAuthStore";
 
 export const HomePage: React.FC = () => {
   // Slider

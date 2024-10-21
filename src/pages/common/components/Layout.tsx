@@ -1,10 +1,15 @@
 // import { useRef, useEffect } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
-import { useAuthStore } from "@/store/auth/userAuthStore";
-import { useEffect } from "react";
+import { useAuthStore } from "@/store/auth/useAuthStore";
+import { ReactNode, useEffect } from "react";
+import { Toast } from "./Toast";
 
-export default function Layout({ children }) {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { isLogin, user, checkLoginStatus } = useAuthStore();
 
   useEffect(() => {
@@ -16,10 +21,11 @@ export default function Layout({ children }) {
       <div className="w-full">
         <main>
           <Header isLogin={isLogin} user={user} />
+          <Toast />
           {children}
           <Footer />
         </main>
       </div>
     </>
   );
-}
+};
