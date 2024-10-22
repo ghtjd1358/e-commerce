@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import { pageRoutes } from "../apiRouters";
 
 // Pages
@@ -16,30 +16,7 @@ import { PaymentPage } from "../pages/payment";
 import { ErrorPage } from "../pages/error/ErrorPage";
 import { NotFoundPage } from "../pages/error/NotFoundPage";
 import { AuthLayout, CommonLayout } from "./routerLayout";
-import { useAuthStore } from "@/store/auth/useAuthStore";
-
-// const PrivateRoute = ({ element }) => {
-//   const { isLogin } = useAuthStore();
-//   return isLogin ? element : <Navigate to={pageRoutes.login} />;
-// };
-
-const PublicRoute = ({ element }) => {
-  const { isLogin } = useAuthStore();
-  return !isLogin ? element : <Navigate to={pageRoutes.main} />;
-};
-
-// const SellerRoute = ({ element }) => {
-//   const { isSeller } = useAuthStore();
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     if (!isSeller) {
-//       navigate(-1);
-//     }
-//   }, [isSeller, navigate]);
-
-//   return isSeller ? element : null;
-// };
+import { PrivateRoute, PublicRoute, SellerRoute } from "./routerAuth";
 
 export const router = createBrowserRouter([
   {
@@ -57,37 +34,37 @@ export const router = createBrowserRouter([
       },
       {
         path: pageRoutes.userProfile,
-        element: <UserProfilePage />,
+        element: <PrivateRoute element={<UserProfilePage />} />,
         errorElement: <ErrorPage />,
       },
       {
         path: pageRoutes.purchase,
-        element: <PurchasePage />,
+        element: <PrivateRoute element={<PurchasePage />} />,
         errorElement: <ErrorPage />,
       },
       {
         path: pageRoutes.purchaseHistory,
-        element: <PurchaseHistoryPage />,
+        element: <PrivateRoute element={<PurchaseHistoryPage />} />,
         errorElement: <ErrorPage />,
       },
       {
         path: pageRoutes.profileSettings,
-        element: <ProfileSettingsPage />,
+        element: <PrivateRoute element={<ProfileSettingsPage />} />,
         errorElement: <ErrorPage />,
       },
       {
         path: pageRoutes.productListing,
-        element: <ProductListingPage />,
+        element: <SellerRoute element={<ProductListingPage />} />,
         errorElement: <ErrorPage />,
       },
       {
         path: pageRoutes.productListingHistory,
-        element: <ProductListingHistoryPage />,
+        element: <SellerRoute element={<ProductListingHistoryPage />} />,
         errorElement: <ErrorPage />,
       },
       {
         path: pageRoutes.payment,
-        element: <PaymentPage />,
+        element: <PrivateRoute element={<PaymentPage />} />,
         errorElement: <ErrorPage />,
       },
       {
