@@ -28,5 +28,4 @@ export interface ProductStore {
   isLoading: boolean;
   error: string | null;
   totalCount: number;
-  // fetchProducts: (page: number) => Promise<void>;
 }

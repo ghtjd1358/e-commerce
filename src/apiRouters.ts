@@ -11,6 +11,6 @@ export const pageRoutes = {
   purchaseHistory: "/purchaseHistory", //구매 내역
   payment: "/payment", //결제 완료
 
-  productListing: "/productListing", // 상품 등록
+  productListing: "/productListing", // 판매자 마이페이지
   productListingHistory: "/productListingHistory", // 상품 등록 내역
 };

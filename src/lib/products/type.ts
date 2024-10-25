@@ -5,8 +5,8 @@ export interface IProduct {
   productPrice: number;
   productQuantity: number;
   productDescription: string;
-  productCategory: string;
-  productImage: string;
+  productCategory: { id: string; name: string };
+  productImage: string | File;
   createdAt: string;
   updatedAt: string;
 }
@@ -19,13 +19,13 @@ export interface PaginatedProductsDTO {
 }
 
 export interface NewProductDTO {
-  sellerId: string;
+  sellerId: string | undefined;
   productName: string;
   productPrice: number;
   productQuantity: number;
   productDescription: string;
-  productCategory: string;
-  productImage?: string;
+  productCategory: { id: string; name: string };
+  productImage?: (string | null)[];
   createdAt: string;
   updatedAt: string;
 }

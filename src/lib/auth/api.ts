@@ -15,6 +15,7 @@ import {
   getDocs,
   query,
   where,
+  updateDoc,
 } from "firebase/firestore";
 import Cookies from "js-cookie";
 import {
@@ -24,6 +25,22 @@ import {
   RegisterUserReqDTO,
 } from "./types";
 import { FirebaseError } from "firebase/app";
+
+// 판매자 상태 업데이트 API
+export const setSellerStatus = async (
+  uid: string,
+  isSeller: boolean,
+): Promise<void> => {
+  try {
+    const userRef = doc(db, "users", uid);
+    await updateDoc(userRef, {
+      isSeller, // isSeller 값을 업데이트
+    });
+  } catch (error) {
+    console.error("판매자 상태 업데이트 중 오류 발생:", error);
+    throw new Error("판매자 상태 업데이트에 실패했습니다.");
+  }
+};
 
 //닉넴 중복 확인
 export const checkNicknameExists = async (
@@ -124,7 +141,6 @@ export const loginAPI = async (
     const token = await user.getIdToken();
     Cookies.set("accessToken", token, { expires: 30 });
 
-    // Firestore에서 추가 정보 (nickname) 가져오기
     const userDocRef = doc(db, "users", user.uid);
     const userDocSnap = await getDoc(userDocRef);
 

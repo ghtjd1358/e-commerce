@@ -17,6 +17,8 @@ import { Form } from "@/components/ui/form";
 import { RHFInput } from "@/pages/common/components/RHFInput";
 import { useLoginUser } from "@/lib/auth/hooks/userLogin";
 import { GoogleLoginButton } from "./GoogleLoginButton";
+import { pageRoutes } from "@/apiRouters";
+import { Link } from "react-router-dom";
 
 interface FormInput {
   email: string;
@@ -80,9 +82,12 @@ export const LoginForm: React.FC = () => {
               </Button>
               <p className="text-right text-sm text-gray-400">
                 계성이 없습니까?{" "}
-                <a href="#" className="text-gold hover:underline">
+                <Link
+                  to={pageRoutes.register}
+                  className="text-gold hover:underline"
+                >
                   회원가입
-                </a>
+                </Link>
               </p>
             </CardFooter>
           </form>

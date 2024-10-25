@@ -1,6 +1,6 @@
-// import { ALL_CATEGORY_ID } from "@/constants";
-import { db } from "@/firebase";
-// import { ProductFilter } from "../../store/product/type";
+import { ALL_CATEGORY_ID } from "@/constants";
+import { db, storage } from "@/firebase";
+import { ProductFilter } from "../../store/product/type";
 import {
   collection,
   doc,
@@ -11,34 +11,67 @@ import {
   runTransaction,
   serverTimestamp,
   deleteDoc,
-  //   where,
+  updateDoc,
+  where,
 } from "firebase/firestore";
 import { IProduct, NewProductDTO, PaginatedProductsDTO } from "./type";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 
-// 상품 fetch
-export const fetchProducts = async (
+// fetch data, filter 적용
+export const fetchProductsApi = async (
+  filter: ProductFilter,
   pageSize: number,
   page: number,
 ): Promise<PaginatedProductsDTO> => {
   try {
-    const q = query(collection(db, "products"), orderBy("id", "desc"));
+    let q = query(collection(db, "products"), orderBy("id", "desc"));
+
+    if (filter.categoryId && filter.categoryId !== ALL_CATEGORY_ID) {
+      q = query(q, where("productCategory.id", "==", filter.categoryId));
+    }
+
+    if (filter.title && filter.title.length > 0) {
+      q = query(
+        q,
+        where("productName", ">=", filter.title[0]),
+        where("productName", "<=", filter.title[0] + "\uf8ff"),
+      );
+    }
+
+    if (filter.minPrice) {
+      q = query(q, where("productPrice", ">=", Number(filter.minPrice)));
+    }
+    if (filter.maxPrice) {
+      q = query(q, where("productPrice", "<=", Number(filter.maxPrice)));
+    }
 
     const querySnapshot = await getDocs(q);
-    const products = querySnapshot.docs.map((doc) => {
+    let products = querySnapshot.docs.map((doc) => {
       const data = doc.data();
       return {
         id: String(data.id),
         sellerId: data.sellerId,
-        productQuantity: data.productQuantity,
-        productDescription: data.productData,
+        productQuantity: Number(data.productQuantity),
+        productDescription: data.productDescription,
         productName: data.productName,
-        productPrice: Number(data.price),
+        productPrice: Number(data.productPrice),
         productCategory: data.productCategory,
         productImage: data.productImage || "",
         createdAt: data.createdAt?.toDate().toISOString(),
         updatedAt: data.updatedAt?.toDate().toISOString(),
       };
     }) as IProduct[];
+
+    if (filter.title) {
+      products = products.filter((product) =>
+        product.productName.toLowerCase().includes(filter.title!.toLowerCase()),
+      );
+    }
 
     const totalCount = products.length;
     const startIndex = (page - 1) * pageSize;
@@ -55,52 +88,30 @@ export const fetchProducts = async (
   }
 };
 
-// export const fetchProducts = async (
-//   filter: ProductFilter,
+// 상품 fetch 필터 적용 전
+// export const fetchProductsApi = async (
 //   pageSize: number,
 //   page: number,
 // ): Promise<PaginatedProductsDTO> => {
 //   try {
-//     let q = query(collection(db, "products"), orderBy("id", "desc"));
-
-//     if (filter.categoryId && filter.categoryId !== ALL_CATEGORY_ID) {
-//       q = query(q, where("category.id", "==", filter.categoryId));
-//     }
-
-//     if (filter.title && filter.title.length > 0) {
-//       q = query(
-//         q,
-//         where("title", ">=", filter.title[0]),
-//         where("title", "<=", filter.title[0] + "\uf8ff"),
-//       );
-//     }
-
-//     if (filter.minPrice) {
-//       q = query(q, where("price", ">=", Number(filter.minPrice)));
-//     }
-//     if (filter.maxPrice) {
-//       q = query(q, where("price", "<=", Number(filter.maxPrice)));
-//     }
+//     const q = query(collection(db, "products"), orderBy("id", "desc"));
 
 //     const querySnapshot = await getDocs(q);
-//     let products = querySnapshot.docs.map((doc) => {
+//     const products = querySnapshot.docs.map((doc) => {
 //       const data = doc.data();
 //       return {
 //         id: String(data.id),
-//         title: data.title,
-//         price: Number(data.price),
-//         category: data.category,
-//         image: data.image || "",
+//         sellerId: data.sellerId,
+//         productQuantity: Number(data.productQuantity),
+//         productDescription: data.productDescription,
+//         productName: data.productName,
+//         productPrice: Number(data.productPrice),
+//         productCategory: data.productCategory,
+//         productImage: data.productImage || "",
 //         createdAt: data.createdAt?.toDate().toISOString(),
 //         updatedAt: data.updatedAt?.toDate().toISOString(),
 //       };
 //     }) as IProduct[];
-
-//     if (filter.title) {
-//       products = products.filter((product) =>
-//         product.title.toLowerCase().includes(filter.title!.toLowerCase()),
-//       );
-//     }
 
 //     const totalCount = products.length;
 //     const startIndex = (page - 1) * pageSize;
@@ -135,8 +146,8 @@ export const addProductAPI = async (
       const newId = maxId + 1;
 
       const newProductData = {
-        id: String(newId), // 새로운 id
-        sellerId: productData.sellerId,
+        id: String(newId),
+        sellerId: productData.sellerId || "",
         productName: productData.productName,
         productPrice: productData.productPrice,
         productQuantity: productData.productQuantity,
@@ -172,6 +183,41 @@ export const deleteProductAPI = async (productId: string): Promise<void> => {
     console.log(`Product with id ${productId} deleted successfully.`);
   } catch (error) {
     console.error("Error deleting product: ", error);
+    throw error;
+  }
+};
+
+// 상품 수정
+export const updateProductAPI = async (
+  productId: string,
+  updatedProduct: IProduct,
+  existingImageUrl?: string,
+): Promise<void> => {
+  try {
+    if (typeof updatedProduct.productImage !== "string" && existingImageUrl) {
+      const imageRef = ref(storage, existingImageUrl);
+      await deleteObject(imageRef);
+    }
+
+    if (updatedProduct.productImage instanceof File) {
+      const storageRef = ref(storage, `images/${productId}`);
+      await uploadBytes(storageRef, updatedProduct.productImage);
+      updatedProduct.productImage = await getDownloadURL(storageRef);
+    }
+
+    const productRef = doc(db, "products", productId);
+    await updateDoc(productRef, {
+      productName: updatedProduct.productName,
+      productPrice: updatedProduct.productPrice,
+      productQuantity: updatedProduct.productQuantity,
+      productDescription: updatedProduct.productDescription,
+      productImage: updatedProduct.productImage, // string or new image URL
+      updatedAt: serverTimestamp(),
+    });
+
+    console.log(`Product with id ${productId} updated successfully.`);
+  } catch (error) {
+    console.error("Error updating product: ", error);
     throw error;
   }
 };

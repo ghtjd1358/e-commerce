@@ -3,7 +3,7 @@ import { FieldValue } from "firebase/firestore";
 export interface IUser {
   uid: string;
   email: string;
-  nickname: string;
+  nickname?: string;
   displayName?: string;
   photoURL?: string | null;
   isSeller: boolean;
@@ -14,6 +14,7 @@ export interface IUser {
 export interface GoogleUser {
   uid: string;
   email: string;
+  nickname?: string;
   displayName: string;
   photoURL: string | null;
   isSeller: boolean;

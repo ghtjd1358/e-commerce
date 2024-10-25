@@ -8,19 +8,17 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 export const useAuthStore = create<AuthStore>((set) => ({
   isLogin: !!Cookies.get("accessToken"),
   user: null,
-  isSeller: false,
+  isLoading: false,
 
   checkLoginStatus: async () => {
     const token = Cookies.get("accessToken");
     if (token) {
       try {
-        // Firebase Auth 상태 변경 감지 및 처리
         auth.onAuthStateChanged(async (currentUser) => {
           if (currentUser) {
             const userDocRef = doc(db, "users", currentUser.uid);
             const userDocSnap = await getDoc(userDocRef);
 
-            // 유저 정보가 있으면 상태 업데이트
             if (userDocSnap.exists()) {
               const userData = userDocSnap.data();
               set({
@@ -31,8 +29,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
                   displayName: currentUser.displayName ?? "",
                   photoURL: currentUser.photoURL ?? "",
                   isSeller: userData.isSeller ?? false,
-                  createdAt: userData.createdAt ?? "",
-                  updatedAt: userData.updatedAt ?? "",
                 },
                 isLogin: true,
               });
@@ -41,8 +37,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
                 nickname: currentUser.displayName || "",
                 email: currentUser.email,
                 isSeller: false,
-                createdAt: new Date(),
-                updatedAt: new Date(),
               });
 
               set({
@@ -52,8 +46,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
                   displayName: currentUser.displayName ?? "",
                   photoURL: currentUser.photoURL ?? "",
                   isSeller: false,
-                  createdAt: new Date(),
-                  updatedAt: new Date(),
                 },
                 isLogin: true,
               });
@@ -86,10 +78,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
   setIsLogin: (isLogin: boolean) => {
     set({ isLogin });
-  },
-
-  setIsSeller: (isSeller: boolean) => {
-    set({ isSeller });
   },
 
   setUser: (user?: IUser | GoogleUser) => {

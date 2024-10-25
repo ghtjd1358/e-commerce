@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { IProduct, NewProductDTO } from "../type";
 import { addProductAPI } from "../api";
 import { PRODUCT_KEY } from "../key";
+
 export const useAddProducts = () => {
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();

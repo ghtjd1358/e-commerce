@@ -19,7 +19,7 @@ export const GoogleLoginButton = () => {
         alt="Google Logo"
         className="h-5"
       />
-      구글 계정으로 로그인하기
+      구글 로그인
     </Button>
   );
 };

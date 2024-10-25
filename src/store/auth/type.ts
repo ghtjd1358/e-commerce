@@ -3,7 +3,7 @@ import { IUser, GoogleUser } from "../../lib/auth/types";
 export interface AuthStore {
   isLogin: boolean;
   user: IUser | GoogleUser | null;
-  isSeller: boolean;
+  isLoading: boolean;
   checkLoginStatus: () => Promise<void>;
   logout: () => void;
   setIsLogin: (isLogin: boolean) => void;

@@ -3,17 +3,12 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { CircleUserRound } from "lucide-react";
+import { useAuthStore } from "@/store/auth/useAuthStore";
 
-interface profileButtonProps {
-  user: { nickname: string; photoURL?: string } | null; // photoURL을 선택적으로 추가
-  isLogin: boolean;
-}
-
-export const ProfileButton: React.FC<profileButtonProps> = ({
-  user,
-  isLogin,
-}) => {
+export const ProfileButton: React.FC = () => {
   const navigate = useNavigate();
+  const { isLogin, user } = useAuthStore();
+
   const handleClickProfile = () => {
     navigate(pageRoutes.userProfile);
   };
@@ -22,7 +17,7 @@ export const ProfileButton: React.FC<profileButtonProps> = ({
     <Button variant="ghost" onClick={handleClickProfile}>
       {isLogin && user ? (
         <>
-          {user.photoURL ? ( // photoURL이 존재할 경우 이미지로 표시
+          {user.photoURL ? (
             <img
               src={user.photoURL}
               alt={`${user.photoURL}'s profile`}
