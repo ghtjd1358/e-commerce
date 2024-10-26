@@ -74,6 +74,7 @@ export const ProductRegistrationModal: React.FC<
       const selectedCategory = categories.find(
         (category) => category.id === data.categoryId,
       );
+
       if (!selectedCategory) {
         throw new Error("유효한 카테고리를 선택해주세요.");
       }
@@ -114,6 +115,8 @@ export const ProductRegistrationModal: React.FC<
       setImages((prev) => [...prev, ...newImages]);
     }
   };
+
+  console.log(images);
 
   const removeImage = (index: number) => {
     setImages((prev) => prev.filter((_, i) => i !== index));

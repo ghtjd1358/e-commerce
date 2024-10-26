@@ -29,12 +29,18 @@ export const fetchProductsApi = async (
   page: number,
 ): Promise<PaginatedProductsDTO> => {
   try {
+    // 쿼리 초기화: products 컬렉션을 id 필드를 기준으로 내림차순 정렬
     let q = query(collection(db, "products"), orderBy("id", "desc"));
-
+    // filter.categoryId가 존재하고 전체 카테고리(ALL_CATEGORY_ID)가 아닌 경우,
+    // productCategory.id 필드가 filter.categoryId와 일치하는 항목
     if (filter.categoryId && filter.categoryId !== ALL_CATEGORY_ID) {
       q = query(q, where("productCategory.id", "==", filter.categoryId));
     }
 
+    // Firestore의 문자열 쿼리는 특정 문자로 시작하는 항목을 찾을 때 유용,
+    // 그래서 >=와 <= 연산자를 사용하여 제목이 filter.title[0]에서 시작하는 항목
+
+    // where 조건을 만족하려면 index 설정해줘야함
     if (filter.title && filter.title.length > 0) {
       q = query(
         q,
@@ -77,7 +83,6 @@ export const fetchProductsApi = async (
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     const paginatedProducts = products.slice(startIndex, endIndex);
-
     const hasNextPage = endIndex < totalCount;
     const nextPage = hasNextPage ? page + 1 : undefined;
 
@@ -177,8 +182,6 @@ export const addProductAPI = async (
 export const deleteProductAPI = async (productId: string): Promise<void> => {
   try {
     const productRef = doc(db, "products", productId);
-
-    // Firestore 문서 삭제
     await deleteDoc(productRef);
     console.log(`Product with id ${productId} deleted successfully.`);
   } catch (error) {

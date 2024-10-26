@@ -6,7 +6,7 @@ export interface IProduct {
   productQuantity: number;
   productDescription: string;
   productCategory: { id: string; name: string };
-  productImage: string | File;
+  productImage: string | File | (string | null)[];
   createdAt: string;
   updatedAt: string;
 }

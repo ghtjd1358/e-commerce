@@ -6,12 +6,12 @@ import { fetchProductsApi } from "../api";
 import { useFilterStore } from "@/store/filter/useFilterStore";
 
 export const useFetchProducts = ({ pageSize = PRODUCT_PAGE_SIZE }) => {
-  const queryKey = [PRODUCT_KEY] as const;
   const { minPrice, maxPrice, title, categoryId } = useFilterStore();
   const filter = { minPrice, maxPrice, title, categoryId };
-
+  const queryKey = [PRODUCT_KEY, filter] as const;
   return useInfiniteQuery<PaginatedProductsDTO, Error>({
     queryKey,
+    refetchOnWindowFocus: false,
     queryFn: async ({ pageParam = 1 }) => {
       return await fetchProductsApi(filter, pageSize, pageParam as number);
     },

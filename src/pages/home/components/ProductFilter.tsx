@@ -1,62 +1,47 @@
-import React from "react";
 import { useFilterStore } from "@/store/filter/useFilterStore";
-import { ALL_CATEGORY_ID, categories } from "@/constants";
+import { PriceRange } from "./PriceRange";
+import { CategorySelectGroup } from "./CategorySelectGroup";
+import { Link } from "react-router-dom";
+import { pageRoutes } from "@/apiRouters";
 
 export const ProductFilter: React.FC = () => {
   const {
+    title,
     minPrice,
     maxPrice,
-    title,
     categoryId,
     setMinPrice,
     setMaxPrice,
-    setTitle,
     setCategoryId,
-    resetFilter,
   } = useFilterStore();
 
+  console.log("타이틀", title);
+
+  const handlePriceChange =
+    (action: (value: number) => void) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = parseInt(e.target.value, 10);
+      action(!isNaN(value) && value >= 0 ? value : -1);
+    };
+
   return (
-    <div className="filter-component mb-6">
-      <h2>필터</h2>
-      <div>
-        <label>최소 가격:</label>
-        <input
-          type="number"
-          value={minPrice}
-          onChange={(e) => setMinPrice(Number(e.target.value))}
+    <div className=" flex justify-between mb-8">
+      <div className="flex gap-6">
+        <CategorySelectGroup
+          categoryId={categoryId}
+          onChangeCategory={setCategoryId}
+        />
+
+        <PriceRange
+          onChangeMinPrice={handlePriceChange(setMinPrice)}
+          onChangeMaxPrice={handlePriceChange(setMaxPrice)}
+          minPrice={minPrice}
+          maxPrice={maxPrice}
         />
       </div>
       <div>
-        <label>최대 가격:</label>
-        <input
-          type="number"
-          value={maxPrice}
-          onChange={(e) => setMaxPrice(Number(e.target.value))}
-        />
+        <Link to={pageRoutes.cfproduct}>더보기</Link>
       </div>
-      <div>
-        <label>제목:</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>카테고리:</label>
-        <select
-          value={categoryId}
-          onChange={(e) => setCategoryId(e.target.value)}
-        >
-          <option value={ALL_CATEGORY_ID}>모두</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <button onClick={resetFilter}>필터 초기화</button>
     </div>
   );
 };

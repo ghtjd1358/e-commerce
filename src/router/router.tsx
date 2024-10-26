@@ -16,6 +16,8 @@ import { PaymentPage } from "../pages/payment";
 import { ErrorPage } from "../pages/error/ErrorPage";
 import { NotFoundPage } from "../pages/error/NotFoundPage";
 import { CommonLayout } from "./routerLayout";
+import { CFProductPage } from "@/pages/product/CFProductPage";
+import { ProductDetailPage } from "@/pages/Detail/Detail";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +26,16 @@ export const router = createBrowserRouter([
       {
         path: pageRoutes.main,
         element: <HomePage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: pageRoutes.cfproduct,
+        element: <CFProductPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: `${pageRoutes.productDetail}/:id`, // 수정된 부분
+        element: <ProductDetailPage />,
         errorElement: <ErrorPage />,
       },
       {
