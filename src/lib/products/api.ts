@@ -5,7 +5,6 @@ import {
   collection,
   doc,
   getDocs,
-  limit,
   orderBy,
   query,
   runTransaction,
@@ -140,18 +139,12 @@ export const addProductAPI = async (
   try {
     return await runTransaction(db, async (transaction) => {
       const productsRef = collection(db, "products");
-      const q = query(productsRef, orderBy("id", "desc"), limit(1));
-      const querySnapshot = await getDocs(q);
 
-      let maxId = 0;
-      if (!querySnapshot.empty) {
-        maxId = parseInt(querySnapshot.docs[0].data().id);
-      }
-
-      const newId = maxId + 1;
+      // 새 문서 참조를 생성하되, ID를 명시적으로 지정하지 않음
+      const newDocRef = doc(productsRef); // 자동으로 생성된 ID 사용
 
       const newProductData = {
-        id: String(newId),
+        id: newDocRef.id, // 자동 생성된 ID 사용
         sellerId: productData.sellerId || "",
         productName: productData.productName,
         productPrice: productData.productPrice,
@@ -163,8 +156,7 @@ export const addProductAPI = async (
         updatedAt: serverTimestamp(),
       };
 
-      const newDocRef = doc(productsRef, String(newId));
-      transaction.set(newDocRef, newProductData);
+      transaction.set(newDocRef, newProductData); // 상품 추가
 
       return {
         ...newProductData,
@@ -173,7 +165,7 @@ export const addProductAPI = async (
       };
     });
   } catch (error) {
-    console.error("Error adding product: ", error);
+    console.error("Error adding product: ", error); // 에러 확인
     throw error;
   }
 };

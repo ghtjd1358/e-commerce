@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { Navigate } from "react-router-dom"; // Ensure this is imported
 import { Footer } from "./Footer";
 import { useAuthStore } from "@/store/auth/useAuthStore";
@@ -26,6 +26,10 @@ export const Layout: React.FC<LayoutProps> = ({
   authStatus = authStatusType.COMMON,
 }) => {
   const { isLogin, user, isLoading } = useAuthStore();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (isLoading) {
     return <div>로딩 중...</div>;
@@ -58,7 +62,9 @@ export const Layout: React.FC<LayoutProps> = ({
   return (
     <div className="min-h-screen flex flex-col">
       <NavigationBar />
-      <main className="flex">
+      <main className="flex flex-1">
+        {" "}
+        {/* main 요소가 남은 공간을 차지하도록 수정 */}
         <div className={`w-full ${containerClassName}`}>
           <Toast />
           {children}

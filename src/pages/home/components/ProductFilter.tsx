@@ -1,12 +1,9 @@
 import { useFilterStore } from "@/store/filter/useFilterStore";
 import { PriceRange } from "./PriceRange";
 import { CategorySelectGroup } from "./CategorySelectGroup";
-import { Link } from "react-router-dom";
-import { pageRoutes } from "@/apiRouters";
 
-export const ProductFilter: React.FC = () => {
+export const ProductFilter: React.FC = ({ totalCount }) => {
   const {
-    title,
     minPrice,
     maxPrice,
     categoryId,
@@ -14,8 +11,6 @@ export const ProductFilter: React.FC = () => {
     setMaxPrice,
     setCategoryId,
   } = useFilterStore();
-
-  console.log("타이틀", title);
 
   const handlePriceChange =
     (action: (value: number) => void) =>
@@ -25,22 +20,26 @@ export const ProductFilter: React.FC = () => {
     };
 
   return (
-    <div className=" flex justify-between mb-8">
-      <div className="flex gap-6">
+    <div className="flex justify-between items-end">
+      <h1 className="text-3xl font-bold text-gold gap-2">
+        안경 <span>레몬에이드</span>
+        <span>( {totalCount} )</span>
+      </h1>
+
+      <div className="flex mb-24">
         <CategorySelectGroup
           categoryId={categoryId}
           onChangeCategory={setCategoryId}
         />
+      </div>
 
+      <div className="flex">
         <PriceRange
           onChangeMinPrice={handlePriceChange(setMinPrice)}
           onChangeMaxPrice={handlePriceChange(setMaxPrice)}
           minPrice={minPrice}
           maxPrice={maxPrice}
         />
-      </div>
-      <div>
-        <Link to={pageRoutes.cfproduct}>더보기</Link>
       </div>
     </div>
   );
