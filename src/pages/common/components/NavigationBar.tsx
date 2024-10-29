@@ -96,6 +96,7 @@ export const NavigationBar: React.FC = () => {
       <div className="flex justify-between items-center ml-6 p-1 w-60">
         <div className="flex-grow flex justify-around">
           <CartButton />
+
           <ProfileButton />
           {isLogin ? <LogoutButton /> : <LoginButton />}
         </div>

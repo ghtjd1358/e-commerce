@@ -1,32 +1,30 @@
 import { TableCell, TableRow } from "@/components/ui/table";
-import React, { Suspense } from "react";
+import React from "react";
 import { IProduct } from "@/lib/products/type";
-import { Button } from "@/components/ui/button";
 import { useToastStore } from "@/store/toast/useToastStore";
-import { useDeleteProducts } from "@/lib/products/hooks/useDeleteProducts";
-import { useModal } from "@/hooks/useModals";
-import { ProductUpdaterModal } from "./ProductUpdaterModal";
 
 interface ProductCardProps {
   product: IProduct;
-  user: { uid: string } | null;
+  removeCartItem: (itemId: string, userId: string) => void; // removeCartItem 프롭스 추가
+  user: { uid: string } | null; // 사용자 정보를 위한 프롭스 추가
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, user }) => {
+export const CartCardSquare: React.FC<ProductCardProps> = ({
+  product,
+  removeCartItem,
+  user,
+}) => {
   const { addToast } = useToastStore();
-  const { mutateAsync } = useDeleteProducts();
-  const { isOpen, openModal, closeModal } = useModal();
 
-  const handleDeleteProduct = async () => {
-    if (product.sellerId !== user?.uid) {
-      addToast("삭제 권한이 없습니다.", "error");
-      return;
-    }
-
-    try {
-      await mutateAsync(product.id);
-    } catch (error) {
-      console.log(error);
+  const handleRemoveItem = () => {
+    if (user) {
+      removeCartItem(product.id, user.uid); // 아이템 삭제 호출
+      addToast(
+        `${product.productName}이(가) 카트에서 삭제되었습니다.`,
+        "success",
+      ); // 삭제 후 토스트 메시지
+    } else {
+      addToast("사용자가 로그인하지 않았습니다.", "error"); // 로그인하지 않은 경우 메시지
     }
   };
 
@@ -54,24 +52,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, user }) => {
           {product.updatedAt.slice(0, 10)}
         </TableCell>
         <TableCell>
-          {product.sellerId === user?.uid && (
-            <>
-              <Button onClick={openModal}>수정</Button>
-              <Button onClick={handleDeleteProduct}>삭제</Button>
-            </>
-          )}
+          <button
+            onClick={handleRemoveItem}
+            className="text-red-500 hover:underline"
+          >
+            삭제
+          </button>
         </TableCell>
       </TableRow>
-
-      <Suspense fallback={<div>Loading...</div>}>
-        {isOpen && (
-          <ProductUpdaterModal
-            isOpen={isOpen}
-            onClose={closeModal}
-            product={product}
-          />
-        )}
-      </Suspense>
     </>
   );
 };

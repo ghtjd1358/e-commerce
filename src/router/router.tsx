@@ -29,12 +29,12 @@ export const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: pageRoutes.cfproduct,
+        path: `${pageRoutes.cfproduct}/:category`,
         element: <CFProductPage />,
         errorElement: <ErrorPage />,
       },
       {
-        path: `${pageRoutes.productDetail}/:id`, // 수정된 부분
+        path: `${pageRoutes.productDetail}/:id`,
         element: <ProductDetailPage />,
         errorElement: <ErrorPage />,
       },

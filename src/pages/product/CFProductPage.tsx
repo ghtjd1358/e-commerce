@@ -1,19 +1,29 @@
 import React, { useEffect } from "react";
-import { useFetchProducts } from "@/lib/products/hooks/useFetchProducts";
+import { useFetchInfiniteQueryProducts } from "@/lib/products/hooks/useFetchInfiniteQueryProducts";
 import { Layout } from "../common/components/Layout";
-import { ProductCard } from "../home/components/ProductCard";
-import { ProductFilter } from "../home/components/ProductFilter";
+import { ProductCard } from "../common/components/ProductCard";
+import { ProductFilter } from "./components/ProductFilter";
 import { Button } from "@/components/ui/button";
 import { useInView } from "react-intersection-observer";
+import { useParams } from "react-router-dom";
+import { ALL_CATEGORY_ID } from "@/constants";
 
 export const CFProductPage: React.FC = () => {
-  const { data, fetchNextPage, hasNextPage, isFetching } = useFetchProducts({
-    pageSize: 8,
-  });
+  const { category } = useParams();
+  const { data, fetchNextPage, hasNextPage, isFetching } =
+    useFetchInfiniteQueryProducts({
+      pageSize: 30,
+    });
   const { ref, inView } = useInView();
 
   const products = data ? data.pages.flatMap((page) => page.products) : [];
   const totalCount = data?.pages[0]?.totalCount || 0;
+
+  // 카테고리에 따라 필터링된 제품
+  const filteredProducts =
+    category === ALL_CATEGORY_ID
+      ? products
+      : products.filter((product) => product.productCategory.id === category);
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -24,14 +34,23 @@ export const CFProductPage: React.FC = () => {
   return (
     <Layout>
       <div className="min-h-screen bg-gray-900 text-gray-100 p-16">
-        <ProductFilter totalCount={totalCount} />
-        <hr className="mt-3 mb-10"></hr>
+        <ProductFilter
+          totalCount={
+            category === ALL_CATEGORY_ID ? totalCount : filteredProducts.length
+          }
+          category={category}
+          filteredProducts={filteredProducts}
+        />
+        <hr className="mt-3 mb-10" />
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          ) : (
+            <div>해당 카테고리에 상품이 없습니다.</div>
+          )}
         </div>
-
         {hasNextPage && (
           <div className="flex justify-center space-x-2">
             <Button variant="outline" ref={ref}>

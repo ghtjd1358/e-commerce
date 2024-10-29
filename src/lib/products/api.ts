@@ -22,7 +22,7 @@ import {
 } from "firebase/storage";
 
 // fetch data, filter 적용
-export const fetchProductsApi = async (
+export const fetchFilterProductsApi = async (
   filter: ProductFilter,
   pageSize: number,
   page: number,
@@ -93,44 +93,33 @@ export const fetchProductsApi = async (
 };
 
 // 상품 fetch 필터 적용 전
-// export const fetchProductsApi = async (
-//   pageSize: number,
-//   page: number,
-// ): Promise<PaginatedProductsDTO> => {
-//   try {
-//     const q = query(collection(db, "products"), orderBy("id", "desc"));
+export const fetchProductsApi = async (): Promise<IProduct[]> => {
+  try {
+    const q = query(collection(db, "products"), orderBy("id", "desc"));
 
-//     const querySnapshot = await getDocs(q);
-//     const products = querySnapshot.docs.map((doc) => {
-//       const data = doc.data();
-//       return {
-//         id: String(data.id),
-//         sellerId: data.sellerId,
-//         productQuantity: Number(data.productQuantity),
-//         productDescription: data.productDescription,
-//         productName: data.productName,
-//         productPrice: Number(data.productPrice),
-//         productCategory: data.productCategory,
-//         productImage: data.productImage || "",
-//         createdAt: data.createdAt?.toDate().toISOString(),
-//         updatedAt: data.updatedAt?.toDate().toISOString(),
-//       };
-//     }) as IProduct[];
+    const querySnapshot = await getDocs(q);
+    const products = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: String(data.id),
+        sellerId: data.sellerId,
+        productQuantity: Number(data.productQuantity),
+        productDescription: data.productDescription,
+        productName: data.productName,
+        productPrice: Number(data.productPrice),
+        productCategory: data.productCategory,
+        productImage: data.productImage || "",
+        createdAt: data.createdAt?.toDate().toISOString(),
+        updatedAt: data.updatedAt?.toDate().toISOString(),
+      };
+    }) as IProduct[];
 
-//     const totalCount = products.length;
-//     const startIndex = (page - 1) * pageSize;
-//     const endIndex = startIndex + pageSize;
-//     const paginatedProducts = products.slice(startIndex, endIndex);
-
-//     const hasNextPage = endIndex < totalCount;
-//     const nextPage = hasNextPage ? page + 1 : undefined;
-
-//     return { products: paginatedProducts, hasNextPage, totalCount, nextPage };
-//   } catch (error) {
-//     console.error("Error fetching products: ", error);
-//     throw error;
-//   }
-// };
+    return products;
+  } catch (error) {
+    console.error("Error fetching products: ", error);
+    throw error;
+  }
+};
 
 // 상품 추가
 export const addProductAPI = async (

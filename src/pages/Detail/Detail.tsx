@@ -7,20 +7,17 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Heart, Minus, Plus, Share2, ShoppingCart, Star } from "lucide-react";
 import { useParams } from "react-router-dom";
-import { useFetchProducts } from "@/lib/products/hooks/useFetchProducts";
 import { authStatusType, Layout } from "../common/components/Layout";
+import { useFetchProducts } from "@/lib/products/hooks/useFetchProducts";
 
 interface ProductListProps {
   pageSize?: number;
 }
 
-export const ProductDetailPage: React.FC<ProductListProps> = ({
-  pageSize = 20,
-}) => {
+export const ProductDetailPage: React.FC<ProductListProps> = () => {
   const { id } = useParams();
-  const { data } = useFetchProducts({ pageSize });
-  const products = data ? data?.pages?.flatMap((page) => page.products) : [];
-  const findProducts = products.find((item) => item.id === String(id));
+  const { data } = useFetchProducts();
+  const findProducts = data?.find((item) => item.id === String(id));
   console.log(findProducts);
 
   const [quantity, setQuantity] = useState(1);

@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useModal } from "@/hooks/useModals";
-import { useFetchProducts } from "@/lib/products/hooks/useFetchProducts";
+
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { Suspense } from "react";
 // import { extractIndexLink, isFirebaseIndexError } from "../../../helpers/error";
 // import { FirebaseIndexErrorModal } from "@/pages/error/FirebaseIndexErrorModal";
-import { ProductCard } from "./ProductCard";
+import { ProductCardSquare } from "../../common/components/ProductCardSquare";
 import { ProductRegistrationModal } from "./ProductRegisterModal";
 import {
   Table,
@@ -15,6 +15,7 @@ import {
   TableHead,
   TableRow,
 } from "@/components/ui/table";
+import { useFetchInfiniteQueryProducts } from "@/lib/products/hooks/useFetchInfiniteQueryProducts";
 
 export const ProductList = ({ pageSize = 5 }) => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -23,7 +24,7 @@ export const ProductList = ({ pageSize = 5 }) => {
   // const [indexLink, setIndexLink] = useState<string | null>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useFetchProducts({ pageSize });
+    useFetchInfiniteQueryProducts({ pageSize });
 
   // useEffect(() => {
   //   if (error) {
@@ -86,9 +87,13 @@ export const ProductList = ({ pageSize = 5 }) => {
               {products
                 .filter((product) =>
                   user?.isSeller ? product.sellerId === user.uid : undefined,
-                ) // 판매자일 경우 자신의 상품만 표시
+                )
                 .map((product) => (
-                  <ProductCard user={user} key={product.id} product={product} />
+                  <ProductCardSquare
+                    user={user}
+                    key={product.id}
+                    product={product}
+                  />
                 ))}
             </TableBody>
           </Table>

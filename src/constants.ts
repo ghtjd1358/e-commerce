@@ -10,9 +10,9 @@ export const PRODUCT_PAGE_SIZE = 5;
 
 export const categories: { id: string; name: string }[] = [
   { id: ALL_CATEGORY_ID, name: "전체" },
-  { id: "1", name: "옷" },
-  { id: "2", name: "신발" },
-  { id: "3", name: "가전제품" },
-  { id: "4", name: "가구" },
-  { id: "5", name: "기타" },
+  { id: "1", name: "Beretta" },
+  { id: "2", name: "Bond Arms" },
+  { id: "3", name: "Browning" },
+  { id: "4", name: "CZ Guns" },
+  { id: "5", name: "Colt" },
 ];
