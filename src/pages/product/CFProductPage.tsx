@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useFetchInfiniteQueryProducts } from "@/lib/products/hooks/useFetchInfiniteQueryProducts";
-import { Layout } from "../common/components/Layout";
+import { authStatusType, Layout } from "../common/components/Layout";
 import { ProductCard } from "../common/components/ProductCard";
 import { ProductFilter } from "./components/ProductFilter";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,6 @@ export const CFProductPage: React.FC = () => {
   const products = data ? data.pages.flatMap((page) => page.products) : [];
   const totalCount = data?.pages[0]?.totalCount || 0;
 
-  // 카테고리에 따라 필터링된 제품
   const filteredProducts =
     category === ALL_CATEGORY_ID
       ? products
@@ -32,7 +31,7 @@ export const CFProductPage: React.FC = () => {
   }, [inView]);
 
   return (
-    <Layout>
+    <Layout authStatus={authStatusType.COMMON}>
       <div className="min-h-screen bg-gray-900 text-gray-100 p-16">
         <ProductFilter
           totalCount={

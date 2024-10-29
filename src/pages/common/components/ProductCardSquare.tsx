@@ -1,11 +1,11 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import React, { Suspense } from "react";
 import { IProduct } from "@/lib/products/type";
-import { Button } from "@/components/ui/button";
 import { useToastStore } from "@/store/toast/useToastStore";
 import { useDeleteProducts } from "@/lib/products/hooks/useDeleteProducts";
 import { useModal } from "@/hooks/useModals";
 import { ProductUpdaterModal } from "../../productListing/components/ProductUpdaterModal";
+import { Edit, Trash2 } from "lucide-react";
 
 interface ProductCardProps {
   product: IProduct;
@@ -41,7 +41,7 @@ export const ProductCardSquare: React.FC<ProductCardProps> = ({
           {product.productName}
         </TableCell>
         <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap">
-          {product.productPrice} 원
+          $ {product.productPrice}
         </TableCell>
         <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap">
           {product.productQuantity} 개
@@ -56,11 +56,11 @@ export const ProductCardSquare: React.FC<ProductCardProps> = ({
         <TableCell className="font-medium text-gray-400 w-1/4 overflow-hidden overflow-ellipsis whitespace-normal">
           {product.updatedAt.slice(0, 10)}
         </TableCell>
-        <TableCell>
+        <TableCell className=" cursor-pointer">
           {product.sellerId === user?.uid && (
             <>
-              <Button onClick={openModal}>수정</Button>
-              <Button onClick={handleDeleteProduct}>삭제</Button>
+              <Edit onClick={openModal} />
+              <Trash2 onClick={handleDeleteProduct} />
             </>
           )}
         </TableCell>

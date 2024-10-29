@@ -8,8 +8,9 @@ import { useFilterStore } from "@/store/filter/useFilterStore";
 export const useFetchInfiniteQueryProducts = ({
   pageSize = PRODUCT_PAGE_SIZE,
 }) => {
-  const { minPrice, maxPrice, title, categoryId } = useFilterStore();
-  const filter = { minPrice, maxPrice, title, categoryId };
+  const { minPrice, maxPrice, title, categoryId, sortOption } =
+    useFilterStore();
+  const filter = { minPrice, maxPrice, title, categoryId, sortOption };
   const queryKey = [PRODUCT_KEY, filter] as const;
 
   return useInfiniteQuery<PaginatedProductsDTO, Error>({

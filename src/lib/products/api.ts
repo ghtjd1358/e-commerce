@@ -21,25 +21,30 @@ import {
   uploadBytes,
 } from "firebase/storage";
 
-// fetch data, filter 적용
+// 필터 적용
 export const fetchFilterProductsApi = async (
   filter: ProductFilter,
   pageSize: number,
   page: number,
 ): Promise<PaginatedProductsDTO> => {
   try {
-    // 쿼리 초기화: products 컬렉션을 id 필드를 기준으로 내림차순 정렬
-    let q = query(collection(db, "products"), orderBy("id", "desc"));
-    // filter.categoryId가 존재하고 전체 카테고리(ALL_CATEGORY_ID)가 아닌 경우,
-    // productCategory.id 필드가 filter.categoryId와 일치하는 항목
+    let q = query(collection(db, "products"));
+
+    // 정렬 옵션 적용
+    if (filter.sortOption === "latest") {
+      q = query(q, orderBy("updatedAt", "desc"));
+    } else if (filter.sortOption === "priceAsc") {
+      q = query(q, orderBy("productPrice", "asc"));
+    } else if (filter.sortOption === "priceDesc") {
+      q = query(q, orderBy("productPrice", "desc"));
+    }
+
+    // 카테고리 필터 적용
     if (filter.categoryId && filter.categoryId !== ALL_CATEGORY_ID) {
       q = query(q, where("productCategory.id", "==", filter.categoryId));
     }
 
-    // Firestore의 문자열 쿼리는 특정 문자로 시작하는 항목을 찾을 때 유용,
-    // 그래서 >=와 <= 연산자를 사용하여 제목이 filter.title[0]에서 시작하는 항목
-
-    // where 조건을 만족하려면 index 설정해줘야함
+    // 제목 필터 적용
     if (filter.title && filter.title.length > 0) {
       q = query(
         q,
@@ -48,6 +53,7 @@ export const fetchFilterProductsApi = async (
       );
     }
 
+    // 가격 필터 적용
     if (filter.minPrice) {
       q = query(q, where("productPrice", ">=", Number(filter.minPrice)));
     }
@@ -55,6 +61,7 @@ export const fetchFilterProductsApi = async (
       q = query(q, where("productPrice", "<=", Number(filter.maxPrice)));
     }
 
+    // 데이터 쿼리 실행
     const querySnapshot = await getDocs(q);
     let products = querySnapshot.docs.map((doc) => {
       const data = doc.data();
@@ -129,11 +136,10 @@ export const addProductAPI = async (
     return await runTransaction(db, async (transaction) => {
       const productsRef = collection(db, "products");
 
-      // 새 문서 참조를 생성하되, ID를 명시적으로 지정하지 않음
-      const newDocRef = doc(productsRef); // 자동으로 생성된 ID 사용
+      const newDocRef = doc(productsRef);
 
       const newProductData = {
-        id: newDocRef.id, // 자동 생성된 ID 사용
+        id: newDocRef.id,
         sellerId: productData.sellerId || "",
         productName: productData.productName,
         productPrice: productData.productPrice,
@@ -145,7 +151,7 @@ export const addProductAPI = async (
         updatedAt: serverTimestamp(),
       };
 
-      transaction.set(newDocRef, newProductData); // 상품 추가
+      transaction.set(newDocRef, newProductData);
 
       return {
         ...newProductData,
@@ -154,7 +160,7 @@ export const addProductAPI = async (
       };
     });
   } catch (error) {
-    console.error("Error adding product: ", error); // 에러 확인
+    console.error("Error adding product: ", error);
     throw error;
   }
 };
@@ -178,24 +184,29 @@ export const updateProductAPI = async (
   existingImageUrl?: string,
 ): Promise<void> => {
   try {
-    if (typeof updatedProduct.productImage !== "string" && existingImageUrl) {
+    // 기존 이미지 삭제
+    if (existingImageUrl && typeof updatedProduct.productImage !== "string") {
       const imageRef = ref(storage, existingImageUrl);
       await deleteObject(imageRef);
     }
 
+    // 새로운 이미지 업로드
     if (updatedProduct.productImage instanceof File) {
       const storageRef = ref(storage, `images/${productId}`);
       await uploadBytes(storageRef, updatedProduct.productImage);
       updatedProduct.productImage = await getDownloadURL(storageRef);
+    } else if (!updatedProduct.productImage && existingImageUrl) {
+      updatedProduct.productImage = existingImageUrl; 
     }
 
+    // Firestore 업데이트
     const productRef = doc(db, "products", productId);
     await updateDoc(productRef, {
       productName: updatedProduct.productName,
       productPrice: updatedProduct.productPrice,
       productQuantity: updatedProduct.productQuantity,
       productDescription: updatedProduct.productDescription,
-      productImage: updatedProduct.productImage, // string or new image URL
+      productImage: updatedProduct.productImage,
       updatedAt: serverTimestamp(),
     });
 

@@ -3,17 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 import { Link } from "react-router-dom";
-
-interface IProduct {
-  id: string;
-  productName: string;
-  productPrice: number;
-  productImage: string[];
-  productCategory: {
-    name: string;
-    id: string;
-  };
-}
+import { IProduct } from "@/lib/products/type";
 
 interface ProductCardProps {
   product: IProduct;
@@ -55,7 +45,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <img
             src={product.productImage[0]}
             alt={product.productImage[0]}
-            className="w-full h-[450px] object-cover mb-4 rounded-lg"
+            className="w-full object-contain mb-4 rounded-lg "
           />
           <h3 className="text-2xl font-semibold text-yellow-500 mt-4">
             {product.productName}

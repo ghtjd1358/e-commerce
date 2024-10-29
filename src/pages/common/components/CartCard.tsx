@@ -1,62 +1,88 @@
 import { TableCell, TableRow } from "@/components/ui/table";
-import React from "react";
+import React, { useState } from "react";
 import { IProduct } from "@/lib/products/type";
 import { useToastStore } from "@/store/toast/useToastStore";
+import { Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ProductCardProps {
   product: IProduct;
-  removeCartItem: (itemId: string, userId: string) => void; // removeCartItem 프롭스 추가
-  user: { uid: string } | null; // 사용자 정보를 위한 프롭스 추가
+  removeCartItem: (itemId: string, userId: string) => void;
+  user: { uid: string } | null;
+  changeCartItemCount: (itemId: string, count: number, userId: string) => void;
 }
 
 export const CartCardSquare: React.FC<ProductCardProps> = ({
   product,
   removeCartItem,
+  changeCartItemCount,
   user,
 }) => {
   const { addToast } = useToastStore();
+  const [count, setCount] = useState(product.count);
 
   const handleRemoveItem = () => {
     if (user) {
-      removeCartItem(product.id, user.uid); // 아이템 삭제 호출
+      removeCartItem(product.id, user.uid);
       addToast(
         `${product.productName}이(가) 카트에서 삭제되었습니다.`,
         "success",
-      ); // 삭제 후 토스트 메시지
+      );
     } else {
-      addToast("사용자가 로그인하지 않았습니다.", "error"); // 로그인하지 않은 경우 메시지
+      addToast("사용자가 로그인하지 않았습니다.", "error");
+    }
+  };
+
+  const handleIncrease = () => {
+    if (user) {
+      const newCount = count + 1;
+      setCount(newCount);
+      changeCartItemCount(product.id, newCount, user.uid);
+    }
+  };
+
+  const handleDecrease = () => {
+    if (user && count > 1) {
+      const newCount = count - 1;
+      setCount(newCount);
+      changeCartItemCount(product.id, newCount, user.uid);
     }
   };
 
   return (
     <>
-      <TableRow key={product.id}>
-        <TableCell className="text-gray-400 w-1/6">{product.id}</TableCell>
+      <TableRow key={product.id} className=" cursor-pointer">
         <TableCell className="text-gray-400 w-1/4 overflow-hidden overflow-ellipsis whitespace-normal">
           {product.productName}
         </TableCell>
-        <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap">
-          {product.productPrice} 원
+        <TableCell className="text-gray-400 w-1/4 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">
+          $ {product.productPrice}
         </TableCell>
-        <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap">
-          {product.productQuantity} 개
+        <TableCell className="text-gray-400 w-1/4 flex items-center justify-center space-x-3 mt-4">
+          <Button
+            onClick={handleDecrease}
+            className="px-2 border border-gray-300"
+          >
+            -
+          </Button>
+          <span>{count}</span>
+          <Button onClick={handleIncrease} className="px-2">
+            +
+          </Button>
         </TableCell>
-        <TableCell className="w-1/5">
+        <TableCell className="w-1/4 text-center">
           <img
             src={product.productImage[0]}
             alt={product.productName}
-            className="w-16 h-16 object-cover"
+            className="w-16 h-16 object-cover m-auto"
           />
         </TableCell>
-        <TableCell className="font-medium text-gray-400 w-1/4 overflow-hidden overflow-ellipsis whitespace-normal">
-          {product.updatedAt.slice(0, 10)}
-        </TableCell>
-        <TableCell>
+        <TableCell className="text-center">
           <button
             onClick={handleRemoveItem}
-            className="text-red-500 hover:underline"
+            className="text-red-500 hover:underline text-center"
           >
-            삭제
+            <Trash2 />
           </button>
         </TableCell>
       </TableRow>

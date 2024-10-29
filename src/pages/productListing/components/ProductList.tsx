@@ -1,11 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useModal } from "@/hooks/useModals";
-
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { Suspense } from "react";
-// import { extractIndexLink, isFirebaseIndexError } from "../../../helpers/error";
-// import { FirebaseIndexErrorModal } from "@/pages/error/FirebaseIndexErrorModal";
 import { ProductCardSquare } from "../../common/components/ProductCardSquare";
 import { ProductRegistrationModal } from "./ProductRegisterModal";
 import {
@@ -16,27 +13,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useFetchInfiniteQueryProducts } from "@/lib/products/hooks/useFetchInfiniteQueryProducts";
+import { ProductFilter } from "./ProductFilter";
 
 export const ProductList = ({ pageSize = 5 }) => {
   const { isOpen, openModal, closeModal } = useModal();
   const { user } = useAuthStore();
-  // const [isIndexErrorModalOpen, setIsIndexErrorModalOpen] = useState(false);
-  // const [indexLink, setIndexLink] = useState<string | null>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useFetchInfiniteQueryProducts({ pageSize });
-
-  // useEffect(() => {
-  //   if (error) {
-  //     const errorMessage =
-  //       error instanceof Error ? error.message : String(error);
-  //     if (isFirebaseIndexError(errorMessage)) {
-  //       const link = extractIndexLink(errorMessage);
-  //       setIndexLink(link);
-  //       setIsIndexErrorModalOpen(true);
-  //     }
-  //   }
-  // }, [error]);
 
   const products = data ? data.pages.flatMap((page) => page.products) : [];
 
@@ -44,8 +28,9 @@ export const ProductList = ({ pageSize = 5 }) => {
     <div className="w-full">
       <Card className="bg-gray-800 border-gray-700">
         <CardHeader>
-          <div className="flex justify-between mb-4">
-            <CardTitle className="text-yellow-500">판매 목록</CardTitle>
+          <div className="flex justify-between mb-4 ">
+            <CardTitle className="text-yellow-500 mb-5">판매 목록</CardTitle>
+
             {user?.isSeller && (
               <Button
                 className=" font-bold"
@@ -56,6 +41,7 @@ export const ProductList = ({ pageSize = 5 }) => {
               </Button>
             )}
           </div>
+          <ProductFilter />
         </CardHeader>
 
         <CardContent>
@@ -116,12 +102,6 @@ export const ProductList = ({ pageSize = 5 }) => {
           <ProductRegistrationModal isOpen={isOpen} onClose={closeModal} />
         )}
       </Suspense>
-
-      {/* <FirebaseIndexErrorModal
-        isOpen={isIndexErrorModalOpen}
-        onClose={() => setIsIndexErrorModalOpen(false)}
-        indexLink={indexLink}
-      /> */}
     </div>
   );
 };

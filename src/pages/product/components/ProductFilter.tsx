@@ -1,5 +1,5 @@
 import { useFilterStore } from "@/store/filter/useFilterStore";
-import { PriceRange } from "../../home/components/PriceRange";
+import { PriceRange } from "../../common/components/PriceRange";
 import { CategorySelectUrl } from "./CategotySelectUrl";
 import { categories } from "@/constants";
 import { IProduct } from "@/lib/products/type";

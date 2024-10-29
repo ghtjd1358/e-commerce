@@ -12,21 +12,19 @@ export const Profile: React.FC = () => {
         <CardHeader>
           <CardTitle className="text-yellow-500">계정 정보</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2">
-          <div className="flex justify-between items-center space-x-2">
-            <div className="flex gap-2">
-              <User className="text-gray-400" />
-              <span>{user?.displayName}</span>
-            </div>
+        <CardContent className="space-y-4">
+          <div className="flex gap-2">
+            <User className="text-gray-400" />
+            <span className="text-gray-400">{user?.displayName}</span>
           </div>
-          <div className="flex items-center space-x-2 mt-4 mb-2">
+          <div className="flex items-center space-x-2">
             <CreditCard className="text-gray-400" />
-            <span>{user?.email}</span>
+            <span className="text-gray-400">{user?.email}</span>
           </div>
-          <div className="flex justify-between items-center">
-            <span className=" items-end">
+          <div className="flex justify-between items-center gap-2">
+            <Button className=" bg-gray-500 items-end">
               개인정보 수정 및 배송지 주소 입력
-            </span>
+            </Button>
             <Button className="font-bold" variant="outline">
               개인정보 수정
             </Button>

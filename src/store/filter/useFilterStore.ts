@@ -7,6 +7,8 @@ export const useFilterStore = create<FilterStore>((set) => ({
   maxPrice: 0,
   title: "",
   categoryId: ALL_CATEGORY_ID,
+  sortOption: "latest", // 기본 정렬 옵션
+  order: "asc",
 
   setMinPrice: (price: number) =>
     set((state) => ({ ...state, minPrice: price })),
@@ -15,6 +17,9 @@ export const useFilterStore = create<FilterStore>((set) => ({
   setTitle: (title: string) => set((state) => ({ ...state, title })),
   setCategoryId: (categoryId: string) =>
     set((state) => ({ ...state, categoryId })),
+  setSortOption: (option: string) =>
+    set((state) => ({ ...state, sortOption: option })),
+  setOrder: (order: string) => set((state) => ({ ...state, order })),
 
   resetFilter: () =>
     set(() => ({
@@ -22,5 +27,7 @@ export const useFilterStore = create<FilterStore>((set) => ({
       maxPrice: 0,
       title: "",
       categoryId: ALL_CATEGORY_ID,
+      sortOption: "latest",
+      order: "asc",
     })),
 }));

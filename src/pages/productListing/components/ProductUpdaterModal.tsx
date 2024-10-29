@@ -22,6 +22,8 @@ import { ALL_CATEGORY_ID, categories } from "@/constants";
 import { IProduct } from "@/lib/products/type";
 import { uploadImage } from "@/utils/imageUpload";
 import { useUpdateProductsStore } from "@/lib/products/hooks/useUpdateProducts";
+import { X, Upload } from "lucide-react";
+import { Label } from "@/components/ui/label";
 
 interface ProductUpdaterModalProps {
   isOpen: boolean;
@@ -35,7 +37,11 @@ interface ProductFormInputs {
   quantity: number;
   description: string;
   categoryId: string;
-  image: FileList;
+}
+
+interface ImagePreview {
+  file: File;
+  previewUrl: string;
 }
 
 export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
@@ -44,7 +50,6 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
   product,
 }) => {
   const { mutateAsync, isPending: isLoading } = useUpdateProductsStore();
-
   const {
     register,
     handleSubmit,
@@ -62,19 +67,21 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
   });
 
   const [submissionError, setSubmissionError] = useState<string | null>(null);
+  const [images, setImages] = useState<ImagePreview[]>([]);
+  const [existingImage, setExistingImage] = useState<string>(
+    product.productImage || "",
+  );
 
   const onSubmit = async (data: ProductFormInputs) => {
     setSubmissionError(null);
     try {
-      let imageUrl: string | File | null = product.productImage ?? "";
+      let imageUrls = existingImage ? [existingImage] : [];
 
-      if (data.image && data.image.length > 0) {
-        const imageFile = data.image[0];
-
-        imageUrl = await uploadImage(imageFile);
-        if (!imageUrl) {
-          throw new Error("이미지 업로드에 실패했습니다.");
-        }
+      if (images.length > 0) {
+        const uploadedImages = await Promise.all(
+          images.map(({ file }) => uploadImage(file)),
+        );
+        imageUrls = uploadedImages;
       }
 
       const selectedCategory = categories.find(
@@ -95,7 +102,7 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
           id: selectedCategory.id,
           name: selectedCategory.name,
         },
-        productImage: imageUrl,
+        productImage: imageUrls,
         updatedAt: new Date().toISOString(),
       };
 
@@ -106,6 +113,7 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
       });
 
       reset();
+      setImages([]);
       onClose();
     } catch (error) {
       const typeError = error as Error;
@@ -114,11 +122,26 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
     }
   };
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const newImages: ImagePreview[] = Array.from(files).map((file) => ({
+        file,
+        previewUrl: URL.createObjectURL(file),
+      }));
+      setImages((prev) => [...prev, ...newImages]);
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-gray-800 border-gray-700 text-gray-100  p-8">
+      <DialogContent className="bg-gray-800 border-gray-700 text-gray-100 p-8">
         <DialogHeader>
-          <DialogTitle className=" text-yellow-500">상품 수정</DialogTitle>
+          <DialogTitle className="text-yellow-500">상품 수정</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-4 py-4">
@@ -163,7 +186,6 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
             <Controller
               name="categoryId"
               control={control}
-              defaultValue=""
               rules={{ required: "카테고리를 선택해주세요." }}
               render={({ field }) => (
                 <>
@@ -195,7 +217,50 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
                 </>
               )}
             />
-            <Input type="file" {...register("image")} />
+            <div className="space-y-2">
+              <Label>Product Images</Label>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {existingImage && (
+                  <div className="relative">
+                    <img
+                      src={existingImage}
+                      alt="Existing Product"
+                      className="w-full h-32 object-cover rounded-md"
+                    />
+                  </div>
+                )}
+                {images.map(({ previewUrl }, index) => (
+                  <div key={index} className="relative">
+                    <img
+                      src={previewUrl}
+                      alt={`Product ${index + 1}`}
+                      className="w-full h-32 object-cover rounded-md"
+                    />
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      className="absolute top-1 right-1"
+                      onClick={() => removeImage(index)}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
+                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-600 border-dashed rounded-md cursor-pointer hover:border-gold">
+                  <Upload className="w-8 h-8 text-gray-400" />
+                  <span className="mt-2 text-sm text-gray-400">
+                    Upload Image
+                  </span>
+                  <Input
+                    type="file"
+                    className="hidden"
+                    onChange={handleImageUpload}
+                    multiple
+                    accept="image/*"
+                  />
+                </label>
+              </div>
+            </div>
           </div>
           <DialogFooter>
             <Button type="submit" disabled={isLoading}>

@@ -25,7 +25,7 @@ export const ProductDetailPage: React.FC<ProductListProps> = () => {
   if (!findProducts) return <p>Product not found</p>;
 
   return (
-    <Layout authStatus={authStatusType.NEED_LOGIN}>
+    <Layout authStatus={authStatusType.COMMON}>
       <div className="min-h-screen bg-gray-900 text-gray-100 p-14">
         <div className="max-w-6xl mx-auto space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
