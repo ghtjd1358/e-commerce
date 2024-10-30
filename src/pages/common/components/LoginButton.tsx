@@ -12,7 +12,7 @@ export const LoginButton = () => {
   };
 
   return (
-    <Button className="bg-gray-800 w-24" onClick={clickHandlerLogin}>
+    <Button className="bg-gray-700 w-24" onClick={clickHandlerLogin}>
       로그인
     </Button>
   );

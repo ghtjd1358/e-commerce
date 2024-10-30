@@ -1,6 +1,10 @@
 import { z } from "zod";
 import { extractDefaultValues } from "../pages/common/userDefaultValues";
 
+const EMAIL_PATTERN = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+const PHONE_PATTERN = /^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/i;
+
 // 비밀번호 스키마
 const passwordSchema = z
   .string()
@@ -14,7 +18,7 @@ const passwordSchema = z
 const emailSchema = z
   .string()
   .min(1, { message: "이메일을 입력해 주세요." })
-  .email({ message: "유효하지 않은 이메일 형식입니다." });
+  .regex(EMAIL_PATTERN, { message: "유효하지 않은 이메일 형식입니다." });
 
 // 이름 스키마
 const nameSchema = z
@@ -29,6 +33,12 @@ const nicknameSchema = z
   .string()
   .min(1, { message: "닉네임을 입력해 주세요." })
   .max(20, { message: "닉네임은 20자 이내여야 합니다." });
+
+// 휴대폰 번호
+const phoneSchema = z
+  .string()
+  .min(1, { message: "휴대폰 번호를 입력해 주세요." })
+  .regex(PHONE_PATTERN, { message: "유효하지 않은 휴대폰 번호 형식입니다." });
 
 // 회원가입 스키마
 const registerSchema = z.object({

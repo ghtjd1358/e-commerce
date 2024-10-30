@@ -6,15 +6,7 @@ import { Toast } from "./Toast";
 import { pageRoutes } from "../../../apiRouters";
 import { NavigationBar } from "./NavigationBar";
 import { useFilterStore } from "@/store/filter/useFilterStore";
-import { ALL_CATEGORY_ID } from "@/constants";
-
-export const authStatusType = {
-  NEED_LOGIN: "NEED_LOGIN",
-  NEED_NOT_LOGIN: "NEED_NOT_LOGIN",
-  IS_SELLER: "IS_SELLER",
-  IS_BUYER: "IS_BUYER",
-  COMMON: "COMMON",
-};
+import { ALL_CATEGORY_ID, authStatusType } from "@/constants";
 
 interface LayoutProps {
   children: ReactNode;
@@ -27,20 +19,16 @@ export const Layout: React.FC<LayoutProps> = ({
   containerClassName = "",
   authStatus = authStatusType.COMMON,
 }) => {
-  const { isLogin, user, isLoading } = useAuthStore();
+  const { isLogin, user } = useAuthStore();
   const { setCategoryId } = useFilterStore();
 
   useEffect(() => {
     setCategoryId(ALL_CATEGORY_ID);
-  }, []);
+  }, [setCategoryId]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  if (isLoading) {
-    return <div>로딩 중...</div>;
-  }
 
   if (authStatus === authStatusType.NEED_LOGIN && !isLogin) {
     return <Navigate to={pageRoutes.login} />;

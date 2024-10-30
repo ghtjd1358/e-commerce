@@ -184,22 +184,17 @@ export const updateProductAPI = async (
   existingImageUrl?: string,
 ): Promise<void> => {
   try {
-    // 기존 이미지 삭제
-    if (existingImageUrl && typeof updatedProduct.productImage !== "string") {
+    if (typeof updatedProduct.productImage !== "string" && existingImageUrl) {
       const imageRef = ref(storage, existingImageUrl);
       await deleteObject(imageRef);
     }
 
-    // 새로운 이미지 업로드
     if (updatedProduct.productImage instanceof File) {
       const storageRef = ref(storage, `images/${productId}`);
       await uploadBytes(storageRef, updatedProduct.productImage);
       updatedProduct.productImage = await getDownloadURL(storageRef);
-    } else if (!updatedProduct.productImage && existingImageUrl) {
-      updatedProduct.productImage = existingImageUrl; 
     }
 
-    // Firestore 업데이트
     const productRef = doc(db, "products", productId);
     await updateDoc(productRef, {
       productName: updatedProduct.productName,

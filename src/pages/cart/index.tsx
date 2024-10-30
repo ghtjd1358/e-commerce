@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { authStatusType, Layout } from "../common/components/Layout";
+import { Layout } from "../common/components/Layout";
 import { useCartStore } from "@/store/cart/useCartStore";
 import { CartCardSquare } from "../common/components/CartCard";
 import { useAuthStore } from "@/store/auth/useAuthStore";
@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
 } from "@/components/ui/table";
+import { authStatusType } from "@/constants";
 
 export const CartPage: React.FC = () => {
   const { cart, removeCartItem, totalCount, totalPrice, changeCartItemCount } =

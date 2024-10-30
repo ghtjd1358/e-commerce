@@ -1,5 +1,6 @@
 import React from "react";
-import { authStatusType, Layout } from "../common/components/Layout";
+import { Layout } from "../common/components/Layout";
+import { authStatusType } from "@/constants";
 
 export const ProductListingHistoryPage: React.FC = () => {
   return (

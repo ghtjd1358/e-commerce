@@ -3,12 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Heart, Minus, Plus, Share2, ShoppingCart, Star } from "lucide-react";
+import { Minus, Plus, Star } from "lucide-react";
 import { useParams } from "react-router-dom";
-import { authStatusType, Layout } from "../common/components/Layout";
+import { Layout } from "../common/components/Layout";
 import { useFetchProducts } from "@/lib/products/hooks/useFetchProducts";
+import { authStatusType } from "@/constants";
 
 interface ProductListProps {
   pageSize?: number;
@@ -26,7 +26,7 @@ export const ProductDetailPage: React.FC<ProductListProps> = () => {
 
   return (
     <Layout authStatus={authStatusType.COMMON}>
-      <div className="min-h-screen bg-gray-900 text-gray-100 p-14">
+      <div className="min-h-screen bg-gray-900 text-gray-100 p-14 pt-32">
         <div className="max-w-6xl mx-auto space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
@@ -71,49 +71,6 @@ export const ProductDetailPage: React.FC<ProductListProps> = () => {
               <p className="text-gray-400">{findProducts.productDescription}</p>
 
               <div className="space-y-4">
-                <div>
-                  <Label htmlFor="color">Color</Label>
-                  <RadioGroup
-                    id="color"
-                    defaultValue="silver"
-                    className="flex space-x-2 mt-2"
-                  >
-                    <Label
-                      htmlFor="color-silver"
-                      className="border cursor-pointer rounded-full p-2 flex items-center justify-center [&:has(:checked)]:border-gold"
-                    >
-                      <RadioGroupItem
-                        id="color-silver"
-                        value="silver"
-                        className="sr-only"
-                      />
-                      <span className="w-6 h-6 rounded-full bg-gray-300"></span>
-                    </Label>
-                    <Label
-                      htmlFor="color-gold"
-                      className="border cursor-pointer rounded-full p-2 flex items-center justify-center [&:has(:checked)]:border-gold"
-                    >
-                      <RadioGroupItem
-                        id="color-gold"
-                        value="gold"
-                        className="sr-only"
-                      />
-                      <span className="w-6 h-6 rounded-full bg-yellow-500"></span>
-                    </Label>
-                    <Label
-                      htmlFor="color-black"
-                      className="border cursor-pointer rounded-full p-2 flex items-center justify-center [&:has(:checked)]:border-gold"
-                    >
-                      <RadioGroupItem
-                        id="color-black"
-                        value="black"
-                        className="sr-only"
-                      />
-                      <span className="w-6 h-6 rounded-full bg-gray-900"></span>
-                    </Label>
-                  </RadioGroup>
-                </div>
-
                 <div className="flex items-center space-x-4">
                   <Label htmlFor="quantity">Quantity</Label>
                   <div className="flex items-center">
@@ -122,11 +79,10 @@ export const ProductDetailPage: React.FC<ProductListProps> = () => {
                       size="icon"
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     >
-                      <Minus className="h-4 w-4" />
+                      <Minus className="h-4 w-4 text-black" />
                     </Button>
                     <Input
                       id="quantity"
-                      type="number"
                       value={quantity}
                       onChange={(e) =>
                         setQuantity(parseInt(e.target.value) || 1)
@@ -138,21 +94,18 @@ export const ProductDetailPage: React.FC<ProductListProps> = () => {
                       size="icon"
                       onClick={() => setQuantity(quantity + 1)}
                     >
-                      <Plus className="h-4 w-4" />
+                      <Plus className="h-4 w-4 text-black" />
                     </Button>
                   </div>
                 </div>
               </div>
 
               <div className="flex space-x-4">
-                <Button className="flex-1 bg-gold hover:bg-gold/90 text-gray-900">
-                  <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+                <Button className="flex-1 bg-gray-600 hover:bg-gold/90 text-white">
+                  구매하기
                 </Button>
-                <Button variant="outline" size="icon">
-                  <Heart className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" size="icon">
-                  <Share2 className="h-4 w-4" />
+                <Button className="flex-1 bg-gray-700 hover:bg-gold/90 text-white">
+                  장바구니
                 </Button>
               </div>
             </div>

@@ -1,20 +1,36 @@
-import { pageRoutes } from "@/apiRouters";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { CircleUserRound } from "lucide-react";
-import { useAuthStore } from "@/store/auth/useAuthStore";
+import { pageRoutes } from "@/apiRouters";
 
-export const ProfileButton: React.FC = () => {
+interface User {
+  uid: string;
+  photoURL?: string | null;
+  nickname?: string;
+}
+
+interface ProfileButtonProps {
+  user: User | null | undefined;
+  isLogin: boolean;
+}
+
+export const ProfileButton: React.FC<ProfileButtonProps> = ({
+  user,
+  isLogin,
+}) => {
   const navigate = useNavigate();
-  const { isLogin, user } = useAuthStore();
 
   const handleClickProfile = () => {
     navigate(pageRoutes.userProfile);
   };
 
   return (
-    <Button variant="ghost" onClick={handleClickProfile}>
+    <Button
+      className="text-yellow-400 font-semibold tracking-widest"
+      variant="ghost"
+      onClick={handleClickProfile}
+    >
       {isLogin && user ? (
         <>
           {user.photoURL ? (

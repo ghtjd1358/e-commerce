@@ -1,8 +1,10 @@
-import { authStatusType, Layout } from "../common/components/Layout";
+import { authStatusType } from "@/constants";
+import { Layout } from "../common/components/Layout";
 // import { Button } from "@/components/ui/button";
 // import { ShoppingBag, User } from "lucide-react";
 import { ProductList } from "./components/ProductList";
 import { Profile } from "./components/Profile";
+
 interface ProductListProps {
   pageSize?: number;
 }

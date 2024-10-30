@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useFetchInfiniteQueryProducts } from "@/lib/products/hooks/useFetchInfiniteQueryProducts";
-import { authStatusType, Layout } from "../common/components/Layout";
+import { Layout } from "../common/components/Layout";
 import { ProductCard } from "../common/components/ProductCard";
 import { ProductFilter } from "./components/ProductFilter";
 import { Button } from "@/components/ui/button";
 import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
-import { ALL_CATEGORY_ID } from "@/constants";
+import { ALL_CATEGORY_ID, authStatusType } from "@/constants";
 
 export const CFProductPage: React.FC = () => {
   const { category } = useParams();
@@ -32,7 +32,7 @@ export const CFProductPage: React.FC = () => {
 
   return (
     <Layout authStatus={authStatusType.COMMON}>
-      <div className="min-h-screen bg-gray-900 text-gray-100 p-16">
+      <div className="min-h-screen bg-gray-900 text-gray-100 p-16 pt-32">
         <ProductFilter
           totalCount={
             category === ALL_CATEGORY_ID ? totalCount : filteredProducts.length
@@ -41,6 +41,7 @@ export const CFProductPage: React.FC = () => {
           filteredProducts={filteredProducts}
         />
         <hr className="mt-3 mb-10" />
+
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (

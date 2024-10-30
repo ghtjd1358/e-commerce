@@ -1,4 +1,5 @@
-import { authStatusType, Layout } from "../common/components/Layout";
+import { authStatusType } from "@/constants";
+import { Layout } from "../common/components/Layout";
 import { RegisterForm } from "./components/RegisterForm";
 
 export const RegisterPage: React.FC = () => {

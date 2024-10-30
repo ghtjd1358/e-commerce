@@ -16,7 +16,10 @@ export const LogoutButton = () => {
   };
 
   return (
-    <Button className="bg-gray-800 w-24" onClick={clickHandlerLogout}>
+    <Button
+      className="bg-gray-700 w-24 text-gray-300"
+      onClick={clickHandlerLogout}
+    >
       로그아웃
     </Button>
   );

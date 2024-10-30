@@ -1,10 +1,11 @@
 import React from "react";
-import { authStatusType, Layout } from "../common/components/Layout";
+import { Layout } from "../common/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreditCard, Package, ShoppingBag, User } from "lucide-react";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useSellerUser } from "@/lib/auth/hooks/useSellerAuth";
+import { authStatusType } from "@/constants";
 
 export const UserProfilePage: React.FC = () => {
   const { user } = useAuthStore();

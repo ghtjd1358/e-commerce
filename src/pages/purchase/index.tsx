@@ -7,9 +7,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { authStatusType, Layout } from "../common/components/Layout";
+import { Layout } from "../common/components/Layout";
 import { ProductCardSquare } from "../common/components/ProductCardSquare";
 import { useFetchProducts } from "@/lib/products/hooks/useFetchProducts";
+import { authStatusType } from "@/constants";
 
 export const PurchasePage: React.FC = () => {
   const { data } = useFetchProducts();
