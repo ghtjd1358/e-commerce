@@ -4,6 +4,7 @@ import { CartItem, Total } from "./type";
 
 const CART_LOCAL_STORAGE_KEY = "CART_LOCAL_STORAGE_KEY";
 
+// 로컬스토리지에 담긴 상품 불러오기
 export const getCartFromLocalStorage = (userId: string): CartItem[] => {
   const cartData = getItem(CART_LOCAL_STORAGE_KEY);
   if (!cartData) {
@@ -13,6 +14,7 @@ export const getCartFromLocalStorage = (userId: string): CartItem[] => {
   const cartItems = parseJSON(cartData) as Record<string, CartItem[]> | null;
   return cartItems?.[userId] ?? [];
 };
+// 로컬스토리지에 담긴 상품 초기화
 
 export const resetCartAtLocalStorage = (userId: string): void => {
   const cartData = getItem(CART_LOCAL_STORAGE_KEY);
@@ -26,6 +28,7 @@ export const resetCartAtLocalStorage = (userId: string): void => {
   });
 };
 
+// 로컬스토리지에 상품 담기기
 export const setCartToLocalStorage = (
   cart: CartItem[],
   userId: string,
@@ -46,6 +49,7 @@ export const setCartToLocalStorage = (
   });
 };
 
+// 계산기
 export const calculateTotal = (cart: CartItem[]): Total => {
   return cart.reduce(
     (acc: Total, item: CartItem) => ({

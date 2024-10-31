@@ -68,20 +68,25 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
 
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [images, setImages] = useState<ImagePreview[]>([]);
-  const [existingImage, setExistingImage] = useState<string>(
-    product.productImage || "",
+  const [existingImage, setExistingImage] = useState<string[]>(
+    product.productImage || [],
   );
 
   const onSubmit = async (data: ProductFormInputs) => {
     setSubmissionError(null);
     try {
-      let imageUrls = existingImage ? [existingImage] : [];
+      let imageUrls: string[] = existingImage.filter(
+        (img): img is string => img !== null,
+      );
 
       if (images.length > 0) {
         const uploadedImages = await Promise.all(
           images.map(({ file }) => uploadImage(file)),
         );
-        imageUrls = uploadedImages;
+        imageUrls = [
+          ...imageUrls,
+          ...uploadedImages.filter((url): url is string => url !== null),
+        ];
       }
 
       const selectedCategory = categories.find(
@@ -109,7 +114,7 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
       await mutateAsync({
         productId: product.id,
         updatedProduct,
-        existingImageUrl: product.productImage,
+        existingImageUrl: product.productImage[0] || "",
       });
 
       reset();
@@ -220,15 +225,15 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
             <div className="space-y-2">
               <Label>Product Images</Label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {existingImage && (
-                  <div className="relative">
+                {existingImage.map((imageUrl, index) => (
+                  <div key={index} className="relative">
                     <img
-                      src={existingImage}
-                      alt="Existing Product"
+                      src={imageUrl}
+                      alt={`Existing Product ${index + 1}`}
                       className="w-full h-32 object-cover rounded-md"
                     />
                   </div>
-                )}
+                ))}
                 {images.map(({ previewUrl }, index) => (
                   <div key={index} className="relative">
                     <img

@@ -20,7 +20,6 @@ export const NavigationBar: React.FC = () => {
   const location = useLocation();
   const [bgColor, setBgColor] = useState("bg-gray-800 bg-opacity-60");
   const categoriesId = categories.map((item) => item.id);
-  console.log("ㅇ유가 머웃?", categoriesId);
 
   const locationHeaderStyle = (path) => {
     return location.pathname === path ? "text-yellow-500" : "text-gray-300";
@@ -48,7 +47,7 @@ export const NavigationBar: React.FC = () => {
 
   return (
     <header
-      className={`${bgColor} pt-4 pb-4 pl-6 pr-6 flex justify-between items-center mb-60px relativ fixed z-10 w-full`}
+      className={`${bgColor} pt-4 pb-4 pl-8 pr-8 flex justify-between items-center mb-60px fixed z-10 w-full`}
     >
       <button
         onClick={toggleModal}

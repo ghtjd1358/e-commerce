@@ -9,8 +9,8 @@ export interface IProduct {
   productImage: string[];
   createdAt: string;
   updatedAt: string;
+  count?: number | undefined;
 }
-
 export interface PaginatedProductsDTO {
   products: IProduct[];
   hasNextPage: boolean;
@@ -25,7 +25,7 @@ export interface NewProductDTO {
   productQuantity: number;
   productDescription: string;
   productCategory: { id: string; name: string };
-  productImage?: (string | null)[];
+  productImage?: string[];
   createdAt: string;
   updatedAt: string;
 }

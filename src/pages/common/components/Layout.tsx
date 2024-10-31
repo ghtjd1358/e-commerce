@@ -55,7 +55,7 @@ export const Layout: React.FC<LayoutProps> = ({
   return (
     <div className="min-h-screen flex flex-col">
       {showHeaderFooter && <NavigationBar />}
-      <main className="flex flex-1">
+      <main className="flex">
         <div className={`w-full ${containerClassName}`}>
           <Toast />
           {children}

@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 import { Link } from "react-router-dom";
 import { IProduct } from "@/lib/products/type";
+import "./../.././.././index.css";
 
 interface ProductCardProps {
   product: IProduct;
@@ -43,15 +44,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <CardContent className="p-4">
         <Link
           to={`${pageRoutes.productDetail}/${product.id}`}
-          className="relative block"
+          className="relative"
         >
           <img
             src={product.productImage[0]}
             alt={product.productImage[0]}
-            className="w-full object-contain mb-4 rounded-lg"
+            className="w-full object-contain mb-4 rounded-lg "
           />
-          <div className="absolute inset-0 bg-black opacity-5 rounded-lg h-[400px]" />{" "}
-          <h3 className="text-2xl font-semibold text-yellow-500 mt-4 relative z-10">
+          {/* 오버레이 추가 */}
+          <div className="absolute inset-0 bg-black opacity-10 rounded-lg max-h-[390px]" />
+          <h3 className="text-2xl font-semibold text-yellow-500 mt-4 relative line-clamp-2 overflow-hidden h-[60px]">
             {product.productName}
           </h3>
         </Link>
@@ -63,13 +65,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </div>
         <div className="flex gap-2 mt-4">
           <Button
-            className="flex-1 bg-gold hover:bg-gold/90 rounded-lg py-2 text-white bg-gray-500"
+            className="flex-1 bg-gold hover:bg-gold/90 rounded-lg py-2 text-white bg-gray-600"
             onClick={handleClickPurchaseButton}
           >
             구매하기
           </Button>
           <Button
-            className="flex-1 bg-gold hover:bg-gold/90 text-white rounded-lg py-2 bg-gray-600"
+            className="flex-1 bg-gold hover:bg-gold/90 text-white rounded-lg py-2 bg-gray-700"
             onClick={handleClickAddCartButton}
           >
             장바구니

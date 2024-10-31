@@ -33,10 +33,16 @@ export const fetchFilterProductsApi = async (
     // 정렬 옵션 적용
     if (filter.sortOption === "latest") {
       q = query(q, orderBy("updatedAt", "desc"));
+    } else if (filter.sortOption === "oldest") {
+      q = query(q, orderBy("updatedAt", "asc"));
     } else if (filter.sortOption === "priceAsc") {
       q = query(q, orderBy("productPrice", "asc"));
     } else if (filter.sortOption === "priceDesc") {
       q = query(q, orderBy("productPrice", "desc"));
+    } else if (filter.sortOption === "titleAsc") {
+      q = query(q, orderBy("productName", "asc"));
+    } else if (filter.sortOption === "titleDesc") {
+      q = query(q, orderBy("productName", "desc"));
     }
 
     // 카테고리 필터 적용
@@ -146,7 +152,7 @@ export const addProductAPI = async (
         productQuantity: productData.productQuantity,
         productDescription: productData.productDescription,
         productCategory: productData.productCategory,
-        productImage: productData.productImage || "",
+        productImage: productData.productImage || [],
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
@@ -192,7 +198,7 @@ export const updateProductAPI = async (
     if (updatedProduct.productImage instanceof File) {
       const storageRef = ref(storage, `images/${productId}`);
       await uploadBytes(storageRef, updatedProduct.productImage);
-      updatedProduct.productImage = await getDownloadURL(storageRef);
+      updatedProduct.productImage = [await getDownloadURL(storageRef)];
     }
 
     const productRef = doc(db, "products", productId);

@@ -1,5 +1,4 @@
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import React from "react";
 
 interface PriceRangeProps {
@@ -17,8 +16,7 @@ export const PriceRange: React.FC<PriceRangeProps> = ({
 }) => {
   return (
     <div className="space-y-2 mt-4">
-      <Label>가격 범위</Label>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2 text-gray-400">
         <div className="relative">
           <Input
             type="number"

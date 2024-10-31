@@ -160,14 +160,10 @@ export const ProductDetailPage: React.FC<ProductListProps> = () => {
                             ))}
                           </div>
                           <span className="text-sm text-gray-400">
-                            John Doe
+                            Son ho seong
                           </span>
                         </div>
-                        <p className="text-gray-300">
-                          This watch exceeded my expectations. The craftsmanship
-                          is impeccable, and it looks even better in person.
-                          Highly recommended!
-                        </p>
+                        <p className="text-gray-300">gun good</p>
                       </div>
                     ))}
                   </div>

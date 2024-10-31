@@ -7,7 +7,7 @@ export const useFilterStore = create<FilterStore>((set) => ({
   maxPrice: 0,
   title: "",
   categoryId: ALL_CATEGORY_ID,
-  sortOption: "latest", // 기본 정렬 옵션
+  sortOption: "latest",
   order: "asc",
 
   setMinPrice: (price: number) =>

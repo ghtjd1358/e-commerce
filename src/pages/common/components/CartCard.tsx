@@ -19,7 +19,7 @@ export const CartCardSquare: React.FC<ProductCardProps> = ({
   user,
 }) => {
   const { addToast } = useToastStore();
-  const [count, setCount] = useState(product.count);
+  const [count, setCount] = useState<number>(product.count || 1);
 
   const handleRemoveItem = () => {
     if (user) {

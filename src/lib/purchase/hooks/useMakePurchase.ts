@@ -21,7 +21,7 @@ export const useMakePurchase = () => {
   return useMutation<void, Error, MakePurchaseVariables>({
     mutationFn: ({ purchaseData, userId, cartData }) =>
       makePurchaseAPI(purchaseData, userId, cartData),
-    onSuccess: (_, variables, context) => {
+    onSuccess: (_, variables) => {
       resetCart(variables.userId);
       addToast("구매 성공!", "success");
       navigate(pageRoutes.main);

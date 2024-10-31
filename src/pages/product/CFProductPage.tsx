@@ -28,7 +28,7 @@ export const CFProductPage: React.FC = () => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [inView]);
+  }, [inView, fetchNextPage, hasNextPage]);
 
   return (
     <Layout authStatus={authStatusType.COMMON}>
@@ -40,6 +40,7 @@ export const CFProductPage: React.FC = () => {
           category={category}
           filteredProducts={filteredProducts}
         />
+
         <hr className="mt-3 mb-10" />
 
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

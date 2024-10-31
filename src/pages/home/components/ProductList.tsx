@@ -10,19 +10,11 @@ import { useCartStore } from "@/store/cart/useCartStore";
 import { CartItem } from "@/store/cart/type";
 
 export const ProductList: React.FC = () => {
-  const { data, isLoading, isError } = useFetchProducts();
+  const { data } = useFetchProducts();
   const { user, isLogin } = useAuthStore();
   const { addToast } = useToastStore();
   const { addCartItem } = useCartStore();
   const navigate = useNavigate();
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error loading products.</div>;
-  }
 
   const groupedProducts = data?.reduce(
     (acc, product) => {
