@@ -7,6 +7,8 @@ export interface IUser {
   displayName?: string;
   photoURL?: string | null;
   isSeller: boolean;
+  address?: string;
+  phoneNumber?: string;
   createdAt: Date | FieldValue;
   updatedAt: Date | FieldValue;
 }
@@ -18,6 +20,8 @@ export interface GoogleUser {
   displayName: string;
   photoURL: string | null;
   isSeller: boolean;
+  address?: string;
+  phoneNumber?: string;
 }
 
 export interface RegisterUserReqDTO {

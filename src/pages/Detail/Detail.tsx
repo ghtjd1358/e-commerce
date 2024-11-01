@@ -5,22 +5,61 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Minus, Plus, Star } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Layout } from "../common/components/Layout";
 import { useFetchProducts } from "@/lib/products/hooks/useFetchProducts";
 import { authStatusType } from "@/constants";
+import { IProduct } from "@/lib/products/type";
+import { CartItem } from "@/store/cart/type";
+import { useAuthStore } from "@/store/auth/useAuthStore";
+import { useToastStore } from "@/store/toast/useToastStore";
+import { pageRoutes } from "@/apiRouters";
+import { useCartStore } from "@/store/cart/useCartStore";
 
 interface ProductListProps {
   pageSize?: number;
 }
 
 export const ProductDetailPage: React.FC<ProductListProps> = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { data } = useFetchProducts();
   const findProducts = data?.find((item) => item.id === String(id));
-  console.log(findProducts);
-
+  const { isLogin, user } = useAuthStore();
   const [quantity, setQuantity] = useState(1);
+  const { addToast } = useToastStore();
+  const { addCartItem } = useCartStore();
+
+  const handleCartAction = (product: IProduct, e: React.MouseEvent): void => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (isLogin && user) {
+      const cartItem: CartItem = { ...product, count: quantity };
+      addCartItem(cartItem, user?.uid, quantity);
+      addToast(
+        `${product.productName} 상품이 장바구니에 담겼습니다.`,
+        "success",
+      );
+    } else {
+      navigate(pageRoutes.login);
+    }
+  };
+
+  const handlePurchaseAction = (
+    product: IProduct,
+    e: React.MouseEvent,
+  ): void => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (isLogin && user) {
+      const cartItem: CartItem = { ...product, count: quantity };
+      addCartItem(cartItem, user.uid, quantity);
+      navigate(pageRoutes.cart);
+    } else {
+      navigate(pageRoutes.login);
+    }
+  };
 
   if (!findProducts) return <p>Product not found</p>;
 
@@ -101,10 +140,20 @@ export const ProductDetailPage: React.FC<ProductListProps> = () => {
               </div>
 
               <div className="flex space-x-4">
-                <Button className="flex-1 bg-gray-600 hover:bg-gold/90 text-white">
+                <Button
+                  onClick={(e) => {
+                    handlePurchaseAction(findProducts, e);
+                  }}
+                  className="flex-1 bg-gray-600 hover:bg-gold/90 text-white"
+                >
                   구매하기
                 </Button>
-                <Button className="flex-1 bg-gray-700 hover:bg-gold/90 text-white">
+                <Button
+                  onClick={(e) => {
+                    handleCartAction(findProducts, e);
+                  }}
+                  className="flex-1 bg-gray-700 hover:bg-gold/90 text-white"
+                >
                   장바구니
                 </Button>
               </div>

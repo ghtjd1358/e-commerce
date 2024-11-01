@@ -17,6 +17,8 @@ export const CartPage: React.FC = () => {
     useCartStore();
   const { user } = useAuthStore();
 
+  console.log("카트라네", cart);
+
   return (
     <Layout authStatus={authStatusType.NEED_LOGIN}>
       <div className="min-h-screen bg-gray-900 text-gray-100 p-28">
@@ -52,14 +54,14 @@ export const CartPage: React.FC = () => {
                       product={car}
                       user={user}
                       removeCartItem={removeCartItem}
-                      changeCartItem={changeCartItemCount}
+                      changeCartItemCount={changeCartItemCount}
                     />
                   ))}
                 </TableBody>
               </Table>
             </div>
             <div>
-              <SummaryTable totoalCount={totalCount} totalPrice={totalPrice} />
+              <SummaryTable totalCount={totalCount} totalPrice={totalPrice} />
             </div>
           </div>
         </div>

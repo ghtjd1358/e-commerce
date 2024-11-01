@@ -25,7 +25,6 @@ export const CartButton: React.FC<CartButtonProps> = ({
 
   useEffect(() => {
     if (user?.uid) {
-      console.log("Initializing cart for user:", user.uid);
       initCart(user.uid);
     }
   }, [user?.uid, initCart]);

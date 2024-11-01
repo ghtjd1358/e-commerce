@@ -15,9 +15,9 @@ export interface CartStore {
 
 export interface CartItem {
   id: string;
-  image: string;
-  title: string;
-  price: number;
+  productImage: string;
+  productName: string;
+  productPrice: number;
   count: number;
 }
 

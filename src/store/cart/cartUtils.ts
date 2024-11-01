@@ -14,8 +14,8 @@ export const getCartFromLocalStorage = (userId: string): CartItem[] => {
   const cartItems = parseJSON(cartData) as Record<string, CartItem[]> | null;
   return cartItems?.[userId] ?? [];
 };
-// 로컬스토리지에 담긴 상품 초기화
 
+// 로컬스토리지에 담긴 상품 초기화
 export const resetCartAtLocalStorage = (userId: string): void => {
   const cartData = getItem(CART_LOCAL_STORAGE_KEY);
   const cartItems = cartData
@@ -54,7 +54,7 @@ export const calculateTotal = (cart: CartItem[]): Total => {
   return cart.reduce(
     (acc: Total, item: CartItem) => ({
       totalCount: acc.totalCount + item.count,
-      totalPrice: acc.totalPrice + item.price * item.count,
+      totalPrice: acc.totalPrice + item.productPrice * item.count,
     }),
     { totalCount: 0, totalPrice: 0 },
   );

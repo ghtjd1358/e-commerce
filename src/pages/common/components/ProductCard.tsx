@@ -2,12 +2,13 @@ import { pageRoutes } from "@/apiRouters";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IProduct } from "@/lib/products/type";
 import "./../.././.././index.css";
 
 interface ProductCardProps {
   product: IProduct;
+  cart: string[];
   onClickAddCartButton: (
     e: React.MouseEvent<HTMLButtonElement>,
     product: IProduct,
@@ -20,9 +21,16 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
+  cart,
   onClickAddCartButton,
   onClickPurchaseButton,
 }) => {
+  const navigate = useNavigate();
+
+  const handleClickMove = () => {
+    navigate(pageRoutes.cart);
+  };
+
   const handleClickAddCartButton = (
     e: React.MouseEvent<HTMLButtonElement>,
   ): void => {
@@ -38,6 +46,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     e.stopPropagation();
     onClickPurchaseButton(e, product);
   };
+
+  const hasCart = cart.includes(product.id);
 
   return (
     <Card className="bg-gray-800 border-gray-700 gap-y-6 min-h-[500px]">
@@ -65,17 +75,26 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </div>
         <div className="flex gap-2 mt-4">
           <Button
-            className="flex-1 bg-gold hover:bg-gold/90 rounded-lg py-2 text-white bg-gray-600"
+            className="flex-1 bg-gold hover:bg-gold/90 rounded-lg py-2 text-white bg-gray-500"
             onClick={handleClickPurchaseButton}
           >
             구매하기
           </Button>
-          <Button
-            className="flex-1 bg-gold hover:bg-gold/90 text-white rounded-lg py-2 bg-gray-700"
-            onClick={handleClickAddCartButton}
-          >
-            장바구니
-          </Button>
+          {hasCart ? (
+            <Button
+              className="flex-1 bg-gold hover:bg-gold/90 text-white rounded-lg py-2 bg-gray-700"
+              onClick={handleClickMove}
+            >
+              장바구니 확인
+            </Button>
+          ) : (
+            <Button
+              className="flex-1 bg-gold hover:bg-gold/90 rounded-lg py-2 text-white bg-gray-600"
+              onClick={handleClickAddCartButton}
+            >
+              장바구니 담기
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>

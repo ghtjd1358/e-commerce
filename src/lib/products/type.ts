@@ -9,7 +9,6 @@ export interface IProduct {
   productImage: string[];
   createdAt: string;
   updatedAt: string;
-  count?: number | undefined;
 }
 export interface PaginatedProductsDTO {
   products: IProduct[];

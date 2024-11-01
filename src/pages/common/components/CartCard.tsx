@@ -1,12 +1,12 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import React, { useState } from "react";
-import { IProduct } from "@/lib/products/type";
+import { CartItem } from "@/store/cart/type";
 import { useToastStore } from "@/store/toast/useToastStore";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface ProductCardProps {
-  product: IProduct;
+  product: CartItem;
   removeCartItem: (itemId: string, userId: string) => void;
   user: { uid: string } | null;
   changeCartItemCount: (itemId: string, count: number, userId: string) => void;
@@ -19,7 +19,7 @@ export const CartCardSquare: React.FC<ProductCardProps> = ({
   user,
 }) => {
   const { addToast } = useToastStore();
-  const [count, setCount] = useState<number>(product.count || 1);
+  const [count, setCount] = useState<number>(product.count);
 
   const handleRemoveItem = () => {
     if (user) {
@@ -37,7 +37,11 @@ export const CartCardSquare: React.FC<ProductCardProps> = ({
     if (user) {
       const newCount = count + 1;
       setCount(newCount);
-      changeCartItemCount(product.id, newCount, user.uid);
+      changeCartItemCount({
+        itemId: product.id,
+        count: newCount,
+        userId: user.uid,
+      });
     }
   };
 
@@ -45,7 +49,11 @@ export const CartCardSquare: React.FC<ProductCardProps> = ({
     if (user && count > 1) {
       const newCount = count - 1;
       setCount(newCount);
-      changeCartItemCount(product.id, newCount, user.uid);
+      changeCartItemCount({
+        itemId: product.id,
+        count: newCount,
+        userId: user.uid,
+      });
     }
   };
 

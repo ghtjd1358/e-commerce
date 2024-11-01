@@ -3,7 +3,8 @@ import { extractDefaultValues } from "../pages/common/userDefaultValues";
 
 const EMAIL_PATTERN = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
-const PHONE_PATTERN = /^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/i;
+// 전화번호 정규식을 수정하여 '-'가 있어도 되고 없어도 되도록 설정
+const PHONE_PATTERN = /^(01[016789])\d{3,4}\d{4}$/;
 
 // 비밀번호 스키마
 const passwordSchema = z
@@ -33,6 +34,9 @@ const nicknameSchema = z
   .string()
   .min(1, { message: "닉네임을 입력해 주세요." })
   .max(20, { message: "닉네임은 20자 이내여야 합니다." });
+
+// 주소 스키마
+const addressSchema = z.string().min(1, { message: "주소를 입력해 주세요." });
 
 // 휴대폰 번호
 const phoneSchema = z
@@ -64,16 +68,28 @@ const loginSchema = z.object({
   password: passwordSchema,
 });
 
+// 회원 정보 스키마
+const accountSchema = z.object({
+  name: nameSchema,
+  nickname: nicknameSchema,
+  email: emailSchema,
+  address: addressSchema.optional(),
+  phoneNumber: phoneSchema.optional(),
+});
+
 // 타입 정의
 export type RegisterPayload = z.infer<typeof registerSchema>;
 export type LoginPayload = z.infer<typeof loginSchema>;
+export type AccountPayload = z.infer<typeof accountSchema>;
 
 export const userSchemas = {
   registerSchema: refinedRegisterSchema,
   loginSchema,
+  accountSchema,
 };
 
 export const userDefaultValues = {
   signUpDefaultValues: extractDefaultValues(registerSchema),
   loginDefaultValues: extractDefaultValues(loginSchema),
+  accountDefaultValues: extractDefaultValues(accountSchema),
 };

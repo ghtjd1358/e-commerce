@@ -5,16 +5,28 @@ import { ProductCard } from "../common/components/ProductCard";
 import { ProductFilter } from "./components/ProductFilter";
 import { Button } from "@/components/ui/button";
 import { useInView } from "react-intersection-observer";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ALL_CATEGORY_ID, authStatusType } from "@/constants";
+import { useAuthStore } from "@/store/auth/useAuthStore";
+import { useCartStore } from "@/store/cart/useCartStore";
+import { useToastStore } from "@/store/toast/useToastStore";
+import { pageRoutes } from "@/apiRouters";
+import { IProduct } from "@/lib/products/type";
+import { CartItem } from "@/store/cart/type";
 
 export const CFProductPage: React.FC = () => {
+  const navigate = useNavigate();
+  const { user, isLogin } = useAuthStore();
+  const { cart, addCartItem } = useCartStore();
+  const { addToast } = useToastStore();
   const { category } = useParams();
   const { data, fetchNextPage, hasNextPage, isFetching } =
     useFetchInfiniteQueryProducts({
       pageSize: 30,
     });
   const { ref, inView } = useInView();
+
+  const cartItemCount = cart.map((item) => item.id);
 
   const products = data ? data.pages.flatMap((page) => page.products) : [];
   const totalCount = data?.pages[0]?.totalCount || 0;
@@ -29,6 +41,30 @@ export const CFProductPage: React.FC = () => {
       fetchNextPage();
     }
   }, [inView, fetchNextPage, hasNextPage]);
+
+  // 장바구니
+  const handleCartAction = (product: IProduct): void => {
+    if (isLogin && user) {
+      const cartItem: CartItem = { ...product, count: 1 };
+      addCartItem(cartItem, user.uid, 1);
+      addToast(
+        `${product.productName} 상품이 장바구니에 담겼습니다.`,
+        "success",
+      );
+    } else {
+      navigate(pageRoutes.login);
+    }
+  };
+
+  const handlePurchaseAction = (product: IProduct): void => {
+    if (isLogin && user) {
+      const cartItem: CartItem = { ...product, count: 1 };
+      addCartItem(cartItem, user.uid, 1);
+      navigate(pageRoutes.cart);
+    } else {
+      navigate(pageRoutes.login);
+    }
+  };
 
   return (
     <Layout authStatus={authStatusType.COMMON}>
@@ -46,7 +82,19 @@ export const CFProductPage: React.FC = () => {
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard
+                key={product.id}
+                product={product}
+                cart={cartItemCount}
+                onClickAddCartButton={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  handleCartAction(product);
+                }}
+                onClickPurchaseButton={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  handlePurchaseAction(product);
+                }}
+              />
             ))
           ) : (
             <div>해당 카테고리에 상품이 없습니다.</div>

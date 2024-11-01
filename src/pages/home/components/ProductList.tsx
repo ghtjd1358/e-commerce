@@ -13,8 +13,10 @@ export const ProductList: React.FC = () => {
   const { data } = useFetchProducts();
   const { user, isLogin } = useAuthStore();
   const { addToast } = useToastStore();
-  const { addCartItem } = useCartStore();
+  const { cart, addCartItem } = useCartStore();
   const navigate = useNavigate();
+
+  const cartItem = cart.map((item) => item.id);
 
   const groupedProducts = data?.reduce(
     (acc, product) => {
@@ -73,6 +75,7 @@ export const ProductList: React.FC = () => {
                 {items.slice(0, 4).map((product) => (
                   <ProductCard
                     key={product.id}
+                    cart={cartItem}
                     product={product}
                     onClickAddCartButton={(e: React.MouseEvent) => {
                       e.stopPropagation();
