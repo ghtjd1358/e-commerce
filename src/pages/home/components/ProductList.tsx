@@ -56,15 +56,11 @@ export const ProductList: React.FC = () => {
   return (
     <main>
       <section className="mt-12 p-10">
-        <div className="flex justify-between items-center mb-6">
-          <h2>상품목록</h2>
-        </div>
-
         {groupedProducts &&
           Object.entries(groupedProducts).map(([category, items]) => (
             <div key={category} className="mb-12">
               <div className="flex justify-between">
-                <h3 className="text-3xl font-bold mb-4">{category}</h3>
+                <h3 className="text-3xl font-bold">{category}</h3>
                 <Link
                   to={`${pageRoutes.cfproduct}/${items[0].productCategory.id}`}
                 >

@@ -20,9 +20,10 @@ export const CFProductPage: React.FC = () => {
   const { cart, addCartItem } = useCartStore();
   const { addToast } = useToastStore();
   const { category } = useParams();
+
   const { data, fetchNextPage, hasNextPage, isFetching } =
     useFetchInfiniteQueryProducts({
-      pageSize: 30,
+      pageSize: 20,
     });
   const { ref, inView } = useInView();
 
@@ -68,7 +69,7 @@ export const CFProductPage: React.FC = () => {
 
   return (
     <Layout authStatus={authStatusType.COMMON}>
-      <div className="min-h-screen bg-gray-900 text-gray-100 p-16 pt-32">
+      <div className="min-h-screen bg-gray-900 text-gray-100 p-16 pt-28">
         <ProductFilter
           totalCount={
             category === ALL_CATEGORY_ID ? totalCount : filteredProducts.length
@@ -101,8 +102,8 @@ export const CFProductPage: React.FC = () => {
           )}
         </div>
         {hasNextPage && (
-          <div className="flex justify-center space-x-2">
-            <Button variant="outline" ref={ref}>
+          <div className="flex justify-center items-center ">
+            <Button variant="outline" ref={ref} className="w-full bg-gray-700">
               {isFetching ? "...loading" : "fetching"}
             </Button>
           </div>

@@ -3,7 +3,6 @@ import { PriceRange } from "../../common/components/PriceRange";
 import { CategorySelectUrl } from "./CategotySelectUrl";
 import { ALL_CATEGORY_ID, categories } from "@/constants";
 import { IProduct } from "@/lib/products/type";
-import { Label } from "@radix-ui/react-label";
 import {
   Select,
   SelectTrigger,
@@ -50,9 +49,6 @@ export const ProductFilter: React.FC<{
 
       <div className="flex justify-end w-[40%] space-y-1 mt-4">
         <div className="flex items-center space-x-2 text-gray-400">
-          <Label htmlFor="sort-select" className="mr-2 w-16">
-            정렬:
-          </Label>
           <Select onValueChange={handleSortChange}>
             <SelectTrigger
               id="sort-select"

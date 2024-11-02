@@ -29,6 +29,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
                   displayName: currentUser.displayName ?? "",
                   photoURL: currentUser.photoURL ?? "",
                   isSeller: userData.isSeller ?? false,
+                  address: userData.address ?? "",
+                  phoneNumber: userData.phoneNumber ?? "",
                 },
                 isLogin: true,
               });
@@ -46,6 +48,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
                   displayName: currentUser.displayName ?? "",
                   photoURL: currentUser.photoURL ?? "",
                   isSeller: false,
+                  // address: currentUser.address ?? "",
+                  // phoneNumber: currentUser.phoneNumber ?? "",
                 },
                 isLogin: true,
               });

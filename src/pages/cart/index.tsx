@@ -17,8 +17,6 @@ export const CartPage: React.FC = () => {
     useCartStore();
   const { user } = useAuthStore();
 
-  console.log("카트라네", cart);
-
   return (
     <Layout authStatus={authStatusType.NEED_LOGIN}>
       <div className="min-h-screen bg-gray-900 text-gray-100 p-28">

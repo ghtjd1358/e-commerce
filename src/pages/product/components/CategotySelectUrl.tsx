@@ -11,7 +11,7 @@ interface CategorySelectGroupProps {
 export const CategorySelectUrl: React.FC<CategorySelectGroupProps> = ({
   categoryId,
 }) => (
-  <div className="flex justify-between p-2 w-full">
+  <div className="flex justify-between p-6 w-full">
     {categories.map((category) => (
       <Link
         to={`${pageRoutes.cfproduct}/${category.id}`}
@@ -26,7 +26,7 @@ export const CategorySelectUrl: React.FC<CategorySelectGroupProps> = ({
           />
         )}
         <Button
-          variant="none"
+          variant={null}
           className={`flex ${category.id === categoryId ? "text-yellow-500" : "text-gray-300"}`}
         >
           {category.name}

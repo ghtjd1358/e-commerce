@@ -11,16 +11,21 @@ export const useFetchInfiniteQueryProducts = ({
   const { minPrice, maxPrice, title, categoryId, sortOption } =
     useFilterStore();
   const filter = { minPrice, maxPrice, title, categoryId, sortOption };
-  const queryKey = [PRODUCT_KEY, filter] as const;
+  const queryKey = [PRODUCT_KEY, filter];
 
   return useInfiniteQuery<PaginatedProductsDTO, Error>({
     queryKey,
     queryFn: async ({ pageParam = 1 }) => {
-      return await fetchFilterProductsApi(
-        filter,
-        pageSize,
-        pageParam as number,
-      );
+      try {
+        return await fetchFilterProductsApi(
+          filter,
+          pageSize,
+          pageParam as number,
+        );
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        throw error;
+      }
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,

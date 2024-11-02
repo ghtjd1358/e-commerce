@@ -126,7 +126,7 @@ export const ProductDetailPage: React.FC<ProductListProps> = () => {
                       onChange={(e) =>
                         setQuantity(parseInt(e.target.value) || 1)
                       }
-                      className="w-16 text-center bg-gray-800 border-gray-700 text-gray-100"
+                      className="w-10 m-2 text-center bg-gray-900 border-gray-700 text-gray-100"
                     />
                     <Button
                       variant="outline"

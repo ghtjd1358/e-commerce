@@ -15,8 +15,15 @@ import { useUpdateAccountStore } from "@/lib/account/hooks/useUpdateAccount";
 import { useFetchAccount } from "@/lib/account/hooks/useFetchAccount";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useEffect } from "react";
-import { updateAccountApi } from "@/lib/account/api";
 import { IUser, GoogleUser } from "@/lib/auth/types";
+
+type UpdateUserData = {
+  name?: string;
+  nickname?: string;
+  email?: string;
+  address?: string;
+  phoneNumber?: string;
+};
 
 interface FormInputs {
   name: string;
@@ -28,7 +35,6 @@ interface FormInputs {
 
 export const AccountForm: React.FC = () => {
   const { user } = useAuthStore();
-
   const form = useForm<FormInputs>({
     mode: "onChange",
     resolver: zodResolver(userSchemas.accountSchema),
@@ -42,7 +48,10 @@ export const AccountForm: React.FC = () => {
   });
 
   const { data } = useFetchAccount(user?.uid ?? "");
-  const { isPending: isLoading } = useUpdateAccountStore();
+  console.log(data);
+
+  const { mutate: accountUpdate, isPending: isLoading } =
+    useUpdateAccountStore();
 
   useEffect(() => {
     if (data) {
@@ -61,12 +70,15 @@ export const AccountForm: React.FC = () => {
       alert("사용자 UID가 유효하지 않습니다.");
       return;
     }
-    updateAccountApi(user.uid, {
-      name: data.name,
-      nickname: data.nickname,
-      email: data.email,
-      address: data.address,
-      phoneNumber: data.phoneNumber,
+    accountUpdate({
+      uid: user.uid,
+      updatedData: {
+        name: data.name,
+        nickname: data.nickname,
+        email: data.email,
+        address: data.address,
+        phoneNumber: data.phoneNumber,
+      } as UpdateUserData,
     });
   };
 

@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { makePurchaseAPI } from "@/lib/purchase/api";
+import { useCartStore } from "@/store/cart/useCartStore";
+import { useAuthStore } from "@/store/auth/useAuthStore";
 
 interface SummaryTableProps {
   totalPrice: number;
@@ -14,9 +17,24 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({
   totalCount,
 }) => {
   const navigate = useNavigate();
+  const { cart } = useCartStore();
+  const cartItem = cart.map((item) => item);
+  const { user } = useAuthStore();
 
-  const handlerPurchaseMove = () => {
-    navigate(pageRoutes.purchase);
+  const handlePurchase = async () => {
+    if (!user?.uid) {
+      return;
+    }
+
+    try {
+      await makePurchaseAPI(cartItem, user?.uid);
+
+      // 결제 페이지로 이동
+      navigate(pageRoutes.purchase);
+    } catch (error) {
+      console.error("구매 오류 발생:", error);
+      alert("구매 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
@@ -35,7 +53,7 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({
           <span>총 상품 수</span>
           <span className="text-white">{totalCount}</span>
         </div>
-        <Button onClick={handlerPurchaseMove} className="w-full bg-gray-600">
+        <Button onClick={handlePurchase} className="w-full bg-gray-600">
           구매하기
         </Button>
       </CardContent>
