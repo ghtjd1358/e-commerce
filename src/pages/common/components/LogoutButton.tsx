@@ -1,7 +1,7 @@
-import { pageRoutes } from "@/apiRouters";
-import { Button } from "@/components/ui/button";
+import { pageRoutes } from "@/app/apiRouters";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
 
 export const LogoutButton = () => {
   const { logout } = useAuthStore();

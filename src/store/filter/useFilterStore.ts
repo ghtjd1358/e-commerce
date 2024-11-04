@@ -1,4 +1,4 @@
-import { ALL_CATEGORY_ID } from "@/constants";
+import { ALL_CATEGORY_ID } from "@/shared/constants";
 import { FilterStore } from "./type";
 import { create } from "zustand";
 

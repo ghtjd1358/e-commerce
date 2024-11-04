@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ProfileButton } from "./ProfileButton";
 import { X } from "lucide-react";
 import { CartButton } from "./CartButton";
-import { pageRoutes } from "@/apiRouters";
+import { pageRoutes } from "@/app/apiRouters";
+import { Button } from "../ui/button";
 import { LogoutButton } from "./LogoutButton";
 import { LoginButton } from "./LoginButton";
 
@@ -15,13 +15,13 @@ interface SideNavigationBarProps {
   toggleModal: () => void;
 }
 
-function SideNavigationBar({
+export const SideNavigationBar: React.FC<SideNavigationBarProps> = ({
   user,
   isLogin,
   cartLength,
   initCart,
   toggleModal,
-}: SideNavigationBarProps) {
+}) => {
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 z-50">
       <div className="fixed left-0 top-0 h-full w-64 bg-gray-700 p-4 flex flex-col">
@@ -67,6 +67,4 @@ function SideNavigationBar({
       </div>
     </div>
   );
-}
-
-export default SideNavigationBar;
+};

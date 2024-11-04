@@ -6,16 +6,12 @@ export interface CartStore {
   resetCart: (userId: string) => void;
   addCartItem: (item: CartItem, userId: string, count: number) => void;
   removeCartItem: (itemId: string, userId: string) => void;
-  changeCartItemCount: (params: {
-    itemId: string;
-    count: number;
-    userId: string;
-  }) => void;
+  changeCartItemCount: (itemId: string, count: number, userId: string) => void;
 }
 
 export interface CartItem {
   id: string;
-  productImage: string;
+  productImage: string[];
   productName: string;
   productPrice: number;
   count: number;

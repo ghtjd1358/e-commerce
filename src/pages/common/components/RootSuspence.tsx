@@ -1,5 +1,5 @@
+import { LoadingPage } from "@/pages/loading";
 import { ReactNode, Suspense } from "react";
-import { LoadingPage } from "../../loading";
 
 interface RootSuspenseProps {
   children: ReactNode;

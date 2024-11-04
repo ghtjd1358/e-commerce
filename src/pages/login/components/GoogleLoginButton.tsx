@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { useGoogleLoginUser } from "@/lib/auth/hooks/userGoogleLogin";
+import { useGoogleLoginUser } from "@/features/auth/hooks/userGoogleLogin";
+import { Button } from "@/pages/common/ui/button";
 
 export const GoogleLoginButton = () => {
   const { mutate: googleLogin } = useGoogleLoginUser();

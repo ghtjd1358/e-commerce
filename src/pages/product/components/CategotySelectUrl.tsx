@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
 import React from "react";
-import { categories } from "@/constants";
+import { categories } from "@/shared/constants";
 import { Link } from "react-router-dom";
-import { pageRoutes } from "@/apiRouters";
+import { pageRoutes } from "@/app/apiRouters";
+import { Button } from "@/pages/common/ui/button";
 
 interface CategorySelectGroupProps {
   categoryId: string | undefined;
@@ -14,7 +14,7 @@ export const CategorySelectUrl: React.FC<CategorySelectGroupProps> = ({
   <div className="flex justify-between p-6 w-full">
     {categories.map((category) => (
       <Link
-        to={`${pageRoutes.cfproduct}/${category.id}`}
+        to={`${pageRoutes.product}/${category.id}`}
         key={category.id}
         className="flex flex-col items-center"
       >

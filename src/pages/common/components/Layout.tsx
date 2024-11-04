@@ -1,12 +1,12 @@
 import { ReactNode, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { Footer } from "./Footer";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { Toast } from "./Toast";
-import { pageRoutes } from "../../../apiRouters";
-import { NavigationBar } from "./NavigationBar";
 import { useFilterStore } from "@/store/filter/useFilterStore";
-import { ALL_CATEGORY_ID, authStatusType } from "@/constants";
+import { ALL_CATEGORY_ID, authStatusType } from "@/shared/constants";
+import { pageRoutes } from "@/app/apiRouters";
+import { NavigationBar } from "./NavigationBar";
+import { Footer } from "./Footer";
 
 interface LayoutProps {
   children: ReactNode;
@@ -46,7 +46,7 @@ export const Layout: React.FC<LayoutProps> = ({
   }
 
   if (authStatus === authStatusType.IS_BUYER && isLogin && user?.isSeller) {
-    return <Navigate to={pageRoutes.productListing} />;
+    return <Navigate to={pageRoutes.sellerdashboard} />;
   }
 
   // 로그인이나 회원가입 페이지일 경우 Header와 Footer 숨기기

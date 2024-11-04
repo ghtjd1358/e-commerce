@@ -1,5 +1,5 @@
-import { auth, db } from "@/firebase";
-import { GoogleUser, IUser } from "../../lib/auth/types";
+import { auth, db } from "@/app/firebase";
+import { IUser, GoogleUser } from "@/features/auth/types";
 import Cookies from "js-cookie";
 import { create } from "zustand";
 import { AuthStore } from "./type";

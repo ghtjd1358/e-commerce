@@ -1,4 +1,4 @@
-import { IUser, GoogleUser } from "../../lib/auth/types";
+import { IUser, GoogleUser } from "@/features/auth/types";
 
 export interface AuthStore {
   isLogin: boolean;

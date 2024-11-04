@@ -1,16 +1,16 @@
-import { CartButton } from "./CartButton";
-import { LoginButton } from "./LoginButton";
-import { ProfileButton } from "./ProfileButton";
-import { LogoutButton } from "./LogoutButton";
 import { Menu } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuthStore } from "@/store/auth/useAuthStore";
-import { useModal } from "@/hooks/useModals";
+import { useModal } from "@/shared/hooks/useModals";
 import { useEffect, useState } from "react";
-import { pageRoutes } from "@/apiRouters";
-import { ALL_CATEGORY_ID, categories } from "@/constants";
+import { pageRoutes } from "@/app/apiRouters";
+import { ALL_CATEGORY_ID, categories } from "@/shared/constants";
 import { useCartStore } from "@/store/cart/useCartStore";
-import SideNavigationBar from "./SideNavigationBar";
+import { SideNavigationBar } from "./SideNavigationBar";
+import { CartButton } from "./CartButton";
+import { ProfileButton } from "./ProfileButton";
+import { LoginButton } from "./LoginButton";
+import { LogoutButton } from "./LogoutButton";
 
 export const NavigationBar: React.FC = () => {
   const { isOpen, toggleModal } = useModal();
@@ -69,19 +69,15 @@ export const NavigationBar: React.FC = () => {
             <Link to={pageRoutes.main}>홈</Link>
           </li>
           <li
-            className={`${categoriesId.some((id) => location.pathname.includes(`/cfproduct/${id}`)) ? "text-yellow-500" : "text-gray-300"}`}
+            className={`${categoriesId.some((id) => location.pathname.includes(`/product/${id}`)) ? "text-yellow-500" : "text-gray-300"}`}
           >
-            <Link to={`${pageRoutes.cfproduct}/${ALL_CATEGORY_ID}`}>상품</Link>
+            <Link to={`${pageRoutes.product}/${ALL_CATEGORY_ID}`}>상품</Link>
           </li>
           <li>
-            <Link to={`${pageRoutes.cfproduct}/${ALL_CATEGORY_ID}`}>
-              스타일
-            </Link>
+            <Link to={`${pageRoutes.product}/${ALL_CATEGORY_ID}`}>스타일</Link>
           </li>
           <li>
-            <Link to={`${pageRoutes.cfproduct}/${ALL_CATEGORY_ID}`}>
-              게시판
-            </Link>
+            <Link to={`${pageRoutes.product}/${ALL_CATEGORY_ID}`}>게시판</Link>
           </li>
         </ul>
       </nav>

@@ -1,22 +1,12 @@
-import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import animal from "../../../../public/animal-17760_1280.jpg";
-import soldier from "../../../../public/gun-1927664_1280.jpg";
-import woman from "../../../../public/woman-6567047_1280.jpg";
-import whiskey from "../../../../public/whiskey-4939956_1280.jpg";
+import { Button } from "@/pages/common/ui/button";
+import { heroSlides } from "@/shared/constants";
 
 export function MainArticleSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-
-  const heroSlides = [
-    { image: soldier, alt: "Luxury Watch", title: "Timeless Elegance" },
-    { image: woman, alt: "Designer Handbag", title: "Iconic Style" },
-    { image: whiskey, alt: "Premium Jewelry", title: "Radiant Beauty" },
-    { image: animal, alt: "Animal", title: "Beautiful Nature" },
-  ];
 
   const nextSlide = () => {
     setIsTransitioning(true);

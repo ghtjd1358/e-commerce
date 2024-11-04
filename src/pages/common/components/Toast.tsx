@@ -1,7 +1,6 @@
 import React from "react";
 
 import { useToastStore } from "@/store/toast/useToastStore";
-
 import { ToastItem } from "./ToastItem";
 
 export const Toast: React.FC = () => {

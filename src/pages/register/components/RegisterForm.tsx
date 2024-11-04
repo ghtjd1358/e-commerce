@@ -1,25 +1,25 @@
-import { Button } from "@/components/ui/button";
+import {
+  userSchemas,
+  RegisterPayload,
+  userDefaultValues,
+} from "@/shared/validation/user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { pageRoutes } from "@/app/apiRouters";
+import { useDebounce } from "@/shared/hooks/useAuthCheck";
+import { useRegisterUser } from "@/features/auth/hooks/userRegister";
+import { useCheckNicknameExists } from "@/features/auth/hooks/useCheckAuth";
+import { Button } from "@/pages/common/ui/button";
+import { RHFInput } from "@/pages/common/components/RHFInput";
+import { Form } from "@/pages/common/ui/form";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import {
-  userSchemas,
-  RegisterPayload,
-  userDefaultValues,
-} from "../../../schema/user";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm, useWatch } from "react-hook-form";
-import { RHFInput } from "@/pages/common/components/RHFInput";
-import { useRegisterUser } from "@/lib/auth/hooks/userRegister";
-import { Form } from "@/components/ui/form";
-import { Link } from "react-router-dom";
-import { pageRoutes } from "@/apiRouters";
-import { useDebounce } from "@/hooks/useAuthCheck";
-import { useCheckNicknameExists } from "@/lib/auth/hooks/useCheckAuth";
+} from "@/pages/common/ui/card";
 
 interface FormInputs {
   name: string;

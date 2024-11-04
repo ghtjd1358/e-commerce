@@ -89,7 +89,6 @@ export const useCartStore = create<CartStore>((set) => ({
     });
   },
 
-  // changeCartItemCount: 장바구니 항목의 수량 변경
   changeCartItemCount: ({
     itemId,
     count,

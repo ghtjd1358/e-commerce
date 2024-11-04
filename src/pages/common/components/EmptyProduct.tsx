@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Package } from "lucide-react";
+import { Button } from "../ui/button";
 
 interface EmptyProductProps {
   onAddProduct: () => void;

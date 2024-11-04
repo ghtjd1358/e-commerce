@@ -1,4 +1,4 @@
-import { IProduct } from "../../lib/products/type";
+import { IProduct } from "@/features/products/type";
 
 export interface ProductFilter {
   categoryId: string;

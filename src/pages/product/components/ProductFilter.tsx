@@ -1,15 +1,16 @@
 import { useFilterStore } from "@/store/filter/useFilterStore";
-import { PriceRange } from "../../common/components/PriceRange";
 import { CategorySelectUrl } from "./CategotySelectUrl";
-import { ALL_CATEGORY_ID, categories } from "@/constants";
-import { IProduct } from "@/lib/products/type";
+import { IProduct } from "@/features/products/type";
+
+import { PriceRange } from "./PriceRange";
+import { ALL_CATEGORY_ID, categories } from "@/shared/constants";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@/components/ui/select";
+} from "@/pages/common/ui/select";
 // import { SearchBar } from "@/pages/common/components/SearchBar";
 
 export const ProductFilter: React.FC<{

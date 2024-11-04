@@ -1,36 +1,50 @@
-import { pageRoutes } from "@/apiRouters";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { makePurchaseAPI } from "@/lib/purchase/api";
 import { useCartStore } from "@/store/cart/useCartStore";
 import { useAuthStore } from "@/store/auth/useAuthStore";
+import { CartItem } from "@/store/cart/type";
+import { useMakePurchase } from "@/features/purchase/hooks/useMakePurchase";
+import { Button } from "@/pages/common/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/pages/common/ui/card";
 
 interface SummaryTableProps {
   totalPrice: number;
   totalCount: number;
 }
 
+export interface PurchaseDTO {
+  cartData: CartItem[];
+  userId: string;
+}
+
 export const SummaryTable: React.FC<SummaryTableProps> = ({
   totalPrice,
   totalCount,
 }) => {
-  const navigate = useNavigate();
   const { cart } = useCartStore();
+  const { mutate: makePurchase } = useMakePurchase();
   const cartItem = cart.map((item) => item);
   const { user } = useAuthStore();
 
-  const handlePurchase = async () => {
+  const handlePurchase = () => {
     if (!user?.uid) {
       return;
     }
 
     try {
-      await makePurchaseAPI(cartItem, user?.uid);
-
-      // 결제 페이지로 이동
-      navigate(pageRoutes.purchase);
+      makePurchase({
+        cartData: cartItem,
+        userId: user.uid,
+        purchaseData: {
+          totalAmount: 1,
+          paymentMethod: "1",
+          shippingAddress: "1",
+        },
+      });
     } catch (error) {
       console.error("구매 오류 발생:", error);
       alert("구매 처리 중 오류가 발생했습니다. 다시 시도해주세요.");

@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { CircleUserRound } from "lucide-react";
-import { pageRoutes } from "@/apiRouters";
+import { pageRoutes } from "@/app/apiRouters";
+import { Button } from "../ui/button";
 
 interface User {
   uid: string;
@@ -22,7 +22,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
   const navigate = useNavigate();
 
   const handleClickProfile = () => {
-    navigate(pageRoutes.userProfile);
+    navigate(pageRoutes.buyerdashboard);
   };
 
   return (

@@ -1,8 +1,8 @@
-import { pageRoutes } from "@/apiRouters";
-import { Button } from "@/components/ui/button";
+import { pageRoutes } from "@/app/apiRouters";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
+import { Button } from "../ui/button";
 
 interface User {
   uid: string;
@@ -30,7 +30,7 @@ export const CartButton: React.FC<CartButtonProps> = ({
   }, [user?.uid, initCart]);
 
   const handleClickCart = () => {
-    navigate(pageRoutes.cart);
+    navigate(pageRoutes.shoppingcart);
   };
 
   return (

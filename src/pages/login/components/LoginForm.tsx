@@ -1,24 +1,24 @@
-import { Button } from "@/components/ui/button";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { GoogleLoginButton } from "./GoogleLoginButton";
+import { pageRoutes } from "@/app/apiRouters";
+import { Link } from "react-router-dom";
+import { useLoginUser } from "@/features/auth/hooks/userLogin";
+import { Button } from "@/pages/common/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { SubmitHandler, useForm } from "react-hook-form";
+} from "@/pages/common/ui/card";
 import {
   userSchemas,
   LoginPayload,
   userDefaultValues,
-} from "../../../schema/user";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
+} from "@/shared/validation/user";
+import { Form } from "@/pages/common/ui/form";
 import { RHFInput } from "@/pages/common/components/RHFInput";
-import { useLoginUser } from "@/lib/auth/hooks/userLogin";
-import { GoogleLoginButton } from "./GoogleLoginButton";
-import { pageRoutes } from "@/apiRouters";
-import { Link } from "react-router-dom";
 
 interface FormInput {
   email: string;

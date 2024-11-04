@@ -1,3 +1,7 @@
+import { HTMLInputTypeAttribute } from "react";
+import React from "react";
+import { useFormContext } from "react-hook-form";
+import { Input } from "../ui/input";
 import {
   FormControl,
   FormDescription,
@@ -5,11 +9,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { HTMLInputTypeAttribute } from "react";
-import React from "react";
-import { useFormContext } from "react-hook-form";
+} from "../ui/form";
 
 interface RHFInputProps {
   name: string;
