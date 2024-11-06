@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/pages/common/ui/card";
 import { ProductRegistrationModal } from "@/pages/SellerDashboard/components/ProductRegisterModal";
-import { ProductCardSquare } from "@/pages/SellerDashboard/components/ProductCardSquare";
+import { SellerProductCard } from "@/pages/SellerDashboard/components/SellerProductCard";
 import {
   Table,
   TableBody,
@@ -80,7 +80,7 @@ export const SellerProductList = ({ pageSize = 5 }) => {
                   user?.isSeller ? product.sellerId === user.uid : undefined,
                 )
                 .map((product) => (
-                  <ProductCardSquare
+                  <SellerProductCard
                     user={user}
                     key={product.id}
                     product={product}

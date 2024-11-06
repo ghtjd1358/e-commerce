@@ -12,7 +12,7 @@ interface ProductCardProps {
   user: { uid: string } | null;
 }
 
-export const ProductCardSquare: React.FC<ProductCardProps> = ({
+export const SellerProductCard: React.FC<ProductCardProps> = ({
   product,
   user,
 }) => {
