@@ -15,7 +15,7 @@ import {
 import { BuyerProductCard } from "./BuyerProductCard";
 
 interface ProductOrderListProps {
-  products: (Partial<OrderType> | null)[] | undefined;
+  products: (Partial<OrderType> | null)[];
 }
 
 export const BuyerProductList: React.FC<ProductOrderListProps> = ({
@@ -58,7 +58,7 @@ export const BuyerProductList: React.FC<ProductOrderListProps> = ({
 
               <TableBody>
                 {products?.map((product) => (
-                  <BuyerProductCard product={product} />
+                  <BuyerProductCard key={product?.id} product={product} />
                 ))}
               </TableBody>
             </Table>

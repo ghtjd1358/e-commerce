@@ -3,8 +3,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IProduct } from "@/features/products/type";
 import "../../../../../src/app/index.css";
-import { Button } from "@/pages/common/ui/button";
 import { Card, CardContent } from "@/pages/common/ui/card";
+import { Button } from "../../ui/button";
 
 interface ProductCardProps {
   product: IProduct;

@@ -5,6 +5,7 @@ import { Profile } from "../common/components/auth/Profile";
 import { BuyerProductList } from "./components/BuyerProductList";
 import { useBuyerOrders } from "@/features/order/hooks/useFetchOrders";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
+import { OrderType } from "@/features/order/types";
 
 interface Order {
   id: string;
@@ -19,20 +20,19 @@ export const BuyerDashboardPage: React.FC = () => {
     data: Order[] | undefined;
   };
 
-  const buyerProductsMerge = orders
-    ?.filter((order) => order.buyerId === user?.uid)
+  const buyerProductsMerge: (Partial<OrderType> | null)[] = (orders ?? [])
+    .filter((order) => order.buyerId === user?.uid)
     .map((order) => {
       const product = products?.find((item) => item.id === order.productId);
-      return product
-        ? {
-            ...order,
-            productName: product.productName,
-            productImage: product.productImage[0] ?? "",
-            sellerId: product.sellerId,
-          }
-        : null;
-    })
-    .filter(Boolean);
+      if (!product) {
+        return null;
+      }
+      return {
+        ...order,
+        productName: product.productName ?? "",
+        productImage: product.productImage?.[0] ?? "",
+      };
+    });
 
   return (
     <Layout authStatus={authStatusType.IS_BUYER}>

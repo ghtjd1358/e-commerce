@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/pages/common/ui/button";
 import { heroSlides } from "@/shared/constants";
+import { Button } from "@/pages/common/ui/button";
 
 export function MainArticleSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);

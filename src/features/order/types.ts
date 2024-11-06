@@ -5,6 +5,8 @@ export type OrderType = {
   buyerId: string;
   productId: string;
   productQuantity: number;
+  productName?: string;
+  productImage?: string;
   status: "주문 완료" | "발송 대기" | "발송 시작" | "주문 취소";
   createdAt: Date;
   updatedAt: Date;

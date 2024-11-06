@@ -67,9 +67,9 @@ export const ProductRegistrationModal: React.FC<
         throw new Error("이미지를 선택해야 합니다.");
       }
 
-      const imageUrls = await Promise.all(
-        images.map(({ file }) => uploadImage(file)),
-      );
+      const imageUrls = (
+        await Promise.all(images.map(({ file }) => uploadImage(file)))
+      ).filter((url): url is string => url !== null);
 
       const selectedCategory = categories.find(
         (category) => category.id === data.categoryId,
@@ -115,8 +115,6 @@ export const ProductRegistrationModal: React.FC<
       setImages((prev) => [...prev, ...newImages]);
     }
   };
-
-  console.log(images);
 
   const removeImage = (index: number) => {
     setImages((prev) => prev.filter((_, i) => i !== index));

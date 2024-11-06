@@ -28,9 +28,9 @@ export const useUpdateAccountStore = () => {
       }
 
       if (user.isSeller) {
-        navigate(pageRoutes.productListing);
+        navigate(pageRoutes.sellerdashboard);
       } else {
-        navigate(pageRoutes.userProfile);
+        navigate(pageRoutes.buyerdashboard);
       }
 
       queryClient.invalidateQueries({ queryKey: [ACCOUNT_KEY] });

@@ -9,10 +9,10 @@ import { pageRoutes } from "@/app/apiRouters";
 import { IProduct } from "@/features/products/type";
 import { CartItem } from "@/store/cart/type";
 import { useFetchInfiniteQueryProducts } from "@/features/products/hooks/useFetchInfiniteQueryProducts";
-import { Button } from "../common/ui/button";
 import { Layout } from "../common/components/Layout";
 import { ProductCard } from "../common/components/product/ProductCard";
 import { ProductFilter } from "./components/ProductFilter";
+import { Button } from "../common/ui/button";
 
 export const ProductPage: React.FC = () => {
   const navigate = useNavigate();

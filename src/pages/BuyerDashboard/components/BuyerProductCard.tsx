@@ -44,9 +44,9 @@ export const BuyerProductCard: React.FC<BuyerProductCardProps> = ({
         <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis text-center">
           {product.status}
         </TableCell>
-        <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap">
-          {product.createdAt.seconds}
-        </TableCell>
+        {/* <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap">
+          {product.updatedAt?.}
+        </TableCell> */}
         <TableCell className=" cursor-pointer">
           <Button onClick={() => handleCancelOrderApi(product.id)}>
             구매최소

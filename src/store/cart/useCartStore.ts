@@ -89,28 +89,12 @@ export const useCartStore = create<CartStore>((set) => ({
     });
   },
 
-  changeCartItemCount: ({
-    itemId,
-    count,
-    userId,
-  }: {
-    itemId: string;
-    count: number;
-    userId: string;
-  }) => {
+  changeCartItemCount: (itemId: string, count: number, userId: string) => {
     set((state) => {
-      // 각 아이템의 ID를 비교하고, 일치하는 경우에만 수량(count)을 업데이트
       const updatedCart = state.cart.map((cartItem) => {
-        // console.log("변경할 아이템 ID:", cartItem.id);
-        // console.log("전달된 아이템 ID:", itemId);
-        // console.log("현재 수량:", cartItem.count);
-        // console.log("새로운 수량:", count);
-
-        // 아이템 ID가 일치하면 수량을 변경한 새 객체 반환
         if (cartItem.id === itemId) {
           return { ...cartItem, count };
         }
-        // 일치하지 않는 경우 기존 객체 반환
         return cartItem;
       });
 
