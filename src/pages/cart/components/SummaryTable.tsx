@@ -60,12 +60,12 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex justify-between font-bold text-gray-300 pt-4">
-          <span>총 상품 가격</span>
-          <span className="text-white">$ {totalPrice}</span>
-        </div>
-        <div className="flex justify-between font-bold text-gray-300 pt-4">
           <span>총 상품 수</span>
           <span className="text-white">{totalCount}</span>
+        </div>
+        <div className="flex justify-between font-bold text-gray-300 pt-4">
+          <span>총 상품 가격</span>
+          <span className="text-white">$ {totalPrice}</span>
         </div>
         <Button onClick={handlePurchase} className="w-full bg-gray-600">
           구매하기

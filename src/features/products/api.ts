@@ -171,18 +171,6 @@ export const addProductAPI = async (
   }
 };
 
-// 삭제
-export const deleteProductAPI = async (productId: string): Promise<void> => {
-  try {
-    const productRef = doc(db, "products", productId);
-    await deleteDoc(productRef);
-    console.log(`Product with id ${productId} deleted successfully.`);
-  } catch (error) {
-    console.error("Error deleting product: ", error);
-    throw error;
-  }
-};
-
 // 상품 수정
 export const updateProductAPI = async (
   productId: string,
@@ -214,6 +202,18 @@ export const updateProductAPI = async (
     console.log(`Product with id ${productId} updated successfully.`);
   } catch (error) {
     console.error("Error updating product: ", error);
+    throw error;
+  }
+};
+
+// 삭제
+export const deleteProductAPI = async (productId: string): Promise<void> => {
+  try {
+    const productRef = doc(db, "products", productId);
+    await deleteDoc(productRef);
+    console.log(`Product with id ${productId} deleted successfully.`);
+  } catch (error) {
+    console.error("Error deleting product: ", error);
     throw error;
   }
 };

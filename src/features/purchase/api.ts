@@ -1,11 +1,5 @@
 import { db } from "@/app/firebase";
-import {
-  doc,
-  runTransaction,
-  collection,
-  serverTimestamp,
-  getDoc,
-} from "firebase/firestore";
+import { doc, runTransaction, collection, getDoc } from "firebase/firestore";
 import { CartItem } from "../../store/cart/type";
 
 export const makePurchaseAPI = async (
@@ -47,8 +41,8 @@ export const makePurchaseAPI = async (
             productId: item.id,
             productQuantity: item.count,
             status: "결제 대기",
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
           });
           orderIds.push(orderRef.id);
           console.log(`📝 주문 생성됨: ${orderRef.id}`);
@@ -87,7 +81,7 @@ export const makePurchaseAPI = async (
             transaction.update(productRef, {
               productQuantity: restoredQuantity,
             });
-            transaction.update(orderRef, { status: "취소됨" });
+            transaction.update(orderRef, { status: "주문 취소" });
             console.log(
               `♻️ 상품 ${item.id} 재고 복구 및 상태 '취소됨'으로 변경`,
             );
@@ -96,7 +90,7 @@ export const makePurchaseAPI = async (
           console.log(`⛔️ 주문 ${orderId}는 결제 대기 상태가 아님`);
         }
       }
-    }, 3000000);
+    }, 30000000);
 
     console.log("✅ 재고 복구 로직 설정 완료");
   } catch (error) {

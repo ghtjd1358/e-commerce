@@ -1,29 +1,15 @@
 import { TableCell, TableRow } from "@/pages/common/ui/table";
 import { OrderType } from "@/features/order/types";
-import { Button } from "@/pages/common/ui/button";
-import { useBuyerCancelOrder } from "@/features/order/hooks/useBuyerCancelOrder";
+// import { Button } from "@/pages/common/ui/button";
+// import { useBuyerCancelOrder } from "@/features/order/hooks/useBuyerCancelOrder";
 
 interface BuyerProductCardProps {
   product: Partial<OrderType> | null;
 }
 
-export const BuyerProductCard: React.FC<BuyerProductCardProps> = ({
+export const SellerOrderCard: React.FC<BuyerProductCardProps> = ({
   product,
 }) => {
-  const { mutateAsync: cancelOrder } = useBuyerCancelOrder();
-
-  const handleCancelOrderApi = async (orderId: string | undefined) => {
-    if (!orderId) {
-      return;
-    }
-
-    try {
-      await cancelOrder(orderId);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   if (!product) {
     return null;
   }
@@ -32,6 +18,9 @@ export const BuyerProductCard: React.FC<BuyerProductCardProps> = ({
 
   return (
     <TableRow key={product.id}>
+      <TableCell className="text-gray-400 w-1/4 overflow-hidden overflow-ellipsis text-center">
+        {product.productId}
+      </TableCell>
       <TableCell className="text-gray-400 w-1/4 overflow-hidden overflow-ellipsis text-center">
         {product.productName}
       </TableCell>
@@ -45,18 +34,17 @@ export const BuyerProductCard: React.FC<BuyerProductCardProps> = ({
       <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis text-center">
         {product.productQuantity} 개
       </TableCell>
-      <TableCell className="text-gray-400 w-1/6">{product.sellerId}</TableCell>
       <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis text-center">
         {product.status}
       </TableCell>
-      <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap">
+      <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">
         {formattedDate}
       </TableCell>
-      <TableCell className="cursor-pointer">
+      {/* <TableCell className="cursor-pointer">
         <Button onClick={() => handleCancelOrderApi(product.id)}>
           {product.status === "주문 취소" ? "재구매" : "구매 취소"}
         </Button>
-      </TableCell>
+      </TableCell> */}
     </TableRow>
   );
 };
