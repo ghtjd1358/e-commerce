@@ -7,7 +7,13 @@ export type OrderType = {
   productQuantity: number;
   productName?: string;
   productImage?: string;
-  status: "주문 완료" | "발송 대기" | "발송 시작" | "주문 취소";
+  status:
+    | "주문 완료"
+    | "발송 대기"
+    | "발송 시작"
+    | "주문 취소"
+    | "결제 대기"
+    | undefined;
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
 };

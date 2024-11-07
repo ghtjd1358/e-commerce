@@ -5,6 +5,7 @@ import { CheckoutProductTable } from "./components/CheckoutProductTable";
 import { useBuyerOrders } from "@/features/order/hooks/useFetchOrders";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
+import { OrderType } from "@/features/order/types";
 
 interface Order {
   id: string;
@@ -19,7 +20,7 @@ export const CheckoutPage: React.FC = () => {
     data: Order[] | undefined;
   };
 
-  const buyerProductsMerge = (buyer ?? [])
+  const buyerProductsMerge: (Partial<OrderType> | null)[] = (buyer ?? [])
     .filter((order) => order.buyerId === user?.uid)
     .map((order) => {
       const product = products?.find((item) => item.id === order.productId);
@@ -31,8 +32,6 @@ export const CheckoutPage: React.FC = () => {
         productName: product.productName ?? "",
       };
     });
-
-  console.log("buyerProductsMerge", buyerProductsMerge);
 
   return (
     <Layout authStatus={authStatusType.NEED_LOGIN}>

@@ -16,13 +16,23 @@ import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useSellerOrders } from "@/features/order/hooks/useFetchSellerOrders";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 
+interface Order {
+  id: string;
+  buyerId: string;
+  productId: string;
+}
+
 export const SellerOrderList: React.FC = () => {
   const { user } = useAuthStore();
   const { data: products } = useFetchProducts();
-  const { data: orders } = useSellerOrders(user?.uid || "");
+  const { data: orders } = useSellerOrders(user?.uid ?? "") as {
+    data: Order[] | undefined;
+  };
+
+  console.log("orders", orders);
 
   const ordersMerge = orders?.map((order) => {
-    const product = products?.find((item) => item.sellerId === order.sellerId);
+    const product = products?.find((item) => item.id === order.productId);
 
     return {
       ...order,

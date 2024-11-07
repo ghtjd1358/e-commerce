@@ -4,8 +4,8 @@ export interface CartItemDTO {
   price: number;
 }
 
-export interface PurchaseDTO {
-  totalAmount: number;
-  paymentMethod: string;
-  shippingAddress: string;
-}
+// export interface PurchaseDTO {
+//   totalAmount: number;
+//   paymentMethod: string;
+//   shippingAddress: string;
+// }

@@ -39,11 +39,11 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({
       makePurchase({
         cartData: cartItem,
         userId: user.uid,
-        purchaseData: {
-          totalAmount: 1,
-          paymentMethod: "1",
-          shippingAddress: "1",
-        },
+        // purchaseData: {
+        //   totalAmount: 1,
+        //   paymentMethod: "1",
+        //   shippingAddress: "1",
+        // },
       });
     } catch (error) {
       console.error("구매 오류 발생:", error);
@@ -68,7 +68,7 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({
           <span className="text-white">$ {totalPrice}</span>
         </div>
         <Button onClick={handlePurchase} className="w-full bg-gray-600">
-          구매하기
+          주문하기
         </Button>
       </CardContent>
     </Card>
