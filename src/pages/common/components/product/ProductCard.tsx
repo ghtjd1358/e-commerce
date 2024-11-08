@@ -61,7 +61,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             alt={product.productImage[0]}
             className="w-full object-contain mb-4 rounded-lg border border-gray-400"
           />
-          {/* <div className="absolute inset-0 bg-gray-200 opacity-10 rounded-lg max-h-[400px]" /> */}
           <h3 className="text-2xl font-semibold text-yellow-500 mt-4 relative line-clamp-2 overflow-hidden h-[60px]">
             {product.productName}
           </h3>

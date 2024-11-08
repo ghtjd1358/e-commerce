@@ -13,7 +13,7 @@ export const MAX_CART_VALUE = 999;
 
 export const ALL_CATEGORY_ID = "-1";
 
-export const PRODUCT_PAGE_SIZE = 5;
+export const PRODUCT_PAGE_SIZE = 20;
 
 export const categories: { id: string; name: string; img?: string }[] = [
   { id: ALL_CATEGORY_ID, name: "전체", img: All },
@@ -30,6 +30,14 @@ export const authStatusType = {
   IS_SELLER: "IS_SELLER",
   IS_BUYER: "IS_BUYER",
   COMMON: "COMMON",
+};
+
+export const orderType = {
+  PAYMENT_PENDING: "결제 대기",
+  ORDER_COMPLETE: "주문 완료",
+  PAYLOAD_PENDING: "발송 대기",
+  PAYLOAD_START: "발송 시작",
+  ORDER_CANCEL: "주문 취소",
 };
 
 export const heroSlides = [

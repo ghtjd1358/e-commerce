@@ -8,9 +8,11 @@ import { useCartStore } from "@/store/cart/useCartStore";
 import { CartItem } from "@/store/cart/type";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { ProductCard } from "@/pages/common/components/product/ProductCard";
+import { ProductCardSkeleton } from "./MainProductListSkeleton";
+import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
 
 export const MainProductList: React.FC = () => {
-  const { data } = useFetchProducts();
+  const { data, isLoading } = useFetchProducts();
   const { user, isLogin } = useAuthStore();
   const { addToast } = useToastStore();
   const { cart, addCartItem } = useCartStore();
@@ -18,17 +20,18 @@ export const MainProductList: React.FC = () => {
 
   const cartItem = cart.map((item) => item.id);
 
-  const groupedProducts = data?.reduce(
-    (acc, product) => {
-      const category = product.productCategory.name;
-      if (!acc[category]) {
-        acc[category] = [];
-      }
-      acc[category].push(product);
-      return acc;
-    },
-    {} as Record<string, IProduct[]>,
-  );
+  const groupedProducts =
+    data?.reduce(
+      (acc, product) => {
+        const category = product.productCategory.name;
+        if (!acc[category]) {
+          acc[category] = [];
+        }
+        acc[category].push(product);
+        return acc;
+      },
+      {} as Record<string, IProduct[]>,
+    ) || {};
 
   const handleCartAction = (product: IProduct): void => {
     if (isLogin && user) {
@@ -56,7 +59,15 @@ export const MainProductList: React.FC = () => {
   return (
     <main>
       <section className="mt-12 p-10">
-        {groupedProducts &&
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {Array.from({ length: 12 }, (_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))}
+          </div>
+        ) : Object.keys(groupedProducts).length === 0 ? (
+          <EmptyProduct onAddProduct={() => {}} />
+        ) : (
           Object.entries(groupedProducts).map(([category, items]) => (
             <div key={category} className="mb-12">
               <div className="flex justify-between">
@@ -85,7 +96,8 @@ export const MainProductList: React.FC = () => {
                 ))}
               </div>
             </div>
-          ))}
+          ))
+        )}
       </section>
     </main>
   );

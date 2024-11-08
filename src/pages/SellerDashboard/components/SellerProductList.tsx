@@ -19,12 +19,14 @@ import {
   TableRow,
 } from "@/pages/common/ui/table";
 import { SellerProductFilter } from "./SellerProductFilter";
+import { SellerProductCardSkeleton } from "@/pages/common/components/skeletons/SellerProductCardSkeleton";
+import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
 
 export const SellerProductList = ({ pageSize = 5 }) => {
   const { isOpen, openModal, closeModal } = useModal();
   const { user } = useAuthStore();
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useFetchInfiniteQueryProducts({ pageSize });
 
   const products = data ? data.pages.flatMap((page) => page.products) : [];
@@ -53,39 +55,49 @@ export const SellerProductList = ({ pageSize = 5 }) => {
           <Table className="w-full">
             <TableHeader>
               <TableRow>
-                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 w-1/6">
+                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 w-1/6 text-center">
                   ID
                 </TableHead>
-                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 w-1/4">
+                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 w-1/4 text-center">
                   제품
                 </TableHead>
-                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 w-1/5">
+                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 w-1/5 text-center">
                   가격
                 </TableHead>
-                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 w-1/5">
+                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 w-1/5 text-center">
                   수량
                 </TableHead>
-                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 w-1/5">
+                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 w-1/5 text-center">
                   이미지
                 </TableHead>
-                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 w-1/4">
+                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 w-1/4 text-center">
                   날짜
                 </TableHead>
               </TableRow>
             </TableHeader>
 
             <TableBody>
-              {products
-                .filter((product) =>
-                  user?.isSeller ? product.sellerId === user.uid : undefined,
-                )
-                .map((product) => (
-                  <SellerProductCard
-                    user={user}
-                    key={product.id}
-                    product={product}
-                  />
-                ))}
+              {isLoading ? (
+                <>
+                  {Array.from({ length: pageSize }, (_, index) => (
+                    <SellerProductCardSkeleton key={index} />
+                  ))}
+                </>
+              ) : products.length === 0 ? (
+                <EmptyProduct onAddProduct={() => {}} />
+              ) : (
+                products
+                  .filter((product) =>
+                    user?.isSeller ? product.sellerId === user.uid : true,
+                  )
+                  .map((product) => (
+                    <SellerProductCard
+                      user={user}
+                      key={product.id}
+                      product={product}
+                    />
+                  ))
+              )}
             </TableBody>
           </Table>
 

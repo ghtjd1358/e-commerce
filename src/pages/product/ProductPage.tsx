@@ -1,37 +1,29 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useNavigate, useParams } from "react-router-dom";
-import { ALL_CATEGORY_ID, authStatusType } from "@/shared/constants";
+import { useParams } from "react-router-dom";
+import {
+  ALL_CATEGORY_ID,
+  authStatusType,
+  PRODUCT_PAGE_SIZE,
+} from "@/shared/constants";
 import { useAuthStore } from "@/store/auth/useAuthStore";
-import { useCartStore } from "@/store/cart/useCartStore";
-import { useToastStore } from "@/store/toast/useToastStore";
-import { pageRoutes } from "@/app/apiRouters";
-import { IProduct } from "@/features/products/type";
-import { CartItem } from "@/store/cart/type";
 import { useFetchInfiniteQueryProducts } from "@/features/products/hooks/useFetchInfiniteQueryProducts";
 import { Layout } from "../common/components/Layout";
-import { ProductCard } from "../common/components/product/ProductCard";
 import { ProductFilter } from "./components/ProductFilter";
 import { Button } from "../common/ui/button";
+import { ProductList } from "./components/ProductList";
 
 export const ProductPage: React.FC = () => {
-  const navigate = useNavigate();
   const { user, isLogin } = useAuthStore();
-  const { cart, addCartItem } = useCartStore();
-  const { addToast } = useToastStore();
   const { category } = useParams();
-
-  const { data, fetchNextPage, hasNextPage, isFetching } =
+  const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
     useFetchInfiniteQueryProducts({
       pageSize: 20,
     });
   const { ref, inView } = useInView();
 
-  const cartItemCount = cart.map((item) => item.id);
-
   const products = data ? data.pages.flatMap((page) => page.products) : [];
   const totalCount = data?.pages[0]?.totalCount || 0;
-
   const filteredProducts =
     category === ALL_CATEGORY_ID
       ? products
@@ -43,30 +35,6 @@ export const ProductPage: React.FC = () => {
     }
   }, [inView, fetchNextPage, hasNextPage]);
 
-  // 장바구니
-  const handleCartAction = (product: IProduct): void => {
-    if (isLogin && user) {
-      const cartItem: CartItem = { ...product, count: 1 };
-      addCartItem(cartItem, user.uid, 1);
-      addToast(
-        `${product.productName} 상품이 장바구니에 담겼습니다.`,
-        "success",
-      );
-    } else {
-      navigate(pageRoutes.login);
-    }
-  };
-
-  const handlePurchaseAction = (product: IProduct): void => {
-    if (isLogin && user) {
-      const cartItem: CartItem = { ...product, count: 1 };
-      addCartItem(cartItem, user.uid, 1);
-      navigate(pageRoutes.shoppingcart);
-    } else {
-      navigate(pageRoutes.login);
-    }
-  };
-
   return (
     <Layout authStatus={authStatusType.COMMON}>
       <div className="min-h-screen bg-gray-900 text-gray-100 p-16 pt-28">
@@ -77,32 +45,19 @@ export const ProductPage: React.FC = () => {
           category={category}
           filteredProducts={filteredProducts}
         />
-
         <hr className="mt-3 mb-10" />
+        <Suspense fallback={<LoadingSkeleton />}>
+          <ProductList
+            filteredProducts={filteredProducts}
+            isLogin={isLogin}
+            user={user}
+            isLoading={isLoading}
+            pageSize={20}
+          />
+        </Suspense>
 
-        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                cart={cartItemCount}
-                onClickAddCartButton={(e: React.MouseEvent) => {
-                  e.stopPropagation();
-                  handleCartAction(product);
-                }}
-                onClickPurchaseButton={(e: React.MouseEvent) => {
-                  e.stopPropagation();
-                  handlePurchaseAction(product);
-                }}
-              />
-            ))
-          ) : (
-            <div>해당 카테고리에 상품이 없습니다.</div>
-          )}
-        </div>
         {hasNextPage && (
-          <div className="flex justify-center items-center ">
+          <div className="flex justify-center items-center">
             <Button variant="outline" ref={ref} className="w-full bg-gray-700">
               {isFetching ? "...loading" : "fetching"}
             </Button>
@@ -112,3 +67,14 @@ export const ProductPage: React.FC = () => {
     </Layout>
   );
 };
+
+const LoadingSkeleton = () => (
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {[...Array(PRODUCT_PAGE_SIZE)].map((_, index) => (
+      <div
+        key={index}
+        className="h-64 bg-gray-600 rounded-lg animate-pulse mb-32 w-full"
+      />
+    ))}
+  </div>
+);

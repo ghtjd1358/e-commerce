@@ -6,6 +6,7 @@ import { BuyerProductList } from "./components/BuyerProductList";
 import { useBuyerOrders } from "@/features/order/hooks/useFetchOrders";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { OrderType } from "@/features/order/types";
+import { Suspense } from "react";
 
 interface Order {
   id: string;
@@ -16,8 +17,11 @@ interface Order {
 export const BuyerDashboardPage: React.FC = () => {
   const { user } = useAuthStore();
   const { data: products } = useFetchProducts();
-  const { data: orders } = useBuyerOrders(user?.uid ?? "") as {
+  const { data: orders, isLoading: ordersLoading } = useBuyerOrders(
+    user?.uid ?? "",
+  ) as {
     data: Order[] | undefined;
+    isLoading: boolean;
   };
 
   const buyerProductsMerge: (Partial<OrderType> | null)[] = (orders ?? [])
@@ -40,9 +44,22 @@ export const BuyerDashboardPage: React.FC = () => {
         <div className="max-w-6xl mx-auto space-y-8">
           <h1 className="text-3xl font-bold text-gold">마이페이지</h1>
           <Profile />
-          <BuyerProductList products={buyerProductsMerge} />
+          <Suspense fallback={<LoadingSkeleton />}>
+            <BuyerProductList
+              products={buyerProductsMerge}
+              isLoading={ordersLoading}
+            />
+          </Suspense>
         </div>
       </div>
     </Layout>
   );
 };
+
+const LoadingSkeleton = () => (
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {[...Array(12)].map((_, index) => (
+      <div key={index} className="h-64 bg-gray-200 rounded-lg animate-pulse" />
+    ))}
+  </div>
+);

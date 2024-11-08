@@ -85,12 +85,10 @@ export const updateOrderStatusApi = async (
 
       const currentStatus = orderSnap.data().status;
 
-      // 상태 변경 불가 조건 예시 (발송 시작된 주문은 상태 변경 불가)
       if (currentStatus === OrderStatus.SHIPPED) {
         throw new Error("발송된 주문은 상태를 변경할 수 없습니다.");
       }
 
-      // 상태를 새 상태로 업데이트
       transaction.update(orderRef, { status: newStatus });
       console.log(`주문 ${orderId} 상태가 '${newStatus}'로 변경되었습니다.`);
     });

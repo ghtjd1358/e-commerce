@@ -36,24 +36,26 @@ export const SellerProductCard: React.FC<ProductCardProps> = ({
   return (
     <>
       <TableRow key={product.id}>
-        <TableCell className="text-gray-400 w-1/6">{product.id}</TableCell>
-        <TableCell className="text-gray-400 w-1/4 overflow-hidden overflow-ellipsis whitespace-normal">
+        <TableCell className="text-gray-400 w-1/6 text-center">
+          {product.id}
+        </TableCell>
+        <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-normal text-center">
           {product.productName}
         </TableCell>
-        <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap">
+        <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">
           $ {product.productPrice}
         </TableCell>
-        <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap">
+        <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">
           {product.productQuantity} 개
         </TableCell>
-        <TableCell className="w-1/5">
+        <TableCell className="w-1/5 text-center">
           <img
             src={product.productImage[0]}
             alt={product.productName}
-            className="w-16 h-16 object-cover"
+            className="w-16 h-16 object-cover m-auto"
           />
         </TableCell>
-        <TableCell className="font-medium text-gray-400 w-1/4 overflow-hidden overflow-ellipsis whitespace-normal">
+        <TableCell className="font-medium text-gray-400 w-1/4 overflow-hidden overflow-ellipsis whitespace-normal text-center">
           {product.updatedAt.slice(0, 10)}
         </TableCell>
         <TableCell className=" cursor-pointer">
