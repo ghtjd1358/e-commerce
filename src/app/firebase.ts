@@ -1,5 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  setPersistence,
+  browserSessionPersistence,
+} from "firebase/auth"; // setPersistence 추가
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -14,7 +19,15 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
+const auth = getAuth(app);
+
+// 인증 저장소 설정을 sessionStorage로 변경
+setPersistence(auth, browserSessionPersistence).catch((error) => {
+  // 오류 처리
+  console.error("Persistence 설정 실패:", error);
+});
+
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const provider = new GoogleAuthProvider();
+export { auth };
