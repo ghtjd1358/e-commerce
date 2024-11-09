@@ -175,12 +175,16 @@ export const addProductAPI = async (
 export const updateProductAPI = async (
   productId: string,
   updatedProduct: IProduct,
-  existingImageUrl?: string,
+  imagesToDelete: string[] = [],
 ): Promise<void> => {
   try {
-    if (typeof updatedProduct.productImage !== "string" && existingImageUrl) {
-      const imageRef = ref(storage, existingImageUrl);
-      await deleteObject(imageRef);
+    if (imagesToDelete.length > 0) {
+      await Promise.all(
+        imagesToDelete.map(async (imageUrl) => {
+          const imageRef = ref(storage, imageUrl);
+          await deleteObject(imageRef);
+        }),
+      );
     }
 
     if (updatedProduct.productImage instanceof File) {

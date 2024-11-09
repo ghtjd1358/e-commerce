@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useCartStore } from "@/store/cart/useCartStore";
 import { GoogleUser, IUser } from "@/features/auth/types";
 import { ProductCardSkeleton } from "@/pages/home/components/MainProductListSkeleton";
-import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
+import { SellerEmptyProduct } from "@/pages/common/components/SellerEmptyProduct";
 
 interface ProductListProps {
   filteredProducts: IProduct[];
@@ -25,6 +25,7 @@ export const ProductList: React.FC<ProductListProps> = ({
   isLoading,
   pageSize,
 }) => {
+  console.log("ProductListPage");
   const { addToast } = useToastStore();
   const navigate = useNavigate();
 
@@ -79,7 +80,7 @@ export const ProductList: React.FC<ProductListProps> = ({
           />
         ))
       ) : (
-        <EmptyProduct onAddProduct={() => {}} />
+        <SellerEmptyProduct onAddProduct={() => {}} />
       )}
     </div>
   );

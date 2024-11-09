@@ -4,6 +4,7 @@ import { Profile } from "../common/components/auth/Profile";
 import { SellerProductList } from "./components/SellerProductList";
 import { SellerOrderList } from "./components/SellerOrderList";
 import { Suspense } from "react";
+import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
 
 interface ProductListProps {
   pageSize?: number;
@@ -16,12 +17,14 @@ export const SellerDashboardPage: React.FC<ProductListProps> = () => {
         <div className="min-w-6xl mx-auto space-y-8">
           <h1 className="text-3xl font-bold text-gold">마이페이지</h1>
           <Profile />
-          <Suspense fallback={<LoadingSkeleton />}>
-            <SellerProductList />
-          </Suspense>
-          <Suspense fallback={<LoadingSkeleton />}>
-            <SellerOrderList />
-          </Suspense>
+          <ApiErrorBoundary>
+            <Suspense fallback={<LoadingSkeleton />}>
+              <SellerProductList />
+            </Suspense>
+            <Suspense fallback={<LoadingSkeleton />}>
+              <SellerOrderList />
+            </Suspense>
+          </ApiErrorBoundary>
         </div>
       </div>
     </Layout>

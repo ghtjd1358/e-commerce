@@ -1,23 +1,17 @@
 import { useFilterStore } from "@/store/filter/useFilterStore";
-import { CategorySelectUrl } from "./CategotySelectUrl";
 import { IProduct } from "@/features/products/type";
 
 import { PriceRange } from "./PriceRange";
 import { ALL_CATEGORY_ID, categories } from "@/shared/constants";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/pages/common/ui/select";
-// import { SearchBar } from "@/pages/common/components/SearchBar";
+import { SortRange } from "./SortRange";
+import { CategorySelectUrl } from "./CategotySelectUrl";
 
 export const ProductFilter: React.FC<{
   totalCount: number;
   category: string | undefined;
   filteredProducts: IProduct[];
 }> = ({ totalCount, category, filteredProducts }) => {
+  console.log("ProductFilterPage");
   const { minPrice, maxPrice, setMinPrice, setMaxPrice, setSortOption } =
     useFilterStore();
 
@@ -40,34 +34,16 @@ export const ProductFilter: React.FC<{
 
   return (
     <div className="flex justify-between items-end">
-      <h1 className="text-3xl font-bold text-gold w-[35%]">
+      <h1 className="text-3xl font-bold text-gold w-[30%]">
         브랜드 <span>{categoryName}</span> <span>( {displayCount} )</span>
       </h1>
 
-      <div className="flex mb-12 w-[45%]">
+      <div className="flex mb-12 w-[60%] pl-10 pr-10">
         <CategorySelectUrl categoryId={category} />
       </div>
 
-      <div className="flex justify-end w-[40%] space-y-1 mt-4">
-        <div className="flex items-center space-x-2 text-gray-400">
-          <Select onValueChange={handleSortChange}>
-            <SelectTrigger
-              id="sort-select"
-              className="border border-gray-300 rounded p-2"
-            >
-              <SelectValue placeholder="정렬 선택" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="latest">최신순</SelectItem>
-              <SelectItem value="oldest">오래된 순</SelectItem>
-              <SelectItem value="priceAsc">가격 오름차순</SelectItem>
-              <SelectItem value="priceDesc">가격 내림차순</SelectItem>
-              <SelectItem value="titleAsc">타이틀 오름차순</SelectItem>
-              <SelectItem value="titleDesc">타이틀 내림차순</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
+      <div className="flex justify-end w-[30%] mt-4 gap-6">
+        <SortRange handleSortChange={handleSortChange} />
         <PriceRange
           onChangeMinPrice={handlePriceChange(setMinPrice)}
           onChangeMaxPrice={handlePriceChange(setMaxPrice)}

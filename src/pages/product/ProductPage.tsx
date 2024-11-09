@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
 import {
@@ -11,19 +11,30 @@ import { useFetchInfiniteQueryProducts } from "@/features/products/hooks/useFetc
 import { Layout } from "../common/components/Layout";
 import { ProductFilter } from "./components/ProductFilter";
 import { Button } from "../common/ui/button";
-import { ProductList } from "./components/ProductList";
+import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
+// import { ProductList } from "./components/ProductList";
+
+const ProductList = lazy(() =>
+  import("./components/ProductList").then((module) => ({
+    default: module.ProductList,
+  })),
+);
 
 export const ProductPage: React.FC = () => {
-  const { user, isLogin } = useAuthStore();
+  console.log("ProductPage");
   const { category } = useParams();
+  const { user, isLogin } = useAuthStore();
+
   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
     useFetchInfiniteQueryProducts({
       pageSize: 20,
     });
+
   const { ref, inView } = useInView();
 
-  const products = data ? data.pages.flatMap((page) => page.products) : [];
   const totalCount = data?.pages[0]?.totalCount || 0;
+
+  const products = data ? data.pages.flatMap((page) => page.products) : [];
   const filteredProducts =
     category === ALL_CATEGORY_ID
       ? products
@@ -46,20 +57,22 @@ export const ProductPage: React.FC = () => {
           filteredProducts={filteredProducts}
         />
         <hr className="mt-3 mb-10" />
-        <Suspense fallback={<LoadingSkeleton />}>
-          <ProductList
-            filteredProducts={filteredProducts}
-            isLogin={isLogin}
-            user={user}
-            isLoading={isLoading}
-            pageSize={20}
-          />
-        </Suspense>
+        <ApiErrorBoundary>
+          <Suspense fallback={<LoadingSkeleton />}>
+            <ProductList
+              filteredProducts={filteredProducts}
+              isLogin={isLogin}
+              user={user}
+              isLoading={isLoading}
+              pageSize={20}
+            />
+          </Suspense>
+        </ApiErrorBoundary>
 
         {hasNextPage && (
           <div className="flex justify-center items-center">
             <Button variant="outline" ref={ref} className="w-full bg-gray-700">
-              {isFetching ? "...loading" : "fetching"}
+              {isFetching ? "...로딩중" : "fetching"}
             </Button>
           </div>
         )}

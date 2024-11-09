@@ -33,11 +33,11 @@ export const authStatusType = {
 };
 
 export const orderType = {
-  PAYMENT_PENDING: "결제 대기",
   ORDER_COMPLETE: "주문 완료",
+  ORDER_CANCEL: "주문 취소",
+  PAYMENT_PENDING: "결제 대기",
   PAYLOAD_PENDING: "발송 대기",
   PAYLOAD_START: "발송 시작",
-  ORDER_CANCEL: "주문 취소",
 };
 
 export const heroSlides = [

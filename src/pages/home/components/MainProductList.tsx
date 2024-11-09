@@ -66,7 +66,7 @@ export const MainProductList: React.FC = () => {
             ))}
           </div>
         ) : Object.keys(groupedProducts).length === 0 ? (
-          <EmptyProduct onAddProduct={() => {}} />
+          <EmptyProduct />
         ) : (
           Object.entries(groupedProducts).map(([category, items]) => (
             <div key={category} className="mb-12">

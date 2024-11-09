@@ -11,7 +11,7 @@ export const useUpdateProductsStore = () => {
   return useMutation<
     void,
     Error,
-    { productId: string; updatedProduct: IProduct; existingImageUrl: string }
+    { productId: string; updatedProduct: IProduct; existingImageUrl: string[] }
   >({
     mutationFn: ({ productId, updatedProduct, existingImageUrl }) =>
       updateProductAPI(productId, updatedProduct, existingImageUrl),

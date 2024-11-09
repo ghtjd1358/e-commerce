@@ -70,12 +70,21 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
   const [existingImage, setExistingImage] = useState<string[]>(
     product.productImage || [],
   );
+  const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
+
+  const toggleDeleteImage = (imageUrl: string) => {
+    setImagesToDelete((prev) =>
+      prev.includes(imageUrl)
+        ? prev.filter((img) => img !== imageUrl)
+        : [...prev, imageUrl],
+    );
+  };
 
   const onSubmit = async (data: ProductFormInputs) => {
     setSubmissionError(null);
     try {
       let imageUrls: string[] = existingImage.filter(
-        (img): img is string => img !== null,
+        (img) => img !== null && !imagesToDelete.includes(img),
       );
 
       if (images.length > 0) {
@@ -113,7 +122,7 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
       await mutateAsync({
         productId: product.id,
         updatedProduct,
-        existingImageUrl: product.productImage[0] || "",
+        existingImageUrl: imageUrls,
       });
 
       reset();
@@ -231,6 +240,12 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
                       alt={`Existing Product ${index + 1}`}
                       className="w-full h-32 object-cover rounded-md"
                     />
+                    <input
+                      type="checkbox"
+                      checked={imagesToDelete.includes(imageUrl)}
+                      onChange={() => toggleDeleteImage(imageUrl)}
+                      className="absolute top-1 left-1"
+                    />
                   </div>
                 ))}
                 {images.map(({ previewUrl }, index) => (
@@ -266,13 +281,21 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
               </div>
             </div>
           </div>
+          {submissionError && (
+            <p className="text-red-500 text-sm mb-2">{submissionError}</p>
+          )}
           <DialogFooter>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "수정 중..." : "수정"}
+            <Button
+              type="button"
+              variant="outline"
+              className="mr-2"
+              onClick={onClose}
+            >
+              Cancel
             </Button>
-            {submissionError && (
-              <p className="text-red-500 text-sm">{submissionError}</p>
-            )}
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Loading..." : "Update Product"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

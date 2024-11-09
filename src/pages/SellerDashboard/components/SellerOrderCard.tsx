@@ -44,34 +44,34 @@ export const SellerOrderCard: React.FC<BuyerProductCardProps> = ({
 
   return (
     <TableRow key={product.id}>
-      <TableCell className="text-gray-400 w-1/4 overflow-hidden overflow-ellipsis text-center">
+      <TableCell className="text-gray-400 w-1/7 overflow-hidden overflow-ellipsis text-center">
         {product.productId}
       </TableCell>
-      <TableCell className="text-gray-400 w-1/4 overflow-hidden overflow-ellipsis text-center">
+      <TableCell className="text-gray-400 w-1/7 overflow-hidden overflow-ellipsis text-center">
         {product.productName}
       </TableCell>
-      <TableCell className="w-1/6 text-center">
+      <TableCell className="w-1/7 text-center">
         <img
           className="w-20 h-20 object-cover m-auto"
           src={product.productImage}
           alt={product.productName}
         />
       </TableCell>
-      <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis text-center">
+      <TableCell className="text-gray-400 w-1/6 overflow-hidden overflow-ellipsis text-center">
         {product.productQuantity} 개
       </TableCell>
-      <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis text-center">
+      <TableCell className="text-gray-400 w-1/6 overflow-hidden overflow-ellipsis text-center">
         {product.status}
       </TableCell>
-      <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">
+      <TableCell className="text-gray-400 w-1/6 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">
         {formattedDate}
       </TableCell>
-      <TableCell className="cursor-pointer gap-y-1">
+      <TableCell className="cursor-pointer gap-y-1 w-1/7">
         <Select
           value={selectedStatus}
           onValueChange={(value) => setSelectedStatus(value as OrderStatus)}
         >
-          <SelectTrigger className="text-center bg-gray-800 text-white p-2 rounded-md">
+          <SelectTrigger className="text-center bg-gray-800 text-gray-500 p-2 rounded-md">
             <SelectValue placeholder="상태 선택" />
           </SelectTrigger>
           <SelectContent>
@@ -81,6 +81,9 @@ export const SellerOrderCard: React.FC<BuyerProductCardProps> = ({
             <SelectItem value={orderType.PAYLOAD_PENDING}>
               {orderType.PAYLOAD_PENDING}
             </SelectItem>
+            <SelectItem value={orderType.PAYMENT_PENDING}>
+              {orderType.PAYMENT_PENDING}
+            </SelectItem>
             <SelectItem value={orderType.PAYLOAD_START}>
               {orderType.PAYLOAD_START}
             </SelectItem>
@@ -89,7 +92,9 @@ export const SellerOrderCard: React.FC<BuyerProductCardProps> = ({
             </SelectItem>
           </SelectContent>
         </Select>
-        <Button onClick={handleUpdateOrder}>상태변경</Button>
+        <Button className="mt-3" onClick={handleUpdateOrder}>
+          상태변경
+        </Button>
       </TableCell>
     </TableRow>
   );

@@ -2,7 +2,6 @@ import { pageRoutes } from "@/app/apiRouters";
 import { useSellerUser } from "@/features/auth/hooks/useSellerAuth";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { CreditCard, Home, PhoneIcon, User, UserCircle } from "lucide-react";
-import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Button } from "../../ui/button";

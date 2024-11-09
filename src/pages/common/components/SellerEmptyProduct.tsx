@@ -5,7 +5,7 @@ interface EmptyProductProps {
   onAddProduct: () => void;
 }
 
-export const EmptyProduct = ({ onAddProduct }: EmptyProductProps) => {
+export const SellerEmptyProduct = ({ onAddProduct }: EmptyProductProps) => {
   return (
     <div className="flex flex-col items-center justify-center h-64 bg-gray-700 rounded-lg">
       <Package className="w-16 h-16 text-gray-500 mb-4" />

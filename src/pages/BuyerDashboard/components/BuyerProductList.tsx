@@ -15,16 +15,44 @@ import {
 import { BuyerProductCard } from "./BuyerProductCard";
 import { SellerProductCardSkeleton } from "@/pages/common/components/skeletons/SellerProductCardSkeleton";
 import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
+import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
+import { useBuyerOrders } from "@/features/order/hooks/useFetchOrders";
 
 interface ProductOrderListProps {
-  products: (Partial<OrderType> | null)[];
-  isLoading: boolean;
+  buyerId: string;
+}
+
+interface Order {
+  id: string;
+  buyerId: string;
+  productId: string;
 }
 
 export const BuyerProductList: React.FC<ProductOrderListProps> = ({
-  products,
-  isLoading,
+  buyerId,
 }) => {
+  const { data: products } = useFetchProducts();
+  const { data: orders, isLoading: ordersLoading } = useBuyerOrders(
+    buyerId,
+  ) as {
+    data: Order[] | undefined;
+    isLoading: boolean;
+  };
+
+  const buyerProductsMerge: (Partial<OrderType> | null)[] = (orders ?? [])
+    .filter((order) => order.buyerId === buyerId)
+    .map((order) => {
+      const product = products?.find((item) => item.id === order.productId);
+      if (!product) {
+        return null;
+      }
+      return {
+        ...order,
+        productName: product.productName ?? "",
+        productImage: product.productImage?.[0] ?? "",
+      };
+    });
+
   return (
     <div className="w-full">
       <Card className="bg-gray-800 border-gray-700">
@@ -35,7 +63,7 @@ export const BuyerProductList: React.FC<ProductOrderListProps> = ({
         </CardHeader>
 
         <CardContent>
-          {isLoading ? (
+          {ordersLoading ? (
             <Table className="w-full">
               <TableHeader>
                 <TableRow>
@@ -66,7 +94,7 @@ export const BuyerProductList: React.FC<ProductOrderListProps> = ({
                 ))}
               </TableBody>
             </Table>
-          ) : products.length > 0 ? (
+          ) : buyerProductsMerge.length > 0 ? (
             <Table className="w-full">
               <TableHeader>
                 <TableRow>
@@ -92,7 +120,7 @@ export const BuyerProductList: React.FC<ProductOrderListProps> = ({
               </TableHeader>
 
               <TableBody>
-                {products.map((product) => (
+                {buyerProductsMerge.map((product) => (
                   <BuyerProductCard key={product?.id} product={product} />
                 ))}
               </TableBody>

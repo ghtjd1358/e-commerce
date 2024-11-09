@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateOrderStatusApi } from "../api";
 import { useToastStore } from "@/store/toast/useToastStore";
-import { ORDER_KEY } from "../key";
+import { SELLER_ORDER_KEY } from "../key";
 import { OrderStatus } from "../types";
 
 // 수정된 useUpdateOrderStatus 훅
@@ -14,7 +14,7 @@ export const useUpdateOrderStatus = () => {
       updateOrderStatusApi(orderId, newStatus),
     onSuccess: () => {
       addToast("상태가 변경되었습니다.", "success");
-      queryClient.invalidateQueries({ queryKey: [ORDER_KEY] });
+      queryClient.invalidateQueries({ queryKey: [SELLER_ORDER_KEY] });
     },
     onError: (error: Error) => {
       addToast("상태 변경이 불가능합니다.", "error");

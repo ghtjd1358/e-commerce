@@ -20,7 +20,7 @@ import {
 } from "@/pages/common/ui/table";
 import { SellerProductFilter } from "./SellerProductFilter";
 import { SellerProductCardSkeleton } from "@/pages/common/components/skeletons/SellerProductCardSkeleton";
-import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
+import { SellerEmptyProduct } from "@/pages/common/components/SellerEmptyProduct";
 
 export const SellerProductList = ({ pageSize = 5 }) => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -84,7 +84,7 @@ export const SellerProductList = ({ pageSize = 5 }) => {
                   ))}
                 </>
               ) : products.length === 0 ? (
-                <EmptyProduct onAddProduct={() => {}} />
+                <SellerEmptyProduct onAddProduct={() => {}} />
               ) : (
                 products
                   .filter((product) =>

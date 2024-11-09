@@ -3,16 +3,18 @@ import { MainProductList } from "@/pages/home/components/MainProductList";
 import { MainArticleSlider } from "./components/MainArticleSlider";
 import { Layout } from "../common/components/Layout";
 import { Suspense } from "react";
-// import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
+import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
 
 export const HomePage: React.FC = () => {
   return (
     <Layout authStatus={authStatusType.COMMON}>
       <div className="w-full bg-gray-800 text-gray-200">
         <MainArticleSlider />
-        <Suspense fallback={<LoadingSkeleton />}>
-          <MainProductList />
-        </Suspense>
+        <ApiErrorBoundary>
+          <Suspense fallback={<LoadingSkeleton />}>
+            <MainProductList />
+          </Suspense>
+        </ApiErrorBoundary>
       </div>
     </Layout>
   );
@@ -28,3 +30,9 @@ const LoadingSkeleton = () => (
     ))}
   </div>
 );
+
+// const ProductRegistrationModal = lazy(() =>
+//   import('./ProductRegistrationModal').then((module) => ({
+//     default: module.ProductRegistrationModal,
+//   }))
+// );
