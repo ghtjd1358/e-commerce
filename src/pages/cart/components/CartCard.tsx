@@ -52,13 +52,13 @@ export const CartCard: React.FC<ProductCardProps> = ({
   return (
     <>
       <TableRow key={product.id} className="cursor-pointer">
-        <TableCell className="text-gray-400 w-1/4 overflow-hidden overflow-ellipsis whitespace-normal">
+        <TableCell className="text-gray-400 text-center overflow-hidden overflow-ellipsis whitespace-normal">
           {product.productName}
         </TableCell>
         <TableCell className="text-gray-400 w-1/4 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">
           $ {product.productPrice}
         </TableCell>
-        <TableCell className="text-gray-400 w-1/4 flex items-center justify-center space-x-3 mt-4">
+        <TableCell className="text-gray-400 flex items-center justify-center space-x-3 mt-4">
           <Button
             onClick={handleDecrease}
             className="px-2 border border-gray-300"
@@ -77,7 +77,7 @@ export const CartCard: React.FC<ProductCardProps> = ({
             className="w-16 h-16 object-cover m-auto"
           />
         </TableCell>
-        <TableCell className="text-center">
+        <TableCell className="w-1/6 text-center">
           <button
             onClick={handleRemoveItem}
             className="text-red-500 hover:underline text-center"

@@ -1,10 +1,15 @@
 import { authStatusType } from "@/shared/constants";
 import { Layout } from "../common/components/Layout";
-import { Profile } from "../common/components/auth/Profile";
 import { lazy, Suspense } from "react";
 import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
 import { useAuthStore } from "@/store/auth/useAuthStore";
-// import { BuyerProductList } from "./components/BuyerProductList";
+import { BuyerOrderSkeleton } from "./components/skeleton/BuyerOrderSkeleton";
+
+const Profile = lazy(() =>
+  import("../common/components/auth/Profile").then((module) => ({
+    default: module.Profile,
+  })),
+);
 
 const BuyerProductList = lazy(() =>
   import("./components/BuyerProductList").then((module) => ({
@@ -20,9 +25,9 @@ export const BuyerDashboardPage: React.FC = () => {
       <div className="min-h-screen bg-gray-900 text-gray-100 p-32">
         <div className="max-w-6xl mx-auto space-y-8">
           <h1 className="text-3xl font-bold text-gold">마이페이지</h1>
-          <Profile />
           <ApiErrorBoundary>
-            <Suspense fallback={<LoadingSkeleton />}>
+            <Suspense fallback={<BuyerOrderSkeleton />}>
+              <Profile />
               <BuyerProductList buyerId={user?.uid ?? ""} />
             </Suspense>
           </ApiErrorBoundary>
@@ -31,11 +36,3 @@ export const BuyerDashboardPage: React.FC = () => {
     </Layout>
   );
 };
-
-const LoadingSkeleton = () => (
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-    {[...Array(12)].map((_, index) => (
-      <div key={index} className="h-64 bg-gray-200 rounded-lg animate-pulse" />
-    ))}
-  </div>
-);

@@ -25,7 +25,6 @@ export const ProductList: React.FC<ProductListProps> = ({
   isLoading,
   pageSize,
 }) => {
-  console.log("ProductListPage");
   const { addToast } = useToastStore();
   const navigate = useNavigate();
 

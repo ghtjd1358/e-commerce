@@ -30,9 +30,3 @@ const LoadingSkeleton = () => (
     ))}
   </div>
 );
-
-// const ProductRegistrationModal = lazy(() =>
-//   import('./ProductRegistrationModal').then((module) => ({
-//     default: module.ProductRegistrationModal,
-//   }))
-// );

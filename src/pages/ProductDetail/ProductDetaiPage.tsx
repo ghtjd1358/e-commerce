@@ -9,8 +9,8 @@ import { pageRoutes } from "@/app/apiRouters";
 import { useCartStore } from "@/store/cart/useCartStore";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { Layout } from "../common/components/Layout";
-import { ProductDetailReview } from "./ProductDetailReview";
-import { ProductDetailInfo } from "./ProductDetailInfo";
+import { ProductDetailInfo } from "./components/ProductDetailInfo";
+import { ProductDetailReview } from "./components/ProductDetailReview";
 
 interface ProductListProps {
   pageSize?: number;

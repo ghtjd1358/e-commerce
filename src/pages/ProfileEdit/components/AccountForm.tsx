@@ -48,8 +48,6 @@ export const AccountForm: React.FC = () => {
   });
 
   const { data } = useFetchAccount(user?.uid ?? "");
-  console.log(data);
-
   const { mutate: accountUpdate, isPending: isLoading } =
     useUpdateAccountStore();
 

@@ -1,9 +1,9 @@
 import React from "react";
 import { IProduct } from "@/features/products/type";
-import { Button } from "../common/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Minus, Plus, Star } from "lucide-react";
-import { Input } from "../common/ui/input";
+import { Input } from "@/pages/common/ui/input";
+import { Button } from "@/pages/common/ui/button";
 
 interface ProductDetailInfoProps {
   findProducts: IProduct;

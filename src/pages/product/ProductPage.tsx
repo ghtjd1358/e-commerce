@@ -12,7 +12,6 @@ import { Layout } from "../common/components/Layout";
 import { ProductFilter } from "./components/ProductFilter";
 import { Button } from "../common/ui/button";
 import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
-// import { ProductList } from "./components/ProductList";
 
 const ProductList = lazy(() =>
   import("./components/ProductList").then((module) => ({
@@ -21,7 +20,6 @@ const ProductList = lazy(() =>
 );
 
 export const ProductPage: React.FC = () => {
-  console.log("ProductPage");
   const { category } = useParams();
   const { user, isLogin } = useAuthStore();
 

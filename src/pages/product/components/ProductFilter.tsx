@@ -11,7 +11,6 @@ export const ProductFilter: React.FC<{
   category: string | undefined;
   filteredProducts: IProduct[];
 }> = ({ totalCount, category, filteredProducts }) => {
-  console.log("ProductFilterPage");
   const { minPrice, maxPrice, setMinPrice, setMaxPrice, setSortOption } =
     useFilterStore();
 

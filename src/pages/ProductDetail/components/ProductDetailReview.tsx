@@ -1,9 +1,9 @@
 import React from "react";
-import { Tabs, TabsContent, TabsTrigger } from "../common/ui/tabs";
 import { TabsList } from "@radix-ui/react-tabs";
-import { Card, CardContent } from "../common/ui/card";
 import { Star } from "lucide-react";
 import { IProduct } from "@/features/products/type";
+import { Card, CardContent } from "@/pages/common/ui/card";
+import { Tabs, TabsContent, TabsTrigger } from "@/pages/common/ui/tabs";
 
 interface ProductDetailReviewProps {
   findProducts: IProduct;

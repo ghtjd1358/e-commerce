@@ -8,7 +8,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 export const useAuthStore = create<AuthStore>((set) => ({
   isLogin: !!Cookies.get("accessToken"),
   user: null,
-  isLoading: false,
+  isLoading: true,
 
   checkLoginStatus: async () => {
     const token = Cookies.get("accessToken");
@@ -33,6 +33,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
                   phoneNumber: userData.phoneNumber ?? "",
                 },
                 isLogin: true,
+                isLoading: false,
               });
             } else {
               await setDoc(userDocRef, {

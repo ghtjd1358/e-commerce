@@ -13,10 +13,10 @@ import {
   TableRow,
 } from "@/pages/common/ui/table";
 import { BuyerProductCard } from "./BuyerProductCard";
-import { SellerProductCardSkeleton } from "@/pages/common/components/skeletons/SellerProductCardSkeleton";
 import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { useBuyerOrders } from "@/features/order/hooks/useFetchOrders";
+import { OrderProductCardSkeleton } from "@/pages/common/components/skeletons/OrderProductCardSkeleton";
 
 interface ProductOrderListProps {
   buyerId: string;
@@ -90,7 +90,7 @@ export const BuyerProductList: React.FC<ProductOrderListProps> = ({
 
               <TableBody>
                 {Array.from({ length: 5 }, (_, index) => (
-                  <SellerProductCardSkeleton key={index} />
+                  <OrderProductCardSkeleton key={index} />
                 ))}
               </TableBody>
             </Table>
