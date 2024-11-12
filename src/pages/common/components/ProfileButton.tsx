@@ -20,7 +20,6 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
   isLogin,
 }) => {
   const navigate = useNavigate();
-
   const handleClickProfile = () => {
     navigate(pageRoutes.buyerdashboard);
   };

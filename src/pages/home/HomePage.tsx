@@ -1,9 +1,14 @@
 import { authStatusType } from "@/shared/constants";
-import { MainProductList } from "@/pages/home/components/MainProductList";
 import { MainArticleSlider } from "./components/MainArticleSlider";
 import { Layout } from "../common/components/Layout";
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
+
+const MainProductList = lazy(() =>
+  import("./components/MainProductList").then((module) => ({
+    default: module.MainProductList,
+  })),
+);
 
 export const HomePage: React.FC = () => {
   return (

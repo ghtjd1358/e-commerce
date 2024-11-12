@@ -10,6 +10,8 @@ import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { ProductCard } from "@/pages/common/components/product/ProductCard";
 import { ProductCardSkeleton } from "./MainProductListSkeleton";
 import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
+import { useQueryClient } from "@tanstack/react-query";
+import { fetchFilterProductsApi } from "@/features/products/api";
 
 export const MainProductList: React.FC = () => {
   const { data, isLoading } = useFetchProducts();
@@ -17,6 +19,7 @@ export const MainProductList: React.FC = () => {
   const { addToast } = useToastStore();
   const { cart, addCartItem } = useCartStore();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const cartItem = cart.map((item) => item.id);
 
@@ -56,6 +59,18 @@ export const MainProductList: React.FC = () => {
     }
   };
 
+  // prefetch
+  const handleMouseEnter = async (categoryId: string) => {
+    await queryClient.prefetchQuery({
+      queryKey: ["products", { categoryId }],
+      queryFn: async () => {
+        const filter = { categoryId };
+        const response = await fetchFilterProductsApi(filter, 20, 1);
+        return response.products;
+      },
+    });
+  };
+
   return (
     <main>
       <section className="mt-12 p-10">
@@ -74,6 +89,9 @@ export const MainProductList: React.FC = () => {
                 <h3 className="text-3xl font-bold mb-6">{category}</h3>
                 <Link
                   to={`${pageRoutes.product}/${items[0].productCategory.id}`}
+                  onMouseEnter={() =>
+                    handleMouseEnter(items[0].productCategory.id)
+                  }
                 >
                   <h3 className="text-lg font-bold mb-4">더보기</h3>
                 </Link>
