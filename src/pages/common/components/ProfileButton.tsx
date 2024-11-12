@@ -14,7 +14,7 @@ interface User {
   uid: string;
   photoURL?: string | null;
   nickname?: string;
-  isSeller: boolean;
+  isSeller?: boolean;
 }
 
 interface ProfileButtonProps {
@@ -27,13 +27,17 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
   isLogin,
 }) => {
   const navigate = useNavigate();
-  const handleClickProfile = () => {
-    navigate(pageRoutes.buyerdashboard);
-  };
   const queryClient = useQueryClient();
 
-  // prefetch
-  const handlePrefetchUserAndOrders = async (user: User) => {
+  const handleClickProfile = () => {
+    if (user) {
+      navigate(pageRoutes.buyerdashboard);
+    }
+  };
+
+  const handlePrefetchUserAndOrders = async () => {
+    if (!user) return;
+
     await Promise.all([
       queryClient.prefetchQuery({
         queryKey: ["user", { uid: user.uid }],
@@ -57,7 +61,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
       className="text-yellow-400 font-semibold tracking-widest"
       variant="ghost"
       onClick={handleClickProfile}
-      onMouseEnter={() => user && handlePrefetchUserAndOrders(user)}
+      onMouseEnter={handlePrefetchUserAndOrders}
     >
       {isLogin && user ? (
         <>
