@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { authStatusType } from "@/shared/constants";
 import { IProduct } from "@/features/products/type";
@@ -7,20 +7,16 @@ import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useToastStore } from "@/store/toast/useToastStore";
 import { pageRoutes } from "@/app/apiRouters";
 import { useCartStore } from "@/store/cart/useCartStore";
-import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { Layout } from "../common/components/Layout";
 import { ProductDetailInfo } from "./components/ProductDetailInfo";
 import { ProductDetailReview } from "./components/ProductDetailReview";
+import { useDetailFetchProducts } from "@/features/products/hooks/useDetailFetchProducts";
+import { ProductDetailSkeleton } from "./components/skeleton/ProductDetailSkeleton";
 
-interface ProductListProps {
-  pageSize?: number;
-}
-
-export const ProductDetaiPage: React.FC<ProductListProps> = () => {
+export const ProductDetaiPage: React.FC = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const { data } = useFetchProducts();
-  const findProducts = data?.find((item) => item.id === String(id));
+  const { id: productId } = useParams();
+  const { data: product, isLoading, error } = useDetailFetchProducts(productId);
   const { isLogin, user } = useAuthStore();
   const [quantity, setQuantity] = useState(1);
   const { addToast } = useToastStore();
@@ -57,20 +53,32 @@ export const ProductDetaiPage: React.FC<ProductListProps> = () => {
     }
   };
 
-  if (!findProducts) return <p>Product not found</p>;
+  if (isLoading) {
+    return (
+      <Layout authStatus={authStatusType.COMMON}>
+        <div className="min-h-screen bg-gray-900 text-gray-100 p-14 pt-32">
+          <div className="max-w-6xl mx-auto space-y-8">
+            <ProductDetailSkeleton />
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (error || !product) return <p>Product not found</p>;
 
   return (
     <Layout authStatus={authStatusType.COMMON}>
       <div className="min-h-screen bg-gray-900 text-gray-100 p-14 pt-32">
         <div className="max-w-6xl mx-auto space-y-8">
           <ProductDetailInfo
-            findProducts={findProducts}
+            findProducts={product}
             quantity={quantity}
             setQuantity={setQuantity}
             handlePurchaseAction={handlePurchaseAction}
             handleCartAction={handleCartAction}
           />
-          <ProductDetailReview findProducts={findProducts} />
+          <ProductDetailReview findProducts={product} />
         </div>
       </div>
     </Layout>

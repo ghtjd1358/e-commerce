@@ -22,7 +22,6 @@ const ProductList = lazy(() =>
 export const ProductPage: React.FC = () => {
   const { category } = useParams();
   const { user, isLogin } = useAuthStore();
-
   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
     useFetchInfiniteQueryProducts({
       pageSize: 20,

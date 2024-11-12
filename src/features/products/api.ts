@@ -12,6 +12,7 @@ import {
   deleteDoc,
   updateDoc,
   where,
+  getDoc,
 } from "firebase/firestore";
 import { IProduct, NewProductDTO, PaginatedProductsDTO } from "./type";
 import {
@@ -20,6 +21,19 @@ import {
   ref,
   uploadBytes,
 } from "firebase/storage";
+
+// 상세페이지
+export const fetchDetailProductApi = async (
+  productId: string,
+): Promise<IProduct> => {
+  const docRef = doc(db, "products", productId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return { id: docSnap.id, ...docSnap.data() } as IProduct;
+  } else {
+    throw new Error("Product not found");
+  }
+};
 
 // 필터 적용
 export const fetchFilterProductsApi = async (

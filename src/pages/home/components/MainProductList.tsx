@@ -16,8 +16,8 @@ import { fetchFilterProductsApi } from "@/features/products/api";
 export const MainProductList: React.FC = () => {
   const { data, isLoading } = useFetchProducts();
   const { user, isLogin } = useAuthStore();
-  const { addToast } = useToastStore();
   const { cart, addCartItem } = useCartStore();
+  const { addToast } = useToastStore();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -36,6 +36,7 @@ export const MainProductList: React.FC = () => {
       {} as Record<string, IProduct[]>,
     ) || {};
 
+  // 장바구니
   const handleCartAction = (product: IProduct): void => {
     if (isLogin && user) {
       const cartItem: CartItem = { ...product, count: 1 };
@@ -60,7 +61,7 @@ export const MainProductList: React.FC = () => {
   };
 
   // prefetch
-  const handleMouseEnter = async (categoryId: string) => {
+  const handlePrefetchProducts = async (categoryId: string) => {
     await queryClient.prefetchQuery({
       queryKey: ["products", { categoryId }],
       queryFn: async () => {
@@ -90,7 +91,7 @@ export const MainProductList: React.FC = () => {
                 <Link
                   to={`${pageRoutes.product}/${items[0].productCategory.id}`}
                   onMouseEnter={() =>
-                    handleMouseEnter(items[0].productCategory.id)
+                    handlePrefetchProducts(items[0].productCategory.id)
                   }
                 >
                   <h3 className="text-lg font-bold mb-4">더보기</h3>

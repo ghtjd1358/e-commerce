@@ -33,10 +33,6 @@ export const ProductDetailReview: React.FC<ProductDetailReviewProps> = ({
               <li>Movement: Swiss Quartz</li>
               <li>Case Material: Stainless Steel</li>
               <li>Case Diameter: 42mm</li>
-              <li>Band Material: Stainless Steel</li>
-              <li>Water Resistance: 100 meters</li>
-              <li>Crystal: Sapphire</li>
-              <li>Functions: Chronograph, Date Display</li>
             </ul>
           </CardContent>
         </Card>
