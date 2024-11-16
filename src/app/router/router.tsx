@@ -5,9 +5,7 @@ import { ProductDetaiPage } from "@/pages/ProductDetail/ProductDetaiPage";
 import { LoginPage } from "@/pages/login/LoginPage";
 import { RegisterPage } from "@/pages/register/RegisterPage";
 import { CheckoutPage } from "@/pages/Checkuot/CheckoutPage";
-import { PurchaseHistoryPage } from "@/pages/PurchaseHistory/PurchaseHistoryPage";
 import { ProfileEditPage } from "@/pages/ProfileEdit/ProfileEditPage";
-import { SalesHistoryPage } from "@/pages/SalesHistory/SalesHistoryPage";
 import { PaymentPage } from "@/pages/payment/PaymentPage";
 import { ErrorPage } from "@/pages/error/ErrorPage";
 import { NotFoundPage } from "@/pages/error/NotFoundPage";
@@ -52,11 +50,6 @@ export const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: pageRoutes.purchaseHistory,
-        element: <PurchaseHistoryPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
         path: pageRoutes.profileEdit,
         element: <ProfileEditPage />,
         errorElement: <ErrorPage />,
@@ -64,11 +57,6 @@ export const router = createBrowserRouter([
       {
         path: pageRoutes.sellerdashboard,
         element: <SellerDashboardPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: pageRoutes.salesHistory,
-        element: <SalesHistoryPage />,
         errorElement: <ErrorPage />,
       },
       {

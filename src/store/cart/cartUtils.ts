@@ -52,10 +52,13 @@ export const setCartToLocalStorage = (
 // 계산기
 export const calculateTotal = (cart: CartItem[]): Total => {
   return cart.reduce(
-    (acc: Total, item: CartItem) => ({
-      totalCount: acc.totalCount + item.count,
-      totalPrice: acc.totalPrice + item.productPrice * item.count,
-    }),
+    (acc: Total, item: CartItem) => {
+      if (item.isSelected) {
+        acc.totalCount += item.count;
+        acc.totalPrice += item.productPrice * item.count;
+      }
+      return acc;
+    },
     { totalCount: 0, totalPrice: 0 },
   );
 };

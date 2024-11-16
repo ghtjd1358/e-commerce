@@ -1,4 +1,3 @@
-// useDetailFetchProducts.ts
 import { useQuery } from "@tanstack/react-query";
 import { IProduct } from "@/features/products/type";
 import { PRODUCT_KEY } from "../key";
@@ -12,5 +11,7 @@ export const useDetailFetchProducts = (productId: string | undefined) => {
       return fetchDetailProductApi(productId);
     },
     enabled: !!productId,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 15 * 60 * 1000,
   });
 };

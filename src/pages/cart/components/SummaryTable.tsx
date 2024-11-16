@@ -21,6 +21,8 @@ export const SummaryTable: React.FC = () => {
   const { mutate: makePurchase } = useMakePurchase();
   const { user } = useAuthStore();
 
+  const selectedCartItems = cart.filter((item) => item.isSelected);
+
   const handlePurchase = () => {
     if (!user?.uid) {
       return;
@@ -28,7 +30,7 @@ export const SummaryTable: React.FC = () => {
 
     try {
       makePurchase({
-        cartData: cart,
+        cartData: selectedCartItems,
         userId: user.uid,
       });
     } catch (error) {

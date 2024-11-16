@@ -11,7 +11,6 @@ export const useBuyerCancelOrder = () => {
     mutationFn: cancelOrderApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [ORDER_KEY] });
-      // queryClient.refetchQueries({ queryKey: [ORDER_KEY] });
       addToast("구매가 최소되었습니다.", "success");
     },
     onError: (error: Error) => {

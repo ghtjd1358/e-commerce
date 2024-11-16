@@ -1,6 +1,5 @@
 import { useFilterStore } from "@/store/filter/useFilterStore";
 import { IProduct } from "@/features/products/type";
-
 import { PriceRange } from "./PriceRange";
 import { ALL_CATEGORY_ID, categories } from "@/shared/constants";
 import { SortRange } from "./SortRange";
@@ -21,10 +20,17 @@ export const ProductFilter: React.FC<{
     category === ALL_CATEGORY_ID ? totalCount : filteredProducts.length;
 
   const handlePriceChange =
-    (action: (value: number) => void) =>
+    (actionCreator: (value: number) => void) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = parseInt(e.target.value, 10);
-      action(!isNaN(value) && value >= 0 ? value : -1);
+      const value = e.target.value;
+      if (value === "") {
+        actionCreator(-1);
+      } else {
+        const numericValue = Math.max(0, parseInt(value, 10));
+        if (!isNaN(numericValue)) {
+          actionCreator(numericValue);
+        }
+      }
     };
 
   const handleSortChange = (value: string) => {

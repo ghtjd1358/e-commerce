@@ -9,6 +9,7 @@ export interface IUser {
   isSeller: boolean;
   phoneNumber?: string;
   address?: string;
+  detailAddress?: string;
   createdAt: Date | FieldValue;
   updatedAt: Date | FieldValue;
 }
@@ -22,4 +23,5 @@ export interface GoogleUser {
   isSeller: boolean;
   phoneNumber?: string;
   address?: string;
+  detailAddress?: string;
 }

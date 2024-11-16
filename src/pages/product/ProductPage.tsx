@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect } from "react";
+import React, { lazy, Suspense, useEffect, useState, useCallback } from "react";
 import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
 import {
@@ -12,6 +12,8 @@ import { Layout } from "../common/components/Layout";
 import { ProductFilter } from "./components/ProductFilter";
 import { Button } from "../common/ui/button";
 import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
+import { SearchBar } from "../common/components/SearchBar";
+import { IProduct } from "@/features/products/type";
 
 const ProductList = lazy(() =>
   import("./components/ProductList").then((module) => ({
@@ -29,8 +31,13 @@ export const ProductPage: React.FC = () => {
 
   const { ref, inView } = useInView();
 
-  const totalCount = data?.pages[0]?.totalCount || 0;
+  const [searchResults, setSearchResults] = useState<IProduct[]>([]);
 
+  const handleSearchResults = useCallback((results: IProduct[]) => {
+    setSearchResults(results);
+  }, []);
+
+  const totalCount = data?.pages[0]?.totalCount || 0;
   const products = data ? data.pages.flatMap((page) => page.products) : [];
   const filteredProducts =
     category === ALL_CATEGORY_ID
@@ -48,16 +55,25 @@ export const ProductPage: React.FC = () => {
       <div className="min-h-screen bg-gray-900 text-gray-100 p-16 pt-28">
         <ProductFilter
           totalCount={
-            category === ALL_CATEGORY_ID ? totalCount : filteredProducts.length
+            searchResults.length > 0
+              ? searchResults.length
+              : category === ALL_CATEGORY_ID
+                ? totalCount
+                : filteredProducts.length
           }
           category={category}
-          filteredProducts={filteredProducts}
+          filteredProducts={
+            searchResults.length > 0 ? searchResults : filteredProducts
+          }
         />
+        <SearchBar onSearchResults={handleSearchResults} />
         <hr className="mt-3 mb-10" />
         <ApiErrorBoundary>
           <Suspense fallback={<LoadingSkeleton />}>
             <ProductList
-              filteredProducts={filteredProducts}
+              filteredProducts={
+                searchResults.length > 0 ? searchResults : filteredProducts
+              }
               isLogin={isLogin}
               user={user}
               isLoading={isLoading}
@@ -66,7 +82,7 @@ export const ProductPage: React.FC = () => {
           </Suspense>
         </ApiErrorBoundary>
 
-        {hasNextPage && (
+        {searchResults.length === 0 && hasNextPage && (
           <div className="flex justify-center items-center">
             <Button variant="outline" ref={ref} className="w-full bg-gray-700">
               {isFetching ? "...로딩중" : "fetching"}

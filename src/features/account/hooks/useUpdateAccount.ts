@@ -23,7 +23,6 @@ export const useUpdateAccountStore = () => {
       addToast("회원 정보가 변경됐습니다!", "success");
 
       if (!user) {
-        console.error("User is undefined");
         return;
       }
 

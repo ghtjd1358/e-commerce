@@ -9,5 +9,9 @@ export const useFetchProducts = () => {
   return useQuery<IProduct[], Error>({
     queryKey,
     queryFn: fetchProductsApi,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 15 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 };

@@ -16,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/pages/common/ui/card";
+import { DaumPostcode } from "@/pages/Checkuot/components/DaumPostcode";
 
 type UpdateUserData = {
   name?: string;
@@ -30,6 +31,7 @@ interface FormInputs {
   nickname: string;
   email: string;
   address: string;
+  detailAddress: string;
   phoneNumber: string;
 }
 
@@ -43,6 +45,7 @@ export const AccountForm: React.FC = () => {
       nickname: "",
       email: "",
       address: "",
+      detailAddress: "",
       phoneNumber: "",
     },
   });
@@ -59,15 +62,21 @@ export const AccountForm: React.FC = () => {
         email: data.email,
         address: (data as IUser | GoogleUser).address ?? "",
         phoneNumber: (data as IUser | GoogleUser).phoneNumber ?? "",
+        detailAddress: (data as IUser | GoogleUser).detailAddress ?? "",
       });
     }
   }, [data, form]);
+
+  const handleAddressComplete = (selectedAddress: string) => {
+    form.setValue("address", selectedAddress);
+  };
 
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     if (!user?.uid) {
       alert("사용자 UID가 유효하지 않습니다.");
       return;
     }
+
     accountUpdate({
       uid: user.uid,
       updatedData: {
@@ -75,6 +84,7 @@ export const AccountForm: React.FC = () => {
         nickname: data.nickname,
         email: data.email,
         address: data.address,
+        detailAddress: data.detailAddress || "",
         phoneNumber: data.phoneNumber,
       } as UpdateUserData,
     });
@@ -110,16 +120,25 @@ export const AccountForm: React.FC = () => {
                 placeholder="m@example.com"
                 type="email"
               />
-              <RHFInput
-                name="address"
-                label="주소"
-                placeholder="주소를 입력해주세요"
-                type="text"
-              />
+              <div className="flex flex-col">
+                <RHFInput
+                  name="address"
+                  label="주소"
+                  placeholder="주소를 입력해주세요"
+                  type="text"
+                />
+                <RHFInput
+                  name="detailAddress"
+                  label=""
+                  placeholder="상세주소를 입력해주세요"
+                  type="text"
+                />
+                <DaumPostcode onComplete={handleAddressComplete} />
+              </div>
               <RHFInput
                 name="phoneNumber"
-                label="전화번호"
-                placeholder="전화번호를 입력해주세요"
+                label="번호"
+                placeholder="번호를 입력해주세요"
                 type="text"
               />
             </div>

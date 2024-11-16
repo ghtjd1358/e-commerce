@@ -38,6 +38,10 @@ const nicknameSchema = z
 // 주소 스키마
 const addressSchema = z.string().min(1, { message: "주소를 입력해 주세요." });
 
+const detailAddressSchema = z
+  .string()
+  .min(1, { message: "상세주소를 입력해 주세요." });
+
 // 휴대폰 번호
 const phoneSchema = z
   .string()
@@ -74,6 +78,7 @@ const accountSchema = z.object({
   nickname: nicknameSchema,
   email: emailSchema,
   address: addressSchema.optional(),
+  detailAddress: detailAddressSchema.optional(),
   phoneNumber: phoneSchema.optional(),
 });
 

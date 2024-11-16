@@ -108,4 +108,42 @@ export const useCartStore = create<CartStore>((set) => ({
       };
     });
   },
+
+  // selectCartItem: 장바구니 항목 선택 여부를 토글하는 함수
+  selectCartItem: (itemId: string) => {
+    set((state) => {
+      const updatedCart = state.cart.map((cartItem) => {
+        if (cartItem.id === itemId) {
+          return { ...cartItem, isSelected: !cartItem.isSelected };
+        }
+        return cartItem;
+      });
+
+      const total = calculateTotal(updatedCart); // 선택된 항목만 계산
+
+      return {
+        cart: updatedCart,
+        totalCount: total.totalCount,
+        totalPrice: total.totalPrice,
+      };
+    });
+  },
+
+  // selectAllCartItems: 모든 장바구니 항목을 선택/해제하는 함수
+  selectAllCartItems: (selectAll: boolean) => {
+    set((state) => {
+      const updatedCart = state.cart.map((cartItem) => ({
+        ...cartItem,
+        isSelected: selectAll,
+      }));
+
+      const total = calculateTotal(updatedCart); // 선택된 항목만 계산
+
+      return {
+        cart: updatedCart,
+        totalCount: total.totalCount,
+        totalPrice: total.totalPrice,
+      };
+    });
+  },
 }));

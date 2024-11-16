@@ -4,6 +4,7 @@ import { Label } from "@radix-ui/react-label";
 import { Minus, Plus, Star } from "lucide-react";
 import { Input } from "@/pages/common/ui/input";
 import { Button } from "@/pages/common/ui/button";
+import { ProductDetailImage } from "./ProductDetailImage";
 
 interface ProductDetailInfoProps {
   findProducts: IProduct;
@@ -22,30 +23,7 @@ export const ProductDetailInfo: React.FC<ProductDetailInfoProps> = ({
 }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div className="space-y-4">
-        <div className="aspect-square bg-gray-800 rounded-lg overflow-hidden">
-          <img
-            src={findProducts.productImage[0]}
-            alt="Main Product Image"
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="grid grid-cols-4 gap-4">
-          {findProducts.productImage.map((_, i) => (
-            <div
-              key={i}
-              className="aspect-square bg-gray-800 rounded-lg overflow-hidden"
-            >
-              <img
-                src={findProducts.productImage[i] || "장고"}
-                alt={`Product Image ${i + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
+      <ProductDetailImage findProducts={findProducts} />
       <div className="space-y-6">
         <h1 className="text-3xl font-bold text-gold">
           {findProducts.productName}

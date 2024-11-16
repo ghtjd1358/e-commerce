@@ -10,6 +10,7 @@ interface ProductCardProps {
   removeCartItem: (itemId: string, userId: string) => void;
   user: { uid: string } | null;
   changeCartItemCount: (itemId: string, count: number, userId: string) => void;
+  selectCartItem: (itemId: string) => void;
 }
 
 export const CartCard: React.FC<ProductCardProps> = ({
@@ -17,6 +18,7 @@ export const CartCard: React.FC<ProductCardProps> = ({
   user,
   removeCartItem,
   changeCartItemCount,
+  selectCartItem,
 }) => {
   const { addToast } = useToastStore();
   const [count, setCount] = useState<number>(product.count);
@@ -49,10 +51,20 @@ export const CartCard: React.FC<ProductCardProps> = ({
     }
   };
 
+  const handleSelect = () => {
+    selectCartItem(product.id);
+  };
+
   return (
     <>
       <TableRow key={product.id} className="cursor-pointer">
         <TableCell className="text-gray-400 text-center overflow-hidden overflow-ellipsis whitespace-normal">
+          <input
+            type="checkbox"
+            checked={product.isSelected}
+            onChange={handleSelect}
+            className="mr-2"
+          />
           {product.productName}
         </TableCell>
         <TableCell className="text-gray-400 w-1/4 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">

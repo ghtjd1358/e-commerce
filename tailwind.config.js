@@ -53,6 +53,8 @@ module.exports = {
           4: "hsl(var(--chart-4))",
           5: "hsl(var(--chart-5))",
         },
+        // Miro dark green color
+        'miro-dark-green': '#0CA789',
       },
     },
   },

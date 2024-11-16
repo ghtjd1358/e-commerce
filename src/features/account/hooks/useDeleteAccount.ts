@@ -9,9 +9,9 @@ export const useDeleteAccountStore = () => {
 
   return useMutation<void, Error, string>({
     mutationFn: (uid) => deleteAccountApi(uid),
-    onSuccess: () => {
+    onSuccess: (_, uid) => {
       addToast("계정이 삭제되었습니다!", "success");
-      queryClient.invalidateQueries({ queryKey: [ACCOUNT_KEY] });
+      queryClient.invalidateQueries({ queryKey: [ACCOUNT_KEY, uid] });
     },
     onError: (error: Error) => {
       addToast("계정 삭제에 실패했습니다!", "error");

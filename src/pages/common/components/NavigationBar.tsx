@@ -63,8 +63,8 @@ export const NavigationBar: React.FC = () => {
         <h1>이커머스</h1>
       </Link>
 
-      <nav className="hidden md:block">
-        <ul className="flex items-center justify-between text-gray-300 font-semibold text-xl w-[400px] tracking-widest">
+      <nav className="hidden md:block w-[25%]">
+        <ul className="flex items-center justify-between text-gray-300 font-semibold text-xl w-full tracking-widest">
           <li className={`${locationHeaderStyle("/")}`}>
             <Link to={pageRoutes.main}>홈</Link>
           </li>

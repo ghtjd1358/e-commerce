@@ -49,7 +49,7 @@ export const Layout: React.FC<LayoutProps> = ({
   const showHeaderFooter = authStatus !== authStatusType.NEED_NOT_LOGIN;
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen">
       {showHeaderFooter && <NavigationBar />}
       <main className="flex">
         <div className={`w-full ${containerClassName}`}>

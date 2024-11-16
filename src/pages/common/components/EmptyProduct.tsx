@@ -2,7 +2,7 @@ import { Package } from "lucide-react";
 
 export const EmptyProduct = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-64 bg-gray-700 rounded-lg">
+    <div className="flex flex-col items-center justify-center h-64 bg-gray-700">
       <Package className="w-16 h-16 text-gray-500 mb-4" />
       <h3 className="text-lg font-semibold text-gray-500 mb-2">
         구매한 상품이 없습니다

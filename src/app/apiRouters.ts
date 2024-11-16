@@ -11,7 +11,5 @@ export const pageRoutes = {
 
   shoppingcart: "/shoppingcart", // 장바구니
   checkout: "/checkout", // 구매 (결제)
-  purchaseHistory: "/purchaseHistory", // 구매 내역
-  salesHistory: "/salesHistory", // 판매 내역
   payment: "/payment", // 결제 완료
 };

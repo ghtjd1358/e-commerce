@@ -8,6 +8,7 @@ export interface IUser {
   photoURL?: string | null;
   isSeller: boolean;
   address?: string;
+  detailAddress?: string;
   phoneNumber?: string;
   createdAt: Date | FieldValue;
   updatedAt: Date | FieldValue;
@@ -21,6 +22,7 @@ export interface GoogleUser {
   photoURL: string | null;
   isSeller: boolean;
   address?: string;
+  detailAddress?: string;
   phoneNumber?: string;
 }
 

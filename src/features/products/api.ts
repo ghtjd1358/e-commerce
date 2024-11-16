@@ -22,6 +22,13 @@ import {
   uploadBytes,
 } from "firebase/storage";
 
+export interface IProductResponse {
+  products: IProduct[];
+  hasNextPage: boolean;
+  totalCount: number;
+  nextPage?: number;
+}
+
 // 상세페이지
 export const fetchDetailProductApi = async (
   productId: string,
@@ -232,6 +239,55 @@ export const deleteProductAPI = async (productId: string): Promise<void> => {
     console.log(`Product with id ${productId} deleted successfully.`);
   } catch (error) {
     console.error("Error deleting product: ", error);
+    throw error;
+  }
+};
+
+// 검색 API
+export const fetchSearchProductsApi = async (
+  searchTerm: string,
+  pageSize: number,
+  page: number,
+): Promise<PaginatedProductsDTO> => {
+  try {
+    let q = query(collection(db, "products"));
+
+    if (searchTerm) {
+      q = query(
+        q,
+        where("productName", ">=", searchTerm),
+        where("productName", "<=", searchTerm + "\uf8ff"),
+        orderBy("productName", "asc"),
+      );
+    }
+
+    const querySnapshot = await getDocs(q);
+    const products = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: String(data.id),
+        sellerId: data.sellerId,
+        productQuantity: Number(data.productQuantity),
+        productDescription: data.productDescription,
+        productName: data.productName,
+        productPrice: Number(data.productPrice),
+        productCategory: data.productCategory,
+        productImage: data.productImage || "",
+        createdAt: data.createdAt?.toDate().toISOString(),
+        updatedAt: data.updatedAt?.toDate().toISOString(),
+      };
+    }) as IProduct[];
+
+    const totalCount = products.length;
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const paginatedProducts = products.slice(startIndex, endIndex);
+    const hasNextPage = endIndex < totalCount;
+    const nextPage = hasNextPage ? page + 1 : undefined;
+
+    return { products: paginatedProducts, hasNextPage, totalCount, nextPage };
+  } catch (error) {
+    console.error("Error fetching search results: ", error);
     throw error;
   }
 };

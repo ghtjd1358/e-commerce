@@ -30,6 +30,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
                   photoURL: currentUser.photoURL ?? "",
                   isSeller: userData.isSeller ?? false,
                   address: userData.address ?? "",
+                  detailAddress: userData.detailAddress ?? "",
                   phoneNumber: userData.phoneNumber ?? "",
                 },
                 isLogin: true,

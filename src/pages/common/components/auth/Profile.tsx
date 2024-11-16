@@ -9,6 +9,7 @@ import { ProfileContentSkeleton } from "@/pages/common/components/auth/ProfileCo
 
 export const Profile: React.FC = () => {
   const { user, isLoading } = useAuthStore();
+  console.log("user", user);
   const { mutate: seller } = useSellerUser();
   const location = useLocation();
   const navigate = useNavigate();
@@ -58,7 +59,9 @@ export const Profile: React.FC = () => {
               <div className="flex items-center space-x-2">
                 <Home />
                 <span>주소지 : </span>
-                <span>{user?.address}</span>
+                <span>
+                  {user?.address}, {user?.detailAddress}
+                </span>
               </div>
             )}
             {user?.phoneNumber && (
@@ -68,12 +71,11 @@ export const Profile: React.FC = () => {
                 <span>{user?.phoneNumber}</span>
               </div>
             )}
-
             <Button
               onClick={handlerProfileMove}
               className="w-full h-10 bg-gray-500 items-end"
             >
-              개인정보 수정 및 배송지 주소 입력
+              개인정보 수정
             </Button>
           </CardContent>
         )}

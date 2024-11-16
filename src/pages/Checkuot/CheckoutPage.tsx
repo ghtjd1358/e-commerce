@@ -6,6 +6,8 @@ import { useBuyerOrders } from "@/features/order/hooks/useFetchOrders";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { OrderType } from "@/features/order/types";
+import { ProfilePayload } from "./components/ProfilePayload";
+// import { AddressForm } from "./components/AddressForm";
 
 interface Order {
   id: string;
@@ -39,6 +41,7 @@ export const CheckoutPage: React.FC = () => {
         <div className="min-w-6xl mx-auto space-y-8">
           <h1 className="text-3xl font-bold text-gold">결제페이지</h1>
           <Profile />
+          <ProfilePayload />
           <CheckoutProductTable buyer={buyerProductsMerge} />
         </div>
       </div>

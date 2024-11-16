@@ -24,6 +24,7 @@ export const getAccountApi = async (uid: string): Promise<IUser> => {
         photoURL: userData.photoURL,
         isSeller: userData.isSeller,
         address: userData.address,
+        detailAddress: userData.detailAddress,
         phoneNumber: userData.phoneNumber,
         createdAt: userData.createdAt.toDate(),
         updatedAt: userData.updatedAt.toDate(),

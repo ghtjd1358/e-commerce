@@ -29,5 +29,9 @@ export const useFetchInfiniteQueryProducts = ({
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 15 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 };
