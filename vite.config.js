@@ -1,64 +1,18 @@
-import legacy from "@vitejs/plugin-legacy";
-import react from "@vitejs/plugin-react";
-import path from "path";
-import { fileURLToPath } from "url";
-import { defineConfig } from "vite";
-import viteCompression from "vite-plugin-compression";
-var __filename = fileURLToPath(import.meta.url);
-var __dirname = path.dirname(__filename);
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 export default defineConfig({
-  plugins: [
-    react(),
-    viteCompression({
-      verbose: true,
-      disable: false,
-      threshold: 10240,
-      algorithm: "gzip",
-      ext: ".gz",
-    }),
-    viteCompression({
-      verbose: true,
-      disable: false,
-      threshold: 10240,
-      algorithm: "brotliCompress",
-      ext: ".br",
-    }),
-    legacy({
-      targets: ["defaults", "not IE 11"],
-    }),
-  ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "src/"),
-    },
-  },
-  build: {
-    target: "es2015",
-    minify: "esbuild",
-    cssCodeSplit: true,
-    chunkSizeWarningLimit: 500,
-    rollupOptions: {
-      output: {
-        manualChunks: function (id) {
-          if (id.includes("node_modules")) {
-            return id
-              .toString()
-              .split("node_modules/")[1]
-              .split("/")[0]
-              .toString();
-          }
+    plugins: [react()], // React 플러그인 추가
+    resolve: {
+        alias: {
+            '@': '/src', // '@'을 '/src'로 설정
         },
-        assetFileNames: function (assetInfo) {
-          var extType = assetInfo.name.split(".")[1];
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-            extType = "img";
-          }
-          return "assets/".concat(extType, "/[name]-[hash][extname]");
-        },
-        chunkFileNames: "assets/js/[name]-[hash].js",
-        entryFileNames: "assets/js/[name]-[hash].js",
-      },
     },
-  },
-  server: {},
+    build: {
+        target: 'esnext', // 최신 브라우저 타겟
+        minify: true, // 기본적으로 minify
+        cssCodeSplit: true, // CSS 코드 스플리팅 기본값
+    },
+    server: {
+    // 기본적으로 Vite는 개발 서버를 localhost:3000에서 실행
+    },
 });
