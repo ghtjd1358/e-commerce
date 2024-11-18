@@ -1,12 +1,7 @@
 {
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/node"
-    }
+  "routes": [
+    { "handle": "fileSystem" },
+    { "src": "/.*", "dest": "/index.html" }
   ],
-  "env": {
-    "PNPM_HOME": "/vercel/.pnpm-store"
-  },
-  "installCommand": "pnpm install"
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
