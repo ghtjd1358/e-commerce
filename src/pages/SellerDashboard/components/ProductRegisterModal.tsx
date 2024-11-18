@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ALL_CATEGORY_ID, categories } from "@/shared/constants";
 import { NewProductDTO } from "@/features/products/type";
-import { uploadImage } from "@/shared/utils/imageUpload";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { X, Upload } from "lucide-react";
 import { useAddProducts } from "@/features/products/hooks/useAddProducts";
@@ -24,6 +23,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/pages/common/ui/dialog";
+import { uploadImageOriginal } from "@/shared/utils/imageUpload";
 
 interface ProductRegistrationModalProps {
   isOpen: boolean;
@@ -67,8 +67,9 @@ export const ProductRegistrationModal: React.FC<
         throw new Error("이미지를 선택해야 합니다.");
       }
 
+      // 이미지 업로드
       const imageUrls = (
-        await Promise.all(images.map(({ file }) => uploadImage(file)))
+        await Promise.all(images.map(({ file }) => uploadImageOriginal(file)))
       ).filter((url): url is string => url !== null);
 
       const selectedCategory = categories.find(
@@ -96,8 +97,8 @@ export const ProductRegistrationModal: React.FC<
 
       await mutateAsync(newProductData);
       reset();
-      setImages([]);
-      onClose();
+      setImages([]); // 이미지 목록 초기화
+      onClose(); // 다이얼로그 닫기
     } catch (error) {
       const typeError = error as Error;
       console.error("물품 등록에 실패했습니다.", typeError);
@@ -136,6 +137,7 @@ export const ProductRegistrationModal: React.FC<
             {errors.title && (
               <p className="text-red-500 text-sm">{errors.title.message}</p>
             )}
+
             <Input
               className="bg-gray-700 border-gray-600"
               type="number"
@@ -145,6 +147,7 @@ export const ProductRegistrationModal: React.FC<
             {errors.price && (
               <p className="text-red-500 text-sm">{errors.price.message}</p>
             )}
+
             <Input
               className="bg-gray-700 border-gray-600"
               type="number"
@@ -154,6 +157,7 @@ export const ProductRegistrationModal: React.FC<
             {errors.quantity && (
               <p className="text-red-500 text-sm">{errors.quantity.message}</p>
             )}
+
             <Textarea
               className="bg-gray-700 border-gray-600 resize-none"
               {...register("description", {
@@ -166,6 +170,7 @@ export const ProductRegistrationModal: React.FC<
                 {errors.description.message}
               </p>
             )}
+
             <Controller
               name="categoryId"
               control={control}

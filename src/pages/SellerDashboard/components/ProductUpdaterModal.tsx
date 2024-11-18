@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ALL_CATEGORY_ID, categories } from "@/shared/constants";
 import { IProduct } from "@/features/products/type";
-import { uploadImage } from "@/shared/utils/imageUpload";
+import { uploadImageOriginal } from "@/shared/utils/imageUpload";
 import { X, Upload } from "lucide-react";
 import { useUpdateProductsStore } from "@/features/products/hooks/useUpdateProducts";
 import { Button } from "@/pages/common/ui/button";
@@ -89,7 +89,7 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
 
       if (images.length > 0) {
         const uploadedImages = await Promise.all(
-          images.map(({ file }) => uploadImage(file)),
+          images.map(({ file }) => uploadImageOriginal(file)),
         );
         imageUrls = [
           ...imageUrls,
