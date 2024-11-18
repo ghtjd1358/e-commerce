@@ -1,0 +1,12 @@
+{
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node"
+    }
+  ],
+  "env": {
+    "PNPM_HOME": "/vercel/.pnpm-store"
+  },
+  "installCommand": "pnpm install"
+}
