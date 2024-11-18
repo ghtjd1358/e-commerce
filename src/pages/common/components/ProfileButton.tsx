@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { CircleUserRound } from "lucide-react";
 import { pageRoutes } from "@/app/apiRouters";
 import { Button } from "../ui/button";
-import { useQueryClient } from "@tanstack/react-query";
-import {
-  getOrdersForBuyerApi,
-  getOrdersForSellerApi,
-} from "@/features/order/api";
-import { getAccountApi } from "@/features/account/api";
+// import { useQueryClient } from "@tanstack/react-query";
+// import {
+//   getOrdersForBuyerApi,
+//   getOrdersForSellerApi,
+// } from "@/features/order/api";
+// import { getAccountApi } from "@/features/account/api";
 
 interface User {
   uid: string;
@@ -27,7 +27,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
   isLogin,
 }) => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const handleClickProfile = () => {
     if (user) {
@@ -35,33 +35,33 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
     }
   };
 
-  const handlePrefetchUserAndOrders = async () => {
-    if (!user) return;
+  // const handlePrefetchUserAndOrders = async () => {
+  //   if (!user) return;
 
-    await Promise.all([
-      queryClient.prefetchQuery({
-        queryKey: ["user", { uid: user.uid }],
-        queryFn: async () => await getAccountApi(user.uid),
-      }),
-      queryClient.prefetchQuery({
-        queryKey: [
-          "orders",
-          user.isSeller ? { sellerId: user.uid } : { buyerId: user.uid },
-        ],
-        queryFn: async () =>
-          user.isSeller
-            ? await getOrdersForSellerApi(user.uid)
-            : await getOrdersForBuyerApi(user.uid),
-      }),
-    ]);
-  };
+  //   await Promise.all([
+  //     queryClient.prefetchQuery({
+  //       queryKey: ["user", { uid: user.uid }],
+  //       queryFn: async () => await getAccountApi(user.uid),
+  //     }),
+  //     queryClient.prefetchQuery({
+  //       queryKey: [
+  //         "orders",
+  //         user.isSeller ? { sellerId: user.uid } : { buyerId: user.uid },
+  //       ],
+  //       queryFn: async () =>
+  //         user.isSeller
+  //           ? await getOrdersForSellerApi(user.uid)
+  //           : await getOrdersForBuyerApi(user.uid),
+  //     }),
+  //   ]);
+  // };
 
   return (
     <Button
       className="text-yellow-400 font-semibold tracking-widest"
       variant="ghost"
       onClick={handleClickProfile}
-      onMouseEnter={handlePrefetchUserAndOrders}
+      // onMouseEnter={handlePrefetchUserAndOrders}
     >
       {isLogin && user ? (
         <>

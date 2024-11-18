@@ -10,8 +10,8 @@ import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { ProductCard } from "@/pages/common/components/product/ProductCard";
 import { ProductCardSkeleton } from "./MainProductListSkeleton";
 import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
-import { useQueryClient } from "@tanstack/react-query";
-import { fetchFilterProductsApi } from "@/features/products/api";
+// import { useQueryClient } from "@tanstack/react-query";
+// import { fetchFilterProductsApi } from "@/features/products/api";
 
 export const MainProductList: React.FC = () => {
   const { data, isLoading } = useFetchProducts();
@@ -19,7 +19,7 @@ export const MainProductList: React.FC = () => {
   const { cart, addCartItem } = useCartStore();
   const { addToast } = useToastStore();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const cartItem = cart.map((item) => item.id);
 
@@ -61,16 +61,16 @@ export const MainProductList: React.FC = () => {
   };
 
   // prefetch
-  const handlePrefetchProducts = async (categoryId: string) => {
-    await queryClient.prefetchQuery({
-      queryKey: ["products", { categoryId }],
-      queryFn: async () => {
-        const filter = { categoryId };
-        const response = await fetchFilterProductsApi(filter, 20, 1);
-        return response.products;
-      },
-    });
-  };
+  // const handlePrefetchProducts = async (categoryId: string) => {
+  //   await queryClient.prefetchQuery({
+  //     queryKey: ["products", { categoryId }],
+  //     queryFn: async () => {
+  //       const filter = { categoryId };
+  //       const response = await fetchFilterProductsApi(filter, 20, 1);
+  //       return response.products;
+  //     },
+  //   });
+  // };
 
   return (
     <main>
@@ -90,9 +90,9 @@ export const MainProductList: React.FC = () => {
                 <h3 className="text-3xl font-bold mb-6">{category}</h3>
                 <Link
                   to={`${pageRoutes.product}/${items[0].productCategory.id}`}
-                  onMouseEnter={() =>
-                    handlePrefetchProducts(items[0].productCategory.id)
-                  }
+                  // onMouseEnter={() =>
+                  //   handlePrefetchProducts(items[0].productCategory.id)
+                  // }
                 >
                   <h3 className="text-lg font-bold mb-4">더보기</h3>
                 </Link>
