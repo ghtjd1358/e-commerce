@@ -23,7 +23,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/pages/common/ui/dialog";
-import { uploadImageOriginal } from "@/shared/utils/imageUpload";
+import { uploadImage } from "@/shared/utils/imageUpload";
 
 interface ProductRegistrationModalProps {
   isOpen: boolean;
@@ -69,7 +69,7 @@ export const ProductRegistrationModal: React.FC<
 
       // 이미지 업로드
       const imageUrls = (
-        await Promise.all(images.map(({ file }) => uploadImageOriginal(file)))
+        await Promise.all(images.map(({ file }) => uploadImage(file)))
       ).filter((url): url is string => url !== null);
 
       const selectedCategory = categories.find(
