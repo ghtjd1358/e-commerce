@@ -10,7 +10,7 @@ import imageCompression from "browser-image-compression";
 const MAX_WIDTH = 512;
 const MAX_HEIGHT = 512;
 const MAX_FILE_SIZE_MB = 1;
-const WEBP_QUALITY = 0.6;
+const WEBP_QUALITY = 0.4;
 
 // 업로드할 파일의 형식 제한
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/jpg"];
