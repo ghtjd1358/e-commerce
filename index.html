@@ -5,17 +5,43 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous" />
+    <!-- Preload font -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" as="style" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" crossorigin="anonymous" />
 
-    <title>DoGun-DoGun</title>
+    <!-- Preload images -->
     <link rel="preload" as="image" href="/public/gun-1927664_1280_webp.webp" type="image/webp" />
     <link rel="preload" as="image" href="/public/woman-6567047_1280_webp.webp" type="image/webp" />
     <link rel="preload" as="image" href="/public/whiskey-4939956_1280_webp.webp" type="image/webp" />
     <link rel="preload" as="image" href="/public/animal-17760_1280_webp.webp" type="image/webp" />
+
+    <title>DoGun-DoGun</title>
   </head>
   <body>
+    <!-- <picture>
+      <source srcset="/public/gun-1927664_1280_webp.webp" type="image/webp" />
+      <source srcset="/public/gun-1927664_1280.jpg" type="image/jpg" />
+      <img src="/public/gun-1927664_1280.jpg" alt="Gun Image" />
+    </picture> -->
+
+    <!-- <picture>
+      <source srcset="/public/woman-6567047_1280_webp.webp" type="image/webp" />
+      <source srcset="/public/woman-6567047_1280.jpg" type="image/jpg" />
+      <img src="/public/woman-6567047_1280.jpg" alt="Woman Image" />
+    </picture>
+
+    <picture>
+      <source srcset="/public/whiskey-4939956_1280_webp.webp" type="image/webp" />
+      <source srcset="/public/whiskey-4939956_1280.jpg" type="image/jpg" />
+      <img src="/public/whiskey-4939956_1280.jpg" alt="Whiskey Image" />
+    </picture>
+
+    <picture>
+      <source srcset="/public/animal-17760_1280_webp.webp" type="image/webp" />
+      <source srcset="/public/animal-17760_1280.jpg" type="image/jpg" />
+      <img src="/public/animal-17760_1280.jpg" alt="Animal Image" />
+    </picture> -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

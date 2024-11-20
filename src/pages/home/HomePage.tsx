@@ -1,15 +1,14 @@
 import { authStatusType } from "@/shared/constants";
 import { MainArticleSlider } from "./components/MainArticleSlider";
 import { Layout } from "../common/components/Layout";
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
-import { MainProductList } from "./components/MainProductList";
 
-// const MainProductList = lazy(() =>
-//   import("./components/MainProductList").then((module) => ({
-//     default: module.MainProductList,
-//   })),
-// );
+const MainProductList = lazy(() =>
+  import("./components/MainProductList").then((module) => ({
+    default: module.MainProductList,
+  })),
+);
 
 export const HomePage: React.FC = () => {
   return (

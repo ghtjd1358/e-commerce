@@ -9,7 +9,6 @@ import { ProfileContentSkeleton } from "@/pages/common/components/auth/ProfileCo
 
 export const Profile: React.FC = () => {
   const { user, isLoading } = useAuthStore();
-  console.log("user", user);
   const { mutate: seller } = useSellerUser();
   const location = useLocation();
   const navigate = useNavigate();
