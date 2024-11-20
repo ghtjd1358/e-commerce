@@ -1,21 +1,11 @@
 import { authStatusType } from "@/shared/constants";
 import { Layout } from "../common/components/Layout";
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { BuyerOrderSkeleton } from "./components/skeleton/BuyerOrderSkeleton";
-
-const Profile = lazy(() =>
-  import("../common/components/auth/Profile").then((module) => ({
-    default: module.Profile,
-  })),
-);
-
-const BuyerProductList = lazy(() =>
-  import("./components/BuyerProductList").then((module) => ({
-    default: module.BuyerProductList,
-  })),
-);
+import { Profile } from "../common/components/auth/Profile";
+import { BuyerProductList } from "./components/BuyerProductList";
 
 export const BuyerDashboardPage: React.FC = () => {
   const { user } = useAuthStore();

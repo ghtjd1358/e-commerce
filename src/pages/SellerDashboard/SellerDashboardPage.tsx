@@ -1,21 +1,11 @@
 import { authStatusType } from "@/shared/constants";
 import { Layout } from "../common/components/Layout";
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
 import { SellerOrderSkeleton } from "./components/skeleton/SellerOrderSkeleton";
 import { Profile } from "../common/components/auth/Profile";
-
-const SellerProductList = lazy(() =>
-  import("./components/SellerProductList").then((module) => ({
-    default: module.SellerProductList,
-  })),
-);
-
-const SellerOrderList = lazy(() =>
-  import("./components/SellerOrderList").then((module) => ({
-    default: module.SellerOrderList,
-  })),
-);
+import { SellerProductList } from "./components/SellerProductList";
+import { SellerOrderList } from "./components/SellerOrderList";
 
 interface ProductListProps {
   pageSize?: number;

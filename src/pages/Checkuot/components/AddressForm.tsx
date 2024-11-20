@@ -5,7 +5,6 @@ import { Home } from "lucide-react";
 import { IUser } from "@/features/auth/types";
 
 export const AddressForm = ({ user }: { user: IUser | null }) => {
-  // user를 props로 받음
   const [address, setAddress] = useState<string>("");
   const [detailedAddress, setDetailedAddress] = useState<string>("");
 

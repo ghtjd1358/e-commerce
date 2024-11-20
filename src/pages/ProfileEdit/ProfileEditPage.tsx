@@ -1,12 +1,7 @@
-import React, { lazy } from "react";
+import React from "react";
 import { authStatusType } from "@/shared/constants";
 import { Layout } from "../common/components/Layout";
-
-const AccountForm = lazy(() =>
-  import("./components/AccountForm").then((module) => ({
-    default: module.AccountForm,
-  })),
-);
+import { AccountForm } from "./components/AccountForm";
 
 export const ProfileEditPage: React.FC = () => {
   return (
