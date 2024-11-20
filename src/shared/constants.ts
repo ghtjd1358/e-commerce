@@ -1,13 +1,13 @@
-import All from "../../public/logo/glock-2424292_640.jpg";
+import All from "../../public/logo/glock-2424292_640_webp.webp";
 import beretta from "../../public/logo/Bretta.svg";
-import bondarms from "../../public/logo/bondarms.jpg";
-import brwoing from "../../public/logo/brwoing.jpg";
-import czgunz from "../../public/logo/cz-gunz.jpg";
-import colt from "../../public/logo/Colt-Logo.jpg";
-import animal from "../../public/animal-17760_1280.jpg";
-import soldier from "../../public/gun-1927664_1280.jpg";
-import woman from "../../public/woman-6567047_1280.jpg";
-import whiskey from "../../public/whiskey-4939956_1280.jpg";
+import bondarms from "../../public/logo/bondarms_webp.webp";
+import brwoing from "../../public/logo/brwoing_webp.webp";
+import czgunz from "../../public/logo/cz-gunz_webp.webp";
+import colt from "../../public/logo/Colt-Logo_webp.webp";
+import animal from "../../public/animal-17760_1280_webp.webp";
+import soldier from "../../public/gun-1927664_1280_webp.webp";
+import woman from "../../public/woman-6567047_1280_webp.webp";
+import whiskey from "../../public/whiskey-4939956_1280_webp.webp";
 
 export const MAX_CART_VALUE = 999;
 
