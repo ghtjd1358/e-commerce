@@ -12,22 +12,21 @@ import { SellerDashboardPage } from "@/pages/SellerDashboard/SellerDashboardPage
 import { HomePage } from "@/pages/home/HomePage";
 import { ShoppingCartPage } from "@/pages/cart/ShoppingCartPage";
 import { BuyerDashboardPage } from "@/pages/BuyerDashboard/BuyerDashboardPage";
-import { ProductPage } from "@/pages/product/ProductPage";
-import { ProductDetaiPage } from "@/pages/ProductDetail/ProductDetaiPage";
+import { lazy } from "react";
+// import { ProductPage } from "@/pages/product/ProductPage";
+// import { ProductDetaiPage } from "@/pages/ProductDetail/ProductDetaiPage";
 
-// import { lazy } from "react";
+const ProductPage = lazy(() =>
+  import("@/pages/product/ProductPage").then((module) => ({
+    default: module.ProductPage,
+  })),
+);
 
-// const ProductPage = lazy(() =>
-//   import("@/pages/product/ProductPage").then((module) => ({
-//     default: module.ProductPage,
-//   })),
-// );
-
-// const ProductDetaiPage = lazy(() =>
-//   import("@/pages/ProductDetail/ProductDetaiPage").then((module) => ({
-//     default: module.ProductDetaiPage,
-//   })),
-// );
+const ProductDetaiPage = lazy(() =>
+  import("@/pages/ProductDetail/ProductDetaiPage").then((module) => ({
+    default: module.ProductDetaiPage,
+  })),
+);
 
 export const router = createBrowserRouter([
   {
