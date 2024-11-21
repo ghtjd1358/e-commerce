@@ -14,7 +14,14 @@ export default defineConfig({
   build: {
     sourcemap: true, // Sourcemap 생성
     outDir: "dist", // 빌드 아웃풋 디렉토리
+    minify: "terser", // Terser를 사용해 코드 압축
+    terserOptions: {
+      compress: {
+        drop_console: true, // console.log 제거
+      },
+    },
     rollupOptions: {
+      treeshake: true,
       output: {
         manualChunks: (id) => {
           if (id.includes("node_modules")) {
