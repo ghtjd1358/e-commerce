@@ -1,13 +1,19 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
-// import { visualizer } from "rollup-plugin-visualizer";
+import { visualizer } from "rollup-plugin-visualizer";
+import viteCompression from "vite-plugin-compression";
 
 export default defineConfig({
   plugins: [
     react(),
     tsconfigPaths(), // tsconfig의 경로를 Vite에서 자동으로 인식
-    // visualizer({ open: true }), // 번들 분석 리포트를 자동으로 오픈
+    visualizer({ open: true }), // 번들 분석 리포트를 자동으로 오픈
+    viteCompression({
+      algorithm: "gzip", // gzip 방식 사용
+      threshold: 10240, // 10kB 이상의 파일만 압축
+      deleteOriginFile: false, // 원본 파일 유지
+    }),
   ],
   server: {
     port: 3000, // 서버 포트 설정
@@ -28,8 +34,8 @@ export default defineConfig({
         manualChunks: (id) => {
           if (id.includes("node_modules")) {
             const module = id.split("node_modules/").pop().split("/")[0];
-            if (id.includes('firebase')) {
-              return 'firebase'; 
+            if (id.includes("firebase")) {
+              return "firebase"; 
             }
             return `vendor-${module}`; // 기타 node_modules 모듈을 개별적으로 분리
           }
