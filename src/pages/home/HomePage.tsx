@@ -1,5 +1,5 @@
 import { authStatusType } from "@/shared/constants";
-import { MainArticleSlider } from "./components/MainArticleSlider";
+// import { MainArticleSlider } from "./components/MainArticleSlider";
 import { Layout } from "../common/components/Layout";
 import { lazy, Suspense } from "react";
 import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
@@ -14,7 +14,7 @@ export const HomePage: React.FC = () => {
   return (
     <Layout authStatus={authStatusType.COMMON}>
       <div className="w-full bg-gray-800 text-gray-200">
-        <MainArticleSlider />
+        {/* <MainArticleSlider /> */}
         <ApiErrorBoundary>
           <Suspense fallback={<LoadingSkeleton />}>
             <MainProductList />
