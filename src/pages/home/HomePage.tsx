@@ -3,7 +3,6 @@ import { MainArticleSlider } from "./components/MainArticleSlider";
 import { Layout } from "../common/components/Layout";
 import { lazy, Suspense } from "react";
 import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
-// import { MainProductList } from "./components/MainProductList";
 
 const MainProductList = lazy(() =>
   import("./components/MainProductList").then((module) => ({
