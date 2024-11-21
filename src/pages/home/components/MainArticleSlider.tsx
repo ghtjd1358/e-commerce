@@ -50,6 +50,7 @@ export function MainArticleSlider() {
             src={heroSlides[currentSlide].image}
             alt={heroSlides[currentSlide].alt}
             className="w-full h-full object-fill"
+            loading="lazy"
           />
         </div>
 
