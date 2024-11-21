@@ -1,13 +1,18 @@
 import { authStatusType } from "@/shared/constants";
 import { Layout } from "../common/components/Layout";
-import { Profile } from "../common/components/auth/Profile";
 import { CheckoutProductTable } from "./components/CheckoutProductTable";
 import { useBuyerOrders } from "@/features/order/hooks/useFetchOrders";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { OrderType } from "@/features/order/types";
 import { ProfilePayload } from "./components/ProfilePayload";
-// import { AddressForm } from "./components/AddressForm";
+import { lazy } from "react";
+
+const Profile = lazy(() =>
+  import("../common/components/auth/Profile").then((module) => ({
+    default: module.Profile,
+  })),
+);
 
 interface Order {
   id: string;

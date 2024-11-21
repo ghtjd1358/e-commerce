@@ -1,64 +1,18 @@
-import legacy from '@vitejs/plugin-legacy';
-import react from '@vitejs/plugin-react';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
-import viteCompression from 'vite-plugin-compression';
-var __filename = fileURLToPath(import.meta.url);
-var __dirname = path.dirname(__filename);
+import react from '@vitejs/plugin-react';
 export default defineConfig({
-    plugins: [
-        react(),
-        viteCompression({
-            verbose: true,
-            disable: false,
-            threshold: 10240,
-            algorithm: 'gzip',
-            ext: '.gz',
-        }),
-        viteCompression({
-            verbose: true,
-            disable: false,
-            threshold: 10240,
-            algorithm: 'brotliCompress',
-            ext: '.br',
-        }),
-        legacy({
-            targets: ['defaults', 'not IE 11'],
-        }),
-    ],
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, 'src/'),
-        },
+    plugins: [react()],
+    server: {
+        port: 3000,
+        open: true,
     },
     build: {
-        target: 'es2015',
-        minify: 'esbuild',
-        cssCodeSplit: true,
-        chunkSizeWarningLimit: 500,
-        rollupOptions: {
-            output: {
-                manualChunks: function (id) {
-                    if (id.includes('node_modules')) {
-                        return id
-                            .toString()
-                            .split('node_modules/')[1]
-                            .split('/')[0]
-                            .toString();
-                    }
-                },
-                assetFileNames: function (assetInfo) {
-                    var extType = assetInfo.name.split('.')[1];
-                    if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-                        extType = 'img';
-                    }
-                    return "assets/".concat(extType, "/[name]-[hash][extname]");
-                },
-                chunkFileNames: 'assets/js/[name]-[hash].js',
-                entryFileNames: 'assets/js/[name]-[hash].js',
-            },
+        sourcemap: true,
+        outDir: 'dist',
+    },
+    resolve: {
+        alias: {
+            '@': '/src',
         },
     },
-    server: {},
 });
