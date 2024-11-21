@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { pageRoutes } from "../apiRouters";
 import { CommonLayout } from "./routerLayout";
-import { ProductDetaiPage } from "@/pages/ProductDetail/ProductDetaiPage";
 import { LoginPage } from "@/pages/login/LoginPage";
 import { RegisterPage } from "@/pages/register/RegisterPage";
 import { CheckoutPage } from "@/pages/Checkuot/CheckoutPage";
@@ -10,10 +9,25 @@ import { PaymentPage } from "@/pages/payment/PaymentPage";
 import { ErrorPage } from "@/pages/error/ErrorPage";
 import { NotFoundPage } from "@/pages/error/NotFoundPage";
 import { SellerDashboardPage } from "@/pages/SellerDashboard/SellerDashboardPage";
-import { ProductPage } from "@/pages/product/ProductPage";
 import { HomePage } from "@/pages/home/HomePage";
 import { ShoppingCartPage } from "@/pages/cart/ShoppingCartPage";
 import { BuyerDashboardPage } from "@/pages/BuyerDashboard/BuyerDashboardPage";
+import { ProductPage } from "@/pages/product/ProductPage";
+import { ProductDetaiPage } from "@/pages/ProductDetail/ProductDetaiPage";
+
+// import { lazy } from "react";
+
+// const ProductPage = lazy(() =>
+//   import("@/pages/product/ProductPage").then((module) => ({
+//     default: module.ProductPage,
+//   })),
+// );
+
+// const ProductDetaiPage = lazy(() =>
+//   import("@/pages/ProductDetail/ProductDetaiPage").then((module) => ({
+//     default: module.ProductDetaiPage,
+//   })),
+// );
 
 export const router = createBrowserRouter([
   {

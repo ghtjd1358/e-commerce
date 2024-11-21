@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState, useCallback, lazy } from "react";
+import React, { Suspense, useEffect, useState, useCallback } from "react";
 import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
 import {
@@ -14,12 +14,7 @@ import { Button } from "../common/ui/button";
 import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
 import { SearchBar } from "../common/components/SearchBar";
 import { IProduct } from "@/features/products/type";
-
-const ProductList = lazy(() =>
-  import("./components/ProductList").then((module) => ({
-    default: module.ProductList,
-  })),
-);
+import { ProductList } from "./components/ProductList";
 
 export const ProductPage: React.FC = () => {
   const { category } = useParams();
