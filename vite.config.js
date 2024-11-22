@@ -1,21 +1,13 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
-// import { visualizer } from "rollup-plugin-visualizer";
+import { visualizer } from "rollup-plugin-visualizer";
 import viteCompression from "vite-plugin-compression";
-// import { createHtmlPlugin } from "vite-plugin-html"
-// import { injectFontsToHead } from "./src/shared/utils/fontPreload"
-
 export default defineConfig({
   plugins: [
     react(),
     tsconfigPaths(), // tsconfig의 경로를 Vite에서 자동으로 인식
-    // createHtmlPlugin({
-    //   inject : {
-    //     tags : injectFontsToHead
-    //   }
-    // }),
-    // visualizer({ open: true }), // 번들 분석 리포트를 자동으로 오픈
+    visualizer({ open: true }), // 번들 분석 리포트를 자동으로 오픈
     viteCompression({
       algorithm: "gzip", // gzip 방식 사용
       threshold: 10240, // 10kB 이상의 파일만 압축
@@ -32,19 +24,19 @@ export default defineConfig({
     minify: "terser", // Terser를 사용해 코드 압축
     terserOptions: {
       compress: {
-        drop_console: true, 
+        drop_console: true,
       },
     },
     rollupOptions: {
       treeshake: true,
       output: {
-        manualChunks: (id) => {
+        manualChunks: function (id) {
           if (id.includes("node_modules")) {
-            const module = id.split("node_modules/").pop().split("/")[0];
+            var module_1 = id.split("node_modules/").pop().split("/")[0];
             if (id.includes("firebase")) {
-              return "firebase"; 
+              return "firebase";
             }
-            return `vendor-${module}`; // 기타 node_modules 모듈을 개별적으로 분리
+            return "vendor-".concat(module_1); // 기타 node_modules 모듈을 개별적으로 분리
           }
         },
       },
