@@ -7,8 +7,6 @@
     "allowSyntheticDefaultImports": true
   },
 "include": [
-    "src/**/*", // src 폴더 전체 포함
-    "vite.config.ts", // Vite 설정 포함
-    "src/shared/utils/fontPreload.ts" // 특정 파일 포함
+    "vite.config.ts",
   ]
 }

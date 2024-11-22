@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Pretendard";
-  src: url("/fonts/PretendardStd-SemiBold.woff2") format("woff2");
-  font-display: swap; /* 폰트 로딩 전 대체 폰트 표시 */
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
