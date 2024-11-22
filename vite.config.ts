@@ -12,7 +12,7 @@ export default defineConfig({
     viteCompression({
       algorithm: "gzip", // gzip 방식 사용
       threshold: 10240, // 10kB 이상의 파일만 압축
-      deleteOriginFile: true, // 원본 파일 유지
+      deleteOriginFile: false, // 원본 파일 유지
     }),
   ],
   server: {
