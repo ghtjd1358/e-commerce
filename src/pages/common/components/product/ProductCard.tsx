@@ -1,10 +1,13 @@
 import { pageRoutes } from "@/app/apiRouters";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IProduct } from "@/features/products/type";
 import "../../../../../src/app/index.css";
 import { Card, CardContent } from "@/pages/common/ui/card";
 import { Button } from "../../ui/button";
+import { useQueryClient } from "@tanstack/react-query";
+import { fetchDetailProductApi } from "@/features/products/api";
+import { PRODUCT_KEY } from "@/features/products/key";
 
 interface ProductCardProps {
   product: IProduct;
@@ -26,6 +29,36 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onClickPurchaseButton,
 }) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+  // 상품 상세 정보를 prefetch 하는 함수
+  const handlePrefetchDetail = async (productId: string) => {
+    const queryKey = [PRODUCT_KEY, { productId }];
+    const cachedData = queryClient.getQueryData(queryKey);
+    if (!cachedData) {
+      await queryClient.prefetchQuery({
+        queryKey,
+        queryFn: () => fetchDetailProductApi(productId),
+      });
+    }
+  };
+
+  // setTimeout 실행 함수
+  const startPrefetch = (productId: string) => {
+    const id = setTimeout(() => {
+      handlePrefetchDetail(productId);
+    }, 500);
+    setTimeoutId(id);
+  };
+
+  // clearTimeout 함수
+  const cancelPrefetch = () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  };
 
   const handleClickMove = () => {
     navigate(pageRoutes.shoppingcart);
@@ -55,6 +88,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <Link
           to={`${pageRoutes.productDetail}/${product.id}`}
           className="relative"
+          onMouseEnter={() => startPrefetch(product.id)}
+          onMouseLeave={cancelPrefetch}
         >
           <img
             src={product.productImage[0]}

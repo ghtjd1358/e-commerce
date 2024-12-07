@@ -14,7 +14,8 @@ import { OrderStatus } from "./types";
 // 구매자 주문 조회 API
 export const getOrdersForBuyerApi = async (buyerId: string) => {
   try {
-    const q = query(collection(db, "orders"), where("buyerId", "==", buyerId));
+    const ordersRef = collection(db, "orders");
+    const q = query(ordersRef, where("buyerId", "==", buyerId));
     const querySnapshot = await getDocs(q);
 
     return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -23,6 +24,8 @@ export const getOrdersForBuyerApi = async (buyerId: string) => {
     throw error;
   }
 };
+
+
 
 // 판매자 주문 조회 API
 export const getOrdersForSellerApi = async (sellerId: string) => {

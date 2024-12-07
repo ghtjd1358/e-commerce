@@ -8,8 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useCartStore } from "@/store/cart/useCartStore";
 import { GoogleUser, IUser } from "@/features/auth/types";
 import { ProductCardSkeleton } from "@/pages/home/components/MainProductListSkeleton";
-import { SellerEmptyProduct } from "@/pages/common/components/SellerEmptyProduct";
-
+import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
 interface ProductListProps {
   filteredProducts: IProduct[];
   isLogin: boolean;
@@ -79,7 +78,7 @@ export const ProductList: React.FC<ProductListProps> = ({
           />
         ))
       ) : (
-        <SellerEmptyProduct onAddProduct={() => {}} />
+        <EmptyProduct />
       )}
     </div>
   );

@@ -9,10 +9,7 @@ export const useBuyerOrders = (buyerId: string) => {
     queryKey,
     queryFn: () => getOrdersForBuyerApi(buyerId),
     enabled: !!buyerId,
-    // refetchOnMount: false,
-    // refetchInterval: false,
-    // refetchOnWindowFocus: false,
-    // staleTime: 1000 * 60 * 60 * 24,
+    // keepPreviousData: true,
     throwOnError: true,
   });
 };

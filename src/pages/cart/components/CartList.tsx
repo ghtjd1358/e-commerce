@@ -25,19 +25,24 @@ export const CartList: React.FC = () => {
     selectAllCartItems(e.target.checked);
   };
 
+  const allSelected = cart.every((item) => item.isSelected);
+
   return (
     <div className="w-full lg:min-w-[60%]">
       <Table className="space-y-4 rounded-lg">
         <TableHeader>
           <TableRow>
-            <TableHead className="text-gray-100 bg-gray-800 text-center text-sm sm:text-base sticky top-0 z-10 w-1/5">
-              <input
-                type="checkbox"
-                onChange={handleSelectAll}
-                className="mr-2"
-              />
+            <TableHead className="text-gray-100 bg-gray-800 text-center text-sm sm:text-base sticky top-0 z-10">
+              <div className="flex">
+                <input
+                  type="checkbox"
+                  checked={allSelected} 
+                  onChange={handleSelectAll}
+                  className="mr-2"
+                />
+              </div>
             </TableHead>
-            {["제품", "가격", "수량", "이미지", "관리"].map((title) => (
+            {["제품", "가격", "이미지", "수량", "관리"].map((title) => (
               <TableHead
                 key={title}
                 className="text-gray-100 bg-gray-800 text-center text-sm sm:text-base sticky top-0 z-10 w-1/5"
@@ -50,7 +55,7 @@ export const CartList: React.FC = () => {
         <TableBody>
           {cart.length === 0 ? (
             <TableRow>
-              <td colSpan={5}>
+              <td colSpan={7}>
                 <EmptyProduct />
               </td>
             </TableRow>

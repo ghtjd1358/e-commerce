@@ -53,7 +53,9 @@ export const BuyerProductCard: React.FC<BuyerProductCardProps> = ({
         {formattedDate}
       </TableCell>
       <TableCell className="cursor-pointer">
-        <Button onClick={() => handleCancelOrderApi(product.id)}>
+        <Button 
+        className="w-[100%]"
+        onClick={() => handleCancelOrderApi(product.id)}>
           {product.status === "주문 취소" ? "재구매" : "구매 취소"}
         </Button>
       </TableCell>

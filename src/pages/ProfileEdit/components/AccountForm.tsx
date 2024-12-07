@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useEffect } from "react";
-import { IUser, GoogleUser } from "@/features/auth/types";
 import { useUpdateAccountStore } from "@/features/account/hooks/useUpdateAccount";
 import { useFetchAccount } from "@/features/account/hooks/useFetchAccount";
 import { userSchemas } from "@/shared/validation/user";
@@ -44,9 +43,9 @@ export const AccountForm: React.FC = () => {
       name: "",
       nickname: "",
       email: "",
-      address: "",
-      detailAddress: "",
-      phoneNumber: "",
+      address: undefined,
+      detailAddress: undefined,
+      phoneNumber: undefined,
     },
   });
 
@@ -54,18 +53,19 @@ export const AccountForm: React.FC = () => {
   const { mutate: accountUpdate, isPending: isLoading } =
     useUpdateAccountStore();
 
-  useEffect(() => {
-    if (data) {
-      form.reset({
-        name: data.displayName,
-        nickname: data.nickname,
-        email: data.email,
-        address: (data as IUser | GoogleUser).address ?? "",
-        phoneNumber: (data as IUser | GoogleUser).phoneNumber ?? "",
-        detailAddress: (data as IUser | GoogleUser).detailAddress ?? "",
-      });
-    }
-  }, [data, form]);
+    useEffect(() => {
+      if (data) {
+        form.reset({
+          name: data.displayName,
+          nickname: data.nickname,
+          email: data.email,
+          address: data.address ?? "",  // 주소가 없으면 빈 문자열로 설정
+          phoneNumber: data.phoneNumber ?? "",  // 전화번호가 없으면 빈 문자열로 설정
+          detailAddress: data.detailAddress ?? "",  // 상세 주소가 없으면 빈 문자열로 설정
+        });
+      }
+    }, [data, form]);
+    
 
   const handleAddressComplete = (selectedAddress: string) => {
     form.setValue("address", selectedAddress);

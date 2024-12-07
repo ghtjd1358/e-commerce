@@ -1,3 +1,4 @@
+import React from "react";
 import { useFilterStore } from "@/store/filter/useFilterStore";
 import { IProduct } from "@/features/products/type";
 import { PriceRange } from "./PriceRange";
@@ -10,8 +11,7 @@ export const ProductFilter: React.FC<{
   category: string | undefined;
   filteredProducts: IProduct[];
 }> = ({ totalCount, category, filteredProducts }) => {
-  const { minPrice, maxPrice, setMinPrice, setMaxPrice, setSortOption } =
-    useFilterStore();
+  const { minPrice, maxPrice, setMinPrice, setMaxPrice } = useFilterStore();
 
   const categoryName =
     categories.find((cat) => cat.id === category)?.name || "카테고리 없음";
@@ -33,10 +33,6 @@ export const ProductFilter: React.FC<{
       }
     };
 
-  const handleSortChange = (value: string) => {
-    setSortOption(value);
-  };
-
   return (
     <div className="flex justify-between items-end">
       <h1 className="text-3xl font-bold text-gold w-[30%]">
@@ -48,7 +44,7 @@ export const ProductFilter: React.FC<{
       </div>
 
       <div className="flex justify-end w-[30%] mt-4 gap-6">
-        <SortRange handleSortChange={handleSortChange} />
+        <SortRange />
         <PriceRange
           onChangeMinPrice={handlePriceChange(setMinPrice)}
           onChangeMaxPrice={handlePriceChange(setMaxPrice)}

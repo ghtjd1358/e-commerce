@@ -36,17 +36,17 @@ const nicknameSchema = z
   .max(20, { message: "닉네임은 20자 이내여야 합니다." });
 
 // 주소 스키마
-const addressSchema = z.string().min(1, { message: "주소를 입력해 주세요." });
+const addressSchema = z.string().min(1, { message: "주소를 입력해 주세요." }).trim();
 
 const detailAddressSchema = z
   .string()
-  .min(1, { message: "상세주소를 입력해 주세요." });
+  .min(1, { message: "상세주소를 입력해 주세요." }).trim();
 
 // 휴대폰 번호
 const phoneSchema = z
   .string()
-  .min(1, { message: "휴대폰 번호를 입력해 주세요." })
-  .regex(PHONE_PATTERN, { message: "유효하지 않은 휴대폰 번호 형식입니다." });
+  .min(1, { message: "휴대폰 번호를 입력해 주세요." }).trim()
+  .regex(PHONE_PATTERN, { message: "유효하지 않은 휴대폰 번호 형식입니다." }).trim();;
 
 // 회원가입 스키마
 const registerSchema = z.object({
@@ -77,8 +77,8 @@ const accountSchema = z.object({
   name: nameSchema,
   nickname: nicknameSchema,
   email: emailSchema,
-  address: addressSchema.optional(),
-  detailAddress: detailAddressSchema.optional(),
+  address: addressSchema.optional(),  
+  detailAddress: detailAddressSchema.optional(),  
   phoneNumber: phoneSchema.optional(),
 });
 

@@ -44,7 +44,7 @@ export const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: `${pageRoutes.product}/:category`,
+        path: pageRoutes.product,
         element: <ProductPage />,
         errorElement: <ErrorPage />,
       },

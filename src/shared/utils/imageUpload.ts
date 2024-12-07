@@ -7,10 +7,10 @@ import {
 } from "firebase/storage";
 import imageCompression from "browser-image-compression";
 
-const MAX_WIDTH = 512;
-const MAX_HEIGHT = 512;
+const MAX_WIDTH = 650;
+const MAX_HEIGHT = 600;
 const MAX_FILE_SIZE_MB = 1;
-const WEBP_QUALITY = 0.4;
+const WEBP_QUALITY = 0.8;
 
 // 업로드할 파일의 형식 제한
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/jpg"];
@@ -94,9 +94,9 @@ export const uploadImage = async (file: File): Promise<string | null> => {
   const optimizedFile: Blob = await convertToWebP(compressedFile);
 
   // 최적화된 이미지 크기 로그 출력 (비교용)
-  console.log(`기본 사이즈: ${file.size / 1024} KB`);
-  console.log(`Compressed File Size: ${compressedFile.size / 1024} KB`);
-  console.log(`Optimized (WebP) File Size: ${optimizedFile.size / 1024} KB`);
+  // console.log(`기본 사이즈: ${file.size / 1024} KB`);
+  // console.log(`Compressed File Size: ${compressedFile.size / 1024} KB`);
+  // console.log(`Optimized (WebP) File Size: ${optimizedFile.size / 1024} KB`);
 
   const fileName = `${Date.now()}_${file.name.split(".")[0]}.webp`;
   const storageRef = ref(storage, `products/${fileName}`);

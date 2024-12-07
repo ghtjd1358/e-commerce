@@ -56,11 +56,12 @@ export const useCartStore = create<CartStore>((set) => ({
         );
       } else {
         // 새로운 아이템이면 장바구니에 추가
-        updatedCart = [...state.cart, { ...item, count }];
+        updatedCart = [...state.cart, { ...item, count, isSelected : true }];
       }
 
-      const total = calculateTotal(updatedCart);
       setCartToLocalStorage(updatedCart, userId);
+
+      const total = calculateTotal(updatedCart);
 
       return {
         cart: updatedCart,

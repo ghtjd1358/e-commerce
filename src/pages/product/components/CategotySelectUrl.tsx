@@ -1,7 +1,6 @@
 import React from "react";
-import { categories } from "@/shared/constants";
-import { Link } from "react-router-dom";
-import { pageRoutes } from "@/app/apiRouters";
+import { ALL_CATEGORY_ID, categories } from "@/shared/constants";
+import { useSearchParams } from "react-router-dom";
 import { Button } from "@/pages/common/ui/button";
 
 interface CategorySelectGroupProps {
@@ -10,28 +9,54 @@ interface CategorySelectGroupProps {
 
 export const CategorySelectUrl: React.FC<CategorySelectGroupProps> = ({
   categoryId,
-}) => (
-  <div className="flex justify-between p-6 w-full">
-    {categories.map((category) => (
-      <Link
-        to={`${pageRoutes.product}/${category.id}`}
-        key={category.id}
-        className="flex flex-col items-center"
-      >
-        {category.img && (
-          <img
-            src={category.img}
-            alt={category.name}
-            className={`w-16 h-16 mb-2 border rounded-full object-center ${category.id === categoryId ? "border-2 border-yellow-600" : " border-gray-600"}`}
-          />
-        )}
-        <Button
-          variant={null}
-          className={`flex ${category.id === categoryId ? "text-yellow-500" : "text-gray-300"}`}
+}) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleCategoryChange = (newCategoryId: string) => {
+    const updatedParams = new URLSearchParams(searchParams);
+    updatedParams.set(
+      "category",
+      newCategoryId === ALL_CATEGORY_ID ? ALL_CATEGORY_ID : newCategoryId,
+    );
+    setSearchParams(updatedParams);
+  };
+
+  return (
+    <div className="flex justify-between p-6 w-full">
+      {categories.map((category) => (
+        <button
+          key={category.id}
+          onClick={() => handleCategoryChange(category.id)}
+          className="flex flex-col items-center group"
         >
-          {category.name}
-        </Button>
-      </Link>
-    ))}
-  </div>
-);
+          {category.img && (
+            <img
+              src={category.img}
+              alt={category.name}
+              className={`w-16 h-16 mb-2 border rounded-full object-center transition-all duration-300 
+                ${
+                  category.id === categoryId
+                    ? "border-2 border-yellow-600"
+                    : "border-gray-600"
+                } 
+                group-hover:border-yellow-600 border-2
+                `
+              }
+            />
+          )}
+          <Button
+            variant={null}
+            className={`flex transition-all duration-300 
+              ${
+                category.id === categoryId
+                  ? "text-yellow-500"
+                  : "text-gray-300 group-hover:text-yellow-500"
+              }`}
+          >
+            {category.name}
+          </Button>
+        </button>
+      ))}
+    </div>
+  );
+};

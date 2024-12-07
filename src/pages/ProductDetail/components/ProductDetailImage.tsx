@@ -16,7 +16,7 @@ export const ProductDetailImage: React.FC<ProductDetailImageProps> = ({
         <img
           src={findProducts.productImage[selectedImageIndex]}
           alt="Main Product Image"
-          className="w-full h-full object-fill border border-miro-dark-green"
+          className="w-full h-full object-fill border-2 border-yellow-600"
         />
       </div>
 
@@ -24,7 +24,7 @@ export const ProductDetailImage: React.FC<ProductDetailImageProps> = ({
         {findProducts.productImage.map((image, i) => (
           <div
             key={i}
-            className={`aspect-square bg-gray-800 overflow-hidden cursor-pointer ${selectedImageIndex === i && "border border-miro-dark-green"}`}
+            className={`aspect-square bg-gray-800 overflow-hidden cursor-pointer ${selectedImageIndex === i && "border-2 border-yellow-600"}`}
             onClick={() => setSelectedImageIndex(i)}
           >
             <img

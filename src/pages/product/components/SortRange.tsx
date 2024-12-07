@@ -1,8 +1,19 @@
-interface SortRangeProps {
-  handleSortChange: (value: string) => void;
-}
+import React from "react";
+import { useSearchParams } from "react-router-dom";
+import { useFilterStore } from "@/store/filter/useFilterStore";
 
-export const SortRange: React.FC<SortRangeProps> = ({ handleSortChange }) => {
+export const SortRange: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { setSortOption } = useFilterStore();
+
+  const handleSortChange = (value: string) => {
+    setSortOption(value);
+
+    const updatedParams = new URLSearchParams(searchParams);
+    updatedParams.set("sort", value);
+    setSearchParams(updatedParams);
+  };
+
   return (
     <div className="relative">
       <select
@@ -10,7 +21,7 @@ export const SortRange: React.FC<SortRangeProps> = ({ handleSortChange }) => {
         name="filter"
         onChange={(e) => handleSortChange(e.target.value)}
         className="border border-gray-300 rounded py-2 bg-gray-900 text-white"
-        defaultValue="latest"
+        defaultValue={searchParams.get("sort") || "latest"}
       >
         <option value="" disabled>
           정렬 선택

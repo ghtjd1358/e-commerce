@@ -1,6 +1,6 @@
-import React, { Suspense, useEffect, useState, useCallback } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import {
   ALL_CATEGORY_ID,
   authStatusType,
@@ -12,12 +12,12 @@ import { Layout } from "../common/components/Layout";
 import { ProductFilter } from "./components/ProductFilter";
 import { Button } from "../common/ui/button";
 import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
-import { SearchBar } from "../common/components/SearchBar";
-import { IProduct } from "@/features/products/type";
 import { ProductList } from "./components/ProductList";
 
 export const ProductPage: React.FC = () => {
-  const { category } = useParams();
+  const [searchParams ] = useSearchParams();
+  const category = searchParams.get("category") || ALL_CATEGORY_ID; 
+  console.log(category)
   const { user, isLogin } = useAuthStore();
   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
     useFetchInfiniteQueryProducts({
@@ -26,14 +26,9 @@ export const ProductPage: React.FC = () => {
 
   const { ref, inView } = useInView();
 
-  const [searchResults, setSearchResults] = useState<IProduct[]>([]);
-
-  const handleSearchResults = useCallback((results: IProduct[]) => {
-    setSearchResults(results);
-  }, []);
-
   const totalCount = data?.pages[0]?.totalCount || 0;
   const products = data ? data.pages.flatMap((page) => page.products) : [];
+
   const filteredProducts =
     category === ALL_CATEGORY_ID
       ? products
@@ -50,25 +45,17 @@ export const ProductPage: React.FC = () => {
       <div className="min-h-screen bg-gray-900 text-gray-100 p-16 pt-28">
         <ProductFilter
           totalCount={
-            searchResults.length > 0
-              ? searchResults.length
-              : category === ALL_CATEGORY_ID
-                ? totalCount
-                : filteredProducts.length
+            category === ALL_CATEGORY_ID ? totalCount : filteredProducts.length
           }
           category={category}
-          filteredProducts={
-            searchResults.length > 0 ? searchResults : filteredProducts
-          }
+          filteredProducts={filteredProducts}
         />
-        <SearchBar onSearchResults={handleSearchResults} />
+
         <hr className="mt-3 mb-10" />
         <ApiErrorBoundary>
           <Suspense fallback={<LoadingSkeleton />}>
             <ProductList
-              filteredProducts={
-                searchResults.length > 0 ? searchResults : filteredProducts
-              }
+              filteredProducts={filteredProducts}
               isLogin={isLogin}
               user={user}
               isLoading={isLoading}
@@ -77,7 +64,7 @@ export const ProductPage: React.FC = () => {
           </Suspense>
         </ApiErrorBoundary>
 
-        {searchResults.length === 0 && hasNextPage && (
+        {hasNextPage && (
           <div className="flex justify-center items-center">
             <Button variant="outline" ref={ref} className="w-full bg-gray-700">
               {isFetching ? "...로딩중" : "fetching"}

@@ -11,7 +11,7 @@ import whiskey from "../../public/whiskey-4939956_1280_webp.webp";
 
 export const MAX_CART_VALUE = 999;
 
-export const ALL_CATEGORY_ID = "-1";
+export const ALL_CATEGORY_ID = "All";
 
 export const PRODUCT_PAGE_SIZE = 20;
 
@@ -41,7 +41,7 @@ export const orderType = {
 };
 
 export const heroSlides = [
-  { image: soldier, alt: "Luxury Watch", title: "Timeless Elegance" },
+  { image: soldier, alt: "전체 상품", title: "당신의 필요에 맞는 총기를 다양한 브랜드를 통해 찾아보세요" },
   { image: woman, alt: "Designer Handbag", title: "Iconic Style" },
   { image: whiskey, alt: "Premium Jewelry", title: "Radiant Beauty" },
   { image: animal, alt: "Animal", title: "Beautiful Nature" },

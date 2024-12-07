@@ -65,30 +65,34 @@ export const CartCard: React.FC<ProductCardProps> = ({
             onChange={handleSelect}
             className="mr-2"
           />
-          {product.productName}
+                
         </TableCell>
         <TableCell className="text-gray-400 w-1/4 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">
-          $ {product.productPrice}
+          {product.productName}
         </TableCell>
-        <TableCell className="text-gray-400 flex items-center justify-center space-x-3 mt-4">
-          <Button
-            onClick={handleDecrease}
-            className="px-2 border border-gray-300"
-          >
-            -
-          </Button>
-          <span>{count}</span>
-          <Button onClick={handleIncrease} className="px-2">
-            +
-          </Button>
+        <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">
+          $ {product.productPrice}
         </TableCell>
         <TableCell className="w-1/4 text-center">
           <img
             src={product.productImage[0]}
             alt={product.productName}
-            className="w-16 h-16 object-cover m-auto"
+            className="w-30 h-28 object-fill m-auto"
           />
         </TableCell>
+        <TableCell className="text-gray-400 flex items-center justify-center space-x-3 mt-10">
+          <Button
+            onClick={handleDecrease}
+            className="px-2 bg-gray-600"
+          >
+            -
+          </Button>
+          <span>{count}</span>
+          <Button onClick={handleIncrease} className="px-2 bg-gray-600">
+            +
+          </Button>
+        </TableCell>
+        
         <TableCell className="w-1/6 text-center">
           <button
             onClick={handleRemoveItem}

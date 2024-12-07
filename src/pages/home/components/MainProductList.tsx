@@ -22,8 +22,6 @@ export const MainProductList: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  console.log(queryClient.getQueryData([PRODUCT_KEY])); // null or undefined면 캐시 없음
-
   const cartItem = cart.map((item) => item.id);
 
   const groupedProducts =
@@ -63,16 +61,24 @@ export const MainProductList: React.FC = () => {
     }
   };
 
-  // prefetch
   const handlePrefetchProducts = async (categoryId: string) => {
-    await queryClient.prefetchQuery({
-      queryKey: ["products", { categoryId }],
-      queryFn: async () => {
-        const filter = { categoryId };
-        const response = await fetchFilterProductsApi(filter, 20, 1);
-        return response.products;
-      },
-    });
+    const queryKey = [PRODUCT_KEY, { categoryId }];
+
+    // 캐시에 데이터가 있는지 확인
+    const cachedData = queryClient.getQueryData(queryKey);
+    console.log("queryKey", queryKey);
+
+    if (!cachedData) {
+      // 캐시에 데이터가 없으면 서버에서 데이터를 prefetch
+      await queryClient.prefetchQuery({
+        queryKey,
+        queryFn: async () => {
+          const filter = { categoryId };
+          const response = await fetchFilterProductsApi(filter, 20, 1);
+          return response.products;
+        },
+      });
+    }
   };
 
   return (
@@ -92,7 +98,7 @@ export const MainProductList: React.FC = () => {
               <div className="flex justify-between">
                 <h3 className="text-3xl font-bold mb-6">{category}</h3>
                 <Link
-                  to={`${pageRoutes.product}/${items[0].productCategory.id}`}
+                  to={`${pageRoutes.product}?category=${items[0].productCategory.id}`}
                   onMouseEnter={() =>
                     handlePrefetchProducts(items[0].productCategory.id)
                   }
