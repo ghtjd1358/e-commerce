@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { useModal } from "@/shared/hooks/useModals";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { Suspense } from "react";
@@ -21,15 +22,37 @@ import {
 import { SellerProductFilter } from "./SellerProductFilter";
 import { SellerProductCardSkeleton } from "@/pages/common/components/skeletons/SellerProductCardSkeleton";
 import { SellerEmptyProduct } from "@/pages/common/components/SellerEmptyProduct";
+import { Pagination } from "@/pages/common/components/Pagination";
 
 export const SellerProductList = ({ pageSize = 5 }) => {
   const { isOpen, openModal, closeModal } = useModal();
   const { user } = useAuthStore();
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useFetchInfiniteQueryProducts({ pageSize });
+  const { data, isLoading } = useFetchInfiniteQueryProducts({ pageSize });
 
-  const products = data ? data.pages.flatMap((page) => page.products) : [];
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const allProducts = data ? data.pages.flatMap((page) => page.products) : [];
+  const filteredProducts = allProducts.filter((product) =>
+    user?.isSeller ? product.sellerId === user.uid : true,
+  );
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredProducts.length / pageSize);
+  const currentProducts = filteredProducts.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize,
+  );
+
+  const handlePageChange = (page: number | "prev" | "next") => {
+    if (page === "prev" && currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    } else if (page === "next" && currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    } else if (typeof page === "number") {
+      setCurrentPage(page);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -83,34 +106,25 @@ export const SellerProductList = ({ pageSize = 5 }) => {
                     <SellerProductCardSkeleton key={index} />
                   ))}
                 </>
-              ) : products.length === 0 ? (
+              ) : currentProducts.length === 0 ? (
                 <SellerEmptyProduct onAddProduct={() => {}} />
               ) : (
-                products
-                  .filter((product) =>
-                    user?.isSeller ? product.sellerId === user.uid : true,
-                  )
-                  .map((product) => (
-                    <SellerProductCard
-                      user={user}
-                      key={product.id}
-                      product={product}
-                    />
-                  ))
+                currentProducts.map((product) => (
+                  <SellerProductCard
+                    user={user}
+                    key={product.id}
+                    product={product}
+                  />
+                ))
               )}
             </TableBody>
           </Table>
-
-          {hasNextPage && (
-            <Button
-              onClick={() => fetchNextPage()}
-              variant="link"
-              className="text-white"
-              disabled={isFetchingNextPage}
-            >
-              {isFetchingNextPage ? "Loading more..." : "추가 페이지"}
-            </Button>
-          )}
+          {/* Pagination */}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onClick={handlePageChange}
+          />
         </CardContent>
       </Card>
 
