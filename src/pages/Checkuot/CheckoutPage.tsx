@@ -1,12 +1,13 @@
 import { authStatusType } from "@/shared/constants";
 import { Layout } from "../common/components/Layout";
 import { CheckoutProductTable } from "./components/CheckoutProductTable";
-import { useBuyerOrders } from "@/features/order/hooks/useFetchOrders";
+import { useFetchOrders } from "@/features/order/hooks/useFetchOrders";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { OrderType } from "@/features/order/types";
 import { ProfilePayload } from "./components/ProfilePayload";
 import { lazy } from "react";
+import { CheckoutBtn } from "./components/CheckoutBtn";
 // import { Profile } from "../common/components/auth/Profile";
 
 const Profile = lazy(() =>
@@ -22,9 +23,9 @@ interface Order {
 }
 
 export const CheckoutPage: React.FC = () => {
-  const { user } = useAuthStore();
+  const { user, isLoading } = useAuthStore();
   const { data: products } = useFetchProducts();
-  const { data: buyer } = useBuyerOrders(user?.uid || "") as {
+  const { data: buyer } = useFetchOrders(user?.uid || "", ["결제 대기"]) as {
     data: Order[] | undefined;
   };
 
@@ -47,8 +48,9 @@ export const CheckoutPage: React.FC = () => {
         <div className="min-w-6xl mx-auto space-y-8">
           <h1 className="text-3xl font-bold text-gold">결제페이지</h1>
           <Profile />
-          <ProfilePayload />
+          <ProfilePayload user={user} isLoading={isLoading} />
           <CheckoutProductTable buyer={buyerProductsMerge} />
+          <CheckoutBtn/>
         </div>
       </div>
     </Layout>

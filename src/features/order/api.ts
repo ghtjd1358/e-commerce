@@ -11,19 +11,55 @@ import {
 } from "firebase/firestore";
 import { OrderStatus } from "./types";
 
+interface Order {
+  id: string;
+  buyerId: string;
+  sellerId: string;
+  status: string;
+  createdAt: string;
+  productId?: string;
+}
+
 // 구매자 주문 조회 API
-export const getOrdersForBuyerApi = async (buyerId: string) => {
+// 구매자 주문 조회 API
+export const getOrdersForBuyerApi = async (
+  buyerId: string,
+  statuses?: string[] // 상태를 배열로 받음
+) => {
   try {
     const ordersRef = collection(db, "orders");
-    const q = query(ordersRef, where("buyerId", "==", buyerId));
-    const querySnapshot = await getDocs(q);
+    let ordersQuery;
 
-    return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    if (statuses && statuses.length > 0) {
+      // 여러 상태를 필터링
+      ordersQuery = query(
+        ordersRef,
+        where("buyerId", "==", buyerId),
+        where("status", "in", statuses) // Firestore의 in 조건 사용
+      );
+    } else {
+      // 상태 없이 전체 조회
+      ordersQuery = query(ordersRef, where("buyerId", "==", buyerId));
+    }
+
+    const ordersSnapshot = await getDocs(ordersQuery);
+
+    // 결과 매핑
+    const orders = ordersSnapshot.docs.map((doc) => {
+      const orderData = doc.data() as Order; // 데이터 타입 명시
+      return {
+        ...orderData,  
+        id: doc.id,   
+      };
+    });
+
+    return orders;
   } catch (error) {
     console.error("구매자 주문 목록 조회 중 오류:", error);
     throw error;
   }
 };
+
 
 
 

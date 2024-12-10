@@ -15,7 +15,7 @@ import {
 import { BuyerProductCard } from "./BuyerProductCard";
 import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
-import { useBuyerOrders } from "@/features/order/hooks/useFetchOrders";
+import { useFetchOrders } from "@/features/order/hooks/useFetchOrders";
 import { OrderProductCardSkeleton } from "@/pages/common/components/skeletons/OrderProductCardSkeleton";
 import { Pagination } from "@/pages/common/components/Pagination";
 
@@ -35,7 +35,12 @@ export const BuyerProductList: React.FC<ProductOrderListProps> = ({
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 5;
   const { data: products } = useFetchProducts();
-  const { data: orders, isLoading: ordersLoading } = useBuyerOrders(buyerId)as {
+  
+  // '주문 완료'와 '주문 취소' 상태만 가져오기
+  const { data: orders, isLoading: ordersLoading } = useFetchOrders(buyerId, [
+    "주문 완료",
+    "주문 취소",
+  ]) as {
     data: Order[] | undefined;
     isLoading: boolean;
   };
@@ -112,3 +117,4 @@ export const BuyerProductList: React.FC<ProductOrderListProps> = ({
     </div>
   );
 };
+

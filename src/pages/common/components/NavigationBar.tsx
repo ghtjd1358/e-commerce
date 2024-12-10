@@ -74,7 +74,7 @@ export const NavigationBar: React.FC = () => {
       <nav className="hidden md:block w-[30%]">
         <SearchBar
           onSearchResults={handleSearchResults}
-          onSearchTermChange={handleSearchTermChange}
+          // onSearchTermChange={handleSearchTermChange}
         />
       </nav>
 

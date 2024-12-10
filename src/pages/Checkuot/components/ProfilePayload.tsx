@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/store/auth/useAuthStore";
+import React, { useState } from "react";
 import { Home, PhoneIcon } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import {
@@ -9,15 +9,25 @@ import {
 } from "@/pages/common/ui/card";
 import { ProfileContentSkeleton } from "@/pages/common/components/auth/ProfileContentSkeleton";
 import { DaumPostcode } from "./DaumPostcode";
-import { useState } from "react";
 
-export const ProfilePayload: React.FC = () => {
-  const { user, isLoading } = useAuthStore();
-  const [address, setAddress] = useState<string>("");
+interface ProfilePayloadProps {
+  user: {
+    address?: string;
+    detailAddress?: string;
+    phoneNumber?: string;
+  } | null;
+  isLoading: boolean;
+}
+
+export const ProfilePayload: React.FC<ProfilePayloadProps> = ({
+  user,
+  isLoading,
+}) => {
+  const [address, setAddress] = useState<string>(user?.address ?? "");
   const location = useLocation();
 
-  const handleAddressComplete = (selectedAddress: string) => {
-    setAddress(selectedAddress);
+  const handleAddressComplete = (address: string) => {
+    setAddress(address);
   };
 
   return (
@@ -37,7 +47,8 @@ export const ProfilePayload: React.FC = () => {
               <div className="h-8 flex items-center space-x-2">
                 <Home />
                 <span>주소 : </span>
-                <span>{address ?? "집 없음"}</span>
+                <span>{address || "집 없음"}</span>
+                <span>{user?.detailAddress || ""}</span>
               </div>
               {/* DaumPostcode 버튼 */}
               <DaumPostcode onComplete={handleAddressComplete} />
