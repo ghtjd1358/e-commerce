@@ -94,7 +94,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <img
             src={product.productImage[0]}
             alt={product.productImage[0]}
-            className="w-full h-60 object-cover mb-4 rounded-lg border border-gray-400"
+            className="w-full h-60 object-fill mb-4 rounded-lg border border-gray-400"
           />
           <h3 className="text-2xl font-semibold text-yellow-500 mt-4 relative line-clamp-2 overflow-hidden h-[60px]">
             {product.productName}

@@ -2,13 +2,6 @@ import { TableCell, TableRow } from "@/pages/common/ui/table";
 import { OrderType } from "@/features/order/types";
 import { Button } from "@/pages/common/ui/button";
 import { useState } from "react";
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-} from "@/pages/common/ui/select";
 import { orderType } from "@/shared/constants";
 import { OrderStatus } from "@/features/order/types";
 import { useUpdateOrderStatus } from "@/features/order/hooks/useUpdateSellerOrders";
@@ -52,7 +45,7 @@ export const SellerOrderCard: React.FC<BuyerProductCardProps> = ({
       </TableCell>
       <TableCell className="w-1/7 text-center">
         <img
-          className="w-20 h-20 object-cover m-auto"
+          className="w-20 h-20 object-contain m-auto"
           src={product.productImage}
           alt={product.productName}
         />
@@ -66,32 +59,29 @@ export const SellerOrderCard: React.FC<BuyerProductCardProps> = ({
       <TableCell className="text-gray-400 w-1/6 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">
         {formattedDate}
       </TableCell>
-      <TableCell className="cursor-pointer gap-y-1 w-1/7">
-        <Select
+      <TableCell className="cursor-pointer gap-y-1 w-1/7 flex flex-col">
+        <select
+          className="pr-8 border border-gray-600 rounded-md py-2 bg-gray-900 text-gray-300 shadow-sm text-right"
           value={selectedStatus}
-          onValueChange={(value) => setSelectedStatus(value as OrderStatus)}
+          onChange={(event) => setSelectedStatus(event.target.value as OrderStatus)}
         >
-          <SelectTrigger className="text-center bg-gray-800 text-gray-500 p-2 rounded-md">
-            <SelectValue placeholder="상태 선택" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={orderType.ORDER_COMPLETE}>
+            <option value="">주문 설정</option>
+            <option value={orderType.ORDER_COMPLETE}>
               {orderType.ORDER_COMPLETE}
-            </SelectItem>
-            <SelectItem value={orderType.PAYLOAD_PENDING}>
+            </option>
+            <option value={orderType.PAYLOAD_PENDING}>
               {orderType.PAYLOAD_PENDING}
-            </SelectItem>
-            <SelectItem value={orderType.PAYMENT_PENDING}>
+            </option>
+            <option value={orderType.PAYMENT_PENDING}>
               {orderType.PAYMENT_PENDING}
-            </SelectItem>
-            <SelectItem value={orderType.PAYLOAD_START}>
+            </option>
+            <option value={orderType.PAYLOAD_START}>
               {orderType.PAYLOAD_START}
-            </SelectItem>
-            <SelectItem value={orderType.ORDER_CANCEL}>
+            </option>
+            <option value={orderType.ORDER_CANCEL}>
               {orderType.ORDER_CANCEL}
-            </SelectItem>
-          </SelectContent>
-        </Select>
+            </option>
+        </select>
         <Button className="mt-3" onClick={handleUpdateOrder}>
           상태변경
         </Button>

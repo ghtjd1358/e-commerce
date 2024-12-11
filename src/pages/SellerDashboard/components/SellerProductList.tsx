@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useModal } from "@/shared/hooks/useModals";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { Suspense } from "react";
-import { useFetchInfiniteQueryProducts } from "@/features/products/hooks/useFetchInfiniteQueryProducts";
 import { Button } from "@/pages/common/ui/button";
 import {
   Card,
@@ -21,19 +20,19 @@ import {
 } from "@/pages/common/ui/table";
 import { SellerProductFilter } from "./SellerProductFilter";
 import { SellerProductCardSkeleton } from "@/pages/common/components/skeletons/SellerProductCardSkeleton";
-import { SellerEmptyProduct } from "@/pages/common/components/SellerEmptyProduct";
 import { Pagination } from "@/pages/common/components/Pagination";
+import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
+import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 
 export const SellerProductList = ({ pageSize = 5 }) => {
   const { isOpen, openModal, closeModal } = useModal();
   const { user } = useAuthStore();
 
-  const { data, isLoading } = useFetchInfiniteQueryProducts({ pageSize });
+  const { data : products = [], isLoading } = useFetchProducts();
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const allProducts = data ? data.pages.flatMap((page) => page.products) : [];
-  const filteredProducts = allProducts.filter((product) =>
+  const filteredProducts = products.filter((product) =>
     user?.isSeller ? product.sellerId === user.uid : true,
   );
 
@@ -107,7 +106,7 @@ export const SellerProductList = ({ pageSize = 5 }) => {
                   ))}
                 </>
               ) : currentProducts.length === 0 ? (
-                <SellerEmptyProduct onAddProduct={() => {}} />
+                <EmptyProduct />
               ) : (
                 currentProducts.map((product) => (
                   <SellerProductCard

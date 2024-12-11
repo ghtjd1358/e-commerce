@@ -52,7 +52,7 @@ export const SellerProductCard: React.FC<ProductCardProps> = ({
           <img
             src={product.productImage[0]}
             alt={product.productName}
-            className="w-16 h-16 object-cover m-auto"
+            className="w-16 h-16 object-contain m-auto"
           />
         </TableCell>
         <TableCell className="font-medium text-gray-400 w-1/4 overflow-hidden overflow-ellipsis whitespace-normal text-center">

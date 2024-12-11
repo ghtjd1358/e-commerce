@@ -77,7 +77,7 @@ export const SellerOrderList: React.FC = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                    아이디
+                    ID
                   </TableHead>
                   <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
                     제품
@@ -111,7 +111,7 @@ export const SellerOrderList: React.FC = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                      아이디
+                      ID
                     </TableHead>
                     <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
                       제품

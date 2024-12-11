@@ -4,10 +4,7 @@ import bondarms from "../../public/logo/bondarms_webp.webp";
 import brwoing from "../../public/logo/brwoing_webp.webp";
 import czgunz from "../../public/logo/cz-gunz_webp.webp";
 import colt from "../../public/logo/Colt-Logo_webp.webp";
-import animal from "../../public/animal-17760_1280_webp.webp";
 import soldier from "../../public/gun-1927664_1280_webp.webp";
-import woman from "../../public/woman-6567047_1280_webp.webp";
-import whiskey from "../../public/whiskey-4939956_1280_webp.webp";
 
 export const MAX_CART_VALUE = 999;
 
@@ -42,7 +39,7 @@ export const orderType = {
 
 export const heroSlides = [
   { image: soldier, alt: "전체 상품", title: "당신의 필요에 맞는 총기를 다양한 브랜드를 통해 찾아보세요" },
-  { image: woman, alt: "Designer Handbag", title: "Iconic Style" },
-  { image: whiskey, alt: "Premium Jewelry", title: "Radiant Beauty" },
-  { image: animal, alt: "Animal", title: "Beautiful Nature" },
+  // { image: woman, alt: "Designer Handbag", title: "Iconic Style" },
+  // { image: whiskey, alt: "Premium Jewelry", title: "Radiant Beauty" },
+  // { image: animal, alt: "Animal", title: "Beautiful Nature" },
 ];

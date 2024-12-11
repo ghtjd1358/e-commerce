@@ -21,7 +21,7 @@ export const CategorySelectGroup: React.FC<CategorySelectGroupProps> = ({
         id="category-select"
         value={categoryId}
         onChange={(e) => onChangeCategory(e.target.value)}
-        className="pr-8 w-[130px] border border-white rounded-md py-2 bg-gray-900 text-white shadow-sm"
+        className="pr-8 w-[130px] border border-gray-600 rounded-md py-2 bg-gray-900 text-white shadow-sm"
       >
         <option value="" disabled>
           카테고리를 선택하세요
@@ -40,7 +40,7 @@ export const CategorySelectGroup: React.FC<CategorySelectGroupProps> = ({
         id="sort-select"
         value={sortOption}
         onChange={(e) => onValueOption(e.target.value)}
-        className="pr-8 w-[160px] border border-white rounded-md py-2 bg-gray-900 text-white shadow-sm"
+        className="pr-8 w-[160px] border border-gray-600 rounded-md py-2 bg-gray-900 text-white shadow-sm"
       >
         <option value="" disabled>
           정렬 기준 선택
