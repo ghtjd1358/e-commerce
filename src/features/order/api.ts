@@ -21,7 +21,6 @@ interface Order {
 }
 
 // 구매자 주문 조회 API
-// 구매자 주문 조회 API
 export const getOrdersForBuyerApi = async (
   buyerId: string,
   statuses?: string[] // 상태를 배열로 받음
@@ -35,11 +34,12 @@ export const getOrdersForBuyerApi = async (
       ordersQuery = query(
         ordersRef,
         where("buyerId", "==", buyerId),
-        where("status", "in", statuses) // Firestore의 in 조건 사용
+        where("status", "in", statuses),
+        orderBy("createdAt", "desc")
       );
     } else {
       // 상태 없이 전체 조회
-      ordersQuery = query(ordersRef, where("buyerId", "==", buyerId));
+      ordersQuery = query(ordersRef, where("buyerId", "==", buyerId),orderBy("createdAt", "desc") );
     }
 
     const ordersSnapshot = await getDocs(ordersQuery);

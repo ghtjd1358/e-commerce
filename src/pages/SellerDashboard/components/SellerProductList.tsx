@@ -36,7 +36,6 @@ export const SellerProductList = ({ pageSize = 5 }) => {
     user?.isSeller ? product.sellerId === user.uid : true,
   );
 
-  // Calculate pagination
   const totalPages = Math.ceil(filteredProducts.length / pageSize);
   const currentProducts = filteredProducts.slice(
     (currentPage - 1) * pageSize,
