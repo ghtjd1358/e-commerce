@@ -1,5 +1,6 @@
 # DOGUN-DOGUN
-![바이핸드](https://github.com/wjstjdus96/byhand/assets/77755620/50bc1609-2987-4cd5-b32d-22c5581c8965)
+<img width="949" alt="스크린샷 2024-12-13 200311" src="https://github.com/user-attachments/assets/2325afd8-c29b-431e-a37d-0f61e420df9d" />
+<img width="930" alt="스크린샷 2024-12-13 200233" src="https://github.com/user-attachments/assets/87723ac6-4ab5-411c-b2bc-11b62e0e8228" />
 
 #### 프로젝트 소개
 
@@ -66,14 +67,16 @@
 
 ## 💭 기술적 의사결정
 
+- [상태 관리에 대한 고민](https://hojjangfe1358.tistory.com/59)
+  
 - [에러 바운더리를 사용한 선언적 에러 핸들링](https://comprogramming.tistory.com/121)   
 
-- [컴파운트 컴포넌트를 활용한 공통 컴포넌트 재사용성과 가독성 향상](https://comprogramming.tistory.com/117)
+
 
 <br/>
 
 ## 🏗 아키텍쳐
-![바이핸드아키테쳐](https://github.com/wjstjdus96/byhand/assets/77755620/fa74af48-df72-4b3c-9fb8-6699ba9c5972)
+![두건두건아키테쳐](https://github.com/wjstjdus96/byhand/assets/77755620/fa74af48-df72-4b3c-9fb8-6699ba9c5972)
 <br/>
 
 ## 🗂 폴더구조
