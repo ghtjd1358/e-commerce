@@ -59,8 +59,6 @@
 <br/>  
 
 ## 🔫 트러블 슈팅
-- [Grid 아이템 이미지 로딩 후 리플로우 이슈 해결](https://comprogramming.tistory.com/116)
-  
 - [Prefetch 적용 및 네트워크 요청 수정](https://hojjangfe1358.tistory.com/52)
 
 <br/>  
@@ -69,7 +67,9 @@
 
 - [상태 관리에 대한 고민](https://hojjangfe1358.tistory.com/59)
   
-- [에러 바운더리를 사용한 선언적 에러 핸들링](https://comprogramming.tistory.com/121)   
+- [에러 바운더리를 사용한 선언적 에러 핸들링](https://hojjangfe1358.tistory.com/60)
+
+- 
 
 
 
