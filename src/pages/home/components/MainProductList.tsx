@@ -66,10 +66,8 @@ export const MainProductList: React.FC = () => {
 
     // 캐시에 데이터가 있는지 확인
     const cachedData = queryClient.getQueryData(queryKey);
-    console.log("queryKey", queryKey);
 
     if (!cachedData) {
-      // 캐시에 데이터가 없으면 서버에서 데이터를 prefetch
       await queryClient.prefetchQuery({
         queryKey,
         queryFn: async () => {

@@ -43,7 +43,7 @@ export const NavigationBar: React.FC = () => {
   }, [checkLoginStatus]);
 
   const handleSearchResults = (results: IProduct[]) => {
-    console.log("검색 결과:", results); 
+    // console.log("검색 결과:", results); 
   };
 
   const handleSearchTermChange = (searchTerm: string) => {

@@ -7,6 +7,25 @@ import { ALL_CATEGORY_ID, authStatusType } from "@/shared/constants";
 import { pageRoutes } from "@/app/apiRouters";
 import { NavigationBar } from "./NavigationBar";
 // import { Footer } from "./Footer";
+// import { onCLS, onINP, onFCP, onLCP, onTTFB } from "web-vitals";
+
+// const reportWebVitals = (onPerfEntry?: (metric) => void) => {
+//   if (onPerfEntry && typeof onPerfEntry === "function") {
+//     onCLS(onPerfEntry);
+//     onINP(onPerfEntry);
+//     onFCP((metric) => {
+//       onPerfEntry(metric);
+//     });
+//     onLCP((metric) => {
+//       onPerfEntry(metric);
+//     });
+//     onTTFB(onPerfEntry);
+//   }
+// };
+
+// reportWebVitals((metric) => {
+//   console.log("Web Vitals Metric:", metric);
+// });
 interface LayoutProps {
   children: ReactNode;
   containerClassName?: string;

@@ -1,5 +1,4 @@
 import { pageRoutes } from "@/app/apiRouters";
-import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IProduct } from "@/features/products/type";
 import "../../../../../src/app/index.css";
@@ -8,6 +7,7 @@ import { Button } from "../../ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { fetchDetailProductApi } from "@/features/products/api";
 import { PRODUCT_KEY } from "@/features/products/key";
+import { useRef } from "react";
 
 interface ProductCardProps {
   product: IProduct;
@@ -29,9 +29,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onClickPurchaseButton,
 }) => {
   const navigate = useNavigate();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const queryClient = useQueryClient();
-
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   // 상품 상세 정보를 prefetch 하는 함수
   const handlePrefetchDetail = async (productId: string) => {
@@ -42,21 +41,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         queryKey,
         queryFn: () => fetchDetailProductApi(productId),
       });
+      console.log(`Prefetched product: ${productId}`);
     }
   };
 
-  // setTimeout 실행 함수
-  const startPrefetch = (productId: string) => {
-    const id = setTimeout(() => {
+  const handleMouseEnter = (productId: string) => {
+    timeoutRef.current = setTimeout(() => {
       handlePrefetchDetail(productId);
-    }, 500);
-    setTimeoutId(id);
+    }, 1500); 
   };
 
-  // clearTimeout 함수
-  const cancelPrefetch = () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current); 
+      timeoutRef.current = null;
     }
   };
 
@@ -88,8 +86,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <Link
           to={`${pageRoutes.productDetail}/${product.id}`}
           className="relative"
-          onMouseEnter={() => startPrefetch(product.id)}
-          onMouseLeave={cancelPrefetch}
+          onMouseEnter={() => handleMouseEnter(product.id)}
+          onMouseLeave={handleMouseLeave}
         >
           <img
             src={product.productImage[0]}
