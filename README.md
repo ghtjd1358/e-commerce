@@ -1,50 +1,81 @@
-# React + TypeScript + Vite
+# DOGUN-DOGUN
+<img width="949" alt="스크린샷 2024-12-13 200311" src="https://github.com/user-attachments/assets/2325afd8-c29b-431e-a37d-0f61e420df9d" />
+<img width="930" alt="스크린샷 2024-12-13 200233" src="https://github.com/user-attachments/assets/87723ac6-4ab5-411c-b2bc-11b62e0e8228" />
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#### 프로젝트 소개
 
-Currently, two official plugins are available:
+총기 거래가 가능한 커머스 플랫폼입니다. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+#### 프로젝트 진행기간
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+2024.10 ~ 2024.11 (4주)
 
-- Configure the top-level `parserOptions` property like this:
+#### 프로젝트 배포링크
+[ DOGUN-DOGUN 배포링크 ](https://dogundogun.vercel.app/)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+
+##### 테스트 계정
+> 구매자   
+> ID: seller@test.com   
+> PW: 123qweQWE!
+>
+> 판매자   
+> ID: buyer@test.com   
+> PW: 123qweQWE!
+<br/>
+
+
+
+## 🛠 기술스택
+
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white"> <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Tailwindcss-06B6D4?style=f찰 ](https://hojjangfe1358.tistory.com/61)
+
+
+
+<br/>
+
+## 🏗 아키텍쳐
+![두건두건아키테쳐](https://github.com/wjstjdus96/byhand/assets/77755620/fa74af48-df72-4b3c-9fb8-6699ba9c5972)
+<br/>
+
+## 🗂 폴더구조
+
 ```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: "18.3" } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs["jsx-runtime"].rules,
-  },
-});
-```
+┣ 📁__mocks__
+┣ 📁__test__
+┣ 📁public
+┣ 📁src
+  ┣ 📁api
+  ┣ 📁assets
+  ┣ 📁components
+      ┣ 📁admin
+      ┣ 📁auth
+      ┣ 📁cart
+      ┣ 📁common
+      ┣ 📁home
+      ┣ 📁myPage
+      ┣ 📁payment
+      ┣ 📁productDetail
+      ┣ 📁products
+      ┣ 📁ui
+  ┣ 📁consts
+  ┣ 📁hooks
+      ┣ 📁auth
+      ┣ 📁cart
+      ┣ 📁form
+      ┣ 📁home
+      ┣ 📁myPage
+      ┣ 📁payment
+      ┣ 📁productDetail
+      ┣ 📁products
+      ┣ 📁seller
+  ┣ 📁layout
+  ┣ 📁lib
+  ┣ 📁pages
+      ┣ 📁error
+  ┣ 📁router
+  ┣ 📁store
+  ┣ 📁styles
+  ┣ 📁types
+  ┣ 📁utils

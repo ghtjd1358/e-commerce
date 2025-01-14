@@ -5,16 +5,13 @@ import { LoginPage } from "@/pages/login/LoginPage";
 import { RegisterPage } from "@/pages/register/RegisterPage";
 import { CheckoutPage } from "@/pages/Checkuot/CheckoutPage";
 import { ProfileEditPage } from "@/pages/ProfileEdit/ProfileEditPage";
-import { PaymentPage } from "@/pages/payment/PaymentPage";
 import { ErrorPage } from "@/pages/error/ErrorPage";
 import { NotFoundPage } from "@/pages/error/NotFoundPage";
-// import { SellerDashboardPage } from "@/pages/SellerDashboard/SellerDashboardPage";
+
 import { HomePage } from "@/pages/home/HomePage";
 import { ShoppingCartPage } from "@/pages/cart/ShoppingCartPage";
 import { BuyerDashboardPage } from "@/pages/BuyerDashboard/BuyerDashboardPage";
 import { lazy } from "react";
-// import { ProductPage } from "@/pages/product/ProductPage";
-// import { ProductDetaiPage } from "@/pages/ProductDetail/ProductDetaiPage";
 
 const SellerDashboardPage = lazy(() =>
   import("@/pages/SellerDashboard/SellerDashboardPage").then((module) => ({
@@ -76,11 +73,6 @@ export const router = createBrowserRouter([
       {
         path: pageRoutes.sellerdashboard,
         element: <SellerDashboardPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: pageRoutes.payment,
-        element: <PaymentPage />,
         errorElement: <ErrorPage />,
       },
       {

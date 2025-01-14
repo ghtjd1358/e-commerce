@@ -59,9 +59,9 @@ export const SellerOrderCard: React.FC<BuyerProductCardProps> = ({
       <TableCell className="text-gray-400 w-1/6 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">
         {formattedDate}
       </TableCell>
-      <TableCell className="cursor-pointer gap-y-1 w-1/7 flex flex-col">
+      <TableCell className="cursor-pointer w-1/7 flex flex-col">
         <select
-          className="pr-8 border border-gray-600 rounded-md py-2 bg-gray-900 text-gray-300 shadow-sm text-right"
+          className=" border-gray-600 rounded-md py-2 bg-gray-900 text-gray-300 shadow-sm text-center"
           value={selectedStatus}
           onChange={(event) => setSelectedStatus(event.target.value as OrderStatus)}
         >
