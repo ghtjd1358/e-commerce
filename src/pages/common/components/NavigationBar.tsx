@@ -20,7 +20,7 @@ export const NavigationBar: React.FC = () => {
   const { cart, initCart } = useCartStore();
   const cartLength = cart.length;
   const [bgColor, setBgColor] = useState("bg-gray-800 bg-opacity-60");
-  const [searchParams, setSearchParams] = useSearchParams();
+  // const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,9 +46,9 @@ export const NavigationBar: React.FC = () => {
     // console.log("검색 결과:", results); 
   };
 
-  const handleSearchTermChange = (searchTerm: string) => {
-    setSearchParams({ search: searchTerm });
-  };
+  // const handleSearchTermChange = (searchTerm: string) => {
+  //   setSearchParams({ search: searchTerm });
+  // };
 
   return (
     <header
@@ -71,12 +71,12 @@ export const NavigationBar: React.FC = () => {
         </h1>
       </Link>
 
-      <nav className="hidden md:block w-[30%]">
+      {/* <nav className="hidden md:block w-[30%]">
         <SearchBar
           onSearchResults={handleSearchResults}
           // onSearchTermChange={handleSearchTermChange}
         />
-      </nav>
+      </nav> */}
 
       {isOpen && (
         <SideNavigationBar
