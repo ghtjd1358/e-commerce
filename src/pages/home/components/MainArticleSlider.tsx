@@ -1,4 +1,3 @@
-// import { useEffect, useState } from "react";
 import { ALL_CATEGORY_ID, heroSlides } from "@/shared/constants";
 import { Button } from "@/pages/common/ui/button";
 import { Link } from "react-router-dom";
@@ -10,7 +9,7 @@ import { fetchFilterProductsApi } from "@/features/products/api";
 export function MainArticleSlider() {
   const queryClient = useQueryClient();
 
-// Prefetch products based on categoryId
+// Prefetch
   const handlePrefetchProducts = async (categoryId: string) => {
     const queryKey = [PRODUCT_KEY, {categoryId}]; 
 

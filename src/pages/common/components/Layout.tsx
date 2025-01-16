@@ -37,12 +37,18 @@ export const Layout: React.FC<LayoutProps> = ({
   containerClassName = "",
   authStatus = authStatusType.COMMON,
 }) => {
-  const { isLogin, user } = useAuthStore();
+  const { isLogin, user, checkLoginStatus } = useAuthStore();
   const { setCategoryId } = useFilterStore();
 
+  useEffect(()=>{
+    checkLoginStatus()
+  },[checkLoginStatus])
+  
   useEffect(() => {
     setCategoryId(ALL_CATEGORY_ID);
   }, [setCategoryId]);
+
+
 
   useEffect(() => {
     window.scrollTo(0, 0);

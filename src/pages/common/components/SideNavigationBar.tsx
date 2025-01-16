@@ -12,6 +12,7 @@ interface SideNavigationBarProps {
   isLogin: boolean;
   cartLength: number;
   initCart: (uid: string) => void;
+  resetCart: (uid: string) => void;
   toggleModal: () => void;
 }
 
@@ -20,6 +21,7 @@ export const SideNavigationBar: React.FC<SideNavigationBarProps> = ({
   isLogin,
   cartLength,
   initCart,
+  resetCart,
   toggleModal,
 }) => {
   return (
@@ -38,7 +40,7 @@ export const SideNavigationBar: React.FC<SideNavigationBarProps> = ({
           </Button>
         </div>
         <div className="mb-6 space-y-2">
-          <CartButton user={user} cartLength={cartLength} initCart={initCart} />
+          <CartButton user={user} cartLength={cartLength} initCart={initCart} resetCart={resetCart} />
         </div>
         <h3 className="text-yellow-500 mb-4 font-semibold">카테고리</h3>
         <nav className="space-y-2 flex-grow">

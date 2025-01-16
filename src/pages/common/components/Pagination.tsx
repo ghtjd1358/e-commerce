@@ -25,7 +25,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className="flex items-center justify-center space-x-2 mt-4">
-      {/* Previous Button */}
+      {/* 이전 버튼 */}
       <Button
         onClick={() => onClick("prev")}
         disabled={currentPage === 1}
@@ -38,7 +38,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         &lt;
       </Button>
 
-      {/* Page Numbers */}
+      {/* 페이지 버튼 */}
       {pages.map((page, idx) =>
         typeof page === "number" ? (
           <Button
@@ -59,7 +59,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         )
       )}
 
-      {/* Next Button */}
+      {/* 다음 버튼 */}
       <Button
         onClick={() => onClick("next")}
         disabled={currentPage === totalPages}

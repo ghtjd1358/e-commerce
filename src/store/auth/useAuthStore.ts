@@ -1,9 +1,9 @@
-import { auth, db } from "@/app/firebase";
+import { auth } from "@/app/firebase";
 import { IUser, GoogleUser } from "@/features/auth/types";
 import Cookies from "js-cookie";
 import { create } from "zustand";
 import { AuthStore } from "./type";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { createUserData, fetchUserData } from "@/shared/utils/firestoreUser";
 
 export const useAuthStore = create<AuthStore>((set) => ({
   isLogin: !!Cookies.get("accessToken"),
@@ -16,11 +16,9 @@ export const useAuthStore = create<AuthStore>((set) => ({
       try {
         auth.onAuthStateChanged(async (currentUser) => {
           if (currentUser) {
-            const userDocRef = doc(db, "users", currentUser.uid);
-            const userDocSnap = await getDoc(userDocRef);
-
-            if (userDocSnap.exists()) {
-              const userData = userDocSnap.data();
+            try {
+              // Firestore에서 사용자 데이터 가져오기
+              const userData = await fetchUserData(currentUser.uid);
               set({
                 user: {
                   uid: currentUser.uid,
@@ -36,13 +34,14 @@ export const useAuthStore = create<AuthStore>((set) => ({
                 isLogin: true,
                 isLoading: false,
               });
-            } else {
-              await setDoc(userDocRef, {
-                nickname: currentUser.displayName || "",
-                email: currentUser.email,
-                isSeller: false,
-              });
-
+            } catch (error) {
+              await createUserData(
+                currentUser.uid,
+                currentUser.email ?? "",
+                currentUser.displayName ?? ""
+              );
+              console.log(error)
+  
               set({
                 user: {
                   uid: currentUser.uid,
@@ -50,10 +49,9 @@ export const useAuthStore = create<AuthStore>((set) => ({
                   displayName: currentUser.displayName ?? "",
                   photoURL: currentUser.photoURL ?? "",
                   isSeller: false,
-                  // address: currentUser.address ?? "",
-                  // phoneNumber: currentUser.phoneNumber ?? "",
                 },
                 isLogin: true,
+                isLoading: false,
               });
             }
           } else {
@@ -72,6 +70,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({ user: null, isLogin: false });
     }
   },
+  
 
   logout: () => {
     Cookies.remove("accessToken");

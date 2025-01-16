@@ -26,7 +26,7 @@ export const CategorySelectUrl: React.FC<CategorySelectGroupProps> = ({
       {categories.map((category) => (
         <button
           key={category.id}
-          onClick={() => handleCategoryChange(category.id)}
+          onClick={() => handleCategoryChange(category.name)}
           className="flex flex-col items-center group"
         >
           {category.img && (
@@ -35,7 +35,7 @@ export const CategorySelectUrl: React.FC<CategorySelectGroupProps> = ({
               alt={category.name}
               className={`w-16 h-16 mb-2 border rounded-full object-center transition-all duration-300 
                 ${
-                  category.id === categoryId
+                  category.name === categoryId
                     ? "border-2 border-yellow-600"
                     : "border-gray-600"
                 } 
@@ -48,7 +48,7 @@ export const CategorySelectUrl: React.FC<CategorySelectGroupProps> = ({
             variant={null}
             className={`flex transition-all duration-300 
               ${
-                category.id === categoryId
+                category.name === categoryId
                   ? "text-yellow-500"
                   : "text-gray-300 group-hover:text-yellow-500"
               }`}

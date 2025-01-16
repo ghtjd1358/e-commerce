@@ -14,7 +14,7 @@ export const ProductFilter: React.FC<{
   const { minPrice, maxPrice, setMinPrice, setMaxPrice } = useFilterStore();
 
   const categoryName =
-    categories.find((cat) => cat.id === category)?.name || "카테고리 없음";
+    categories.find((cat) => cat.name === category)?.name || "카테고리 없음";
 
   const displayCount =
     category === ALL_CATEGORY_ID ? totalCount : filteredProducts.length;

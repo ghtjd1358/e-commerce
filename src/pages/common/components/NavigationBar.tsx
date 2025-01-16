@@ -10,14 +10,14 @@ import { CartButton } from "./CartButton";
 import { ProfileButton } from "./ProfileButton";
 import { LoginButton } from "./LoginButton";
 import { LogoutButton } from "./LogoutButton";
-import { SearchBar } from "./SearchBar";
-import { IProduct } from "@/features/products/type";
-import { useSearchParams } from "react-router-dom";
+// import { SearchBar } from "./SearchBar";
+// import { IProduct } from "@/features/products/type";
+// import { useSearchParams } from "react-router-dom";
 
 export const NavigationBar: React.FC = () => {
   const { isOpen, toggleModal } = useModal();
-  const { user, isLogin, checkLoginStatus } = useAuthStore();
-  const { cart, initCart } = useCartStore();
+  const { user, isLogin } = useAuthStore();
+  const { cart, initCart, resetCart } = useCartStore();
   const cartLength = cart.length;
   const [bgColor, setBgColor] = useState("bg-gray-800 bg-opacity-60");
   // const [searchParams, setSearchParams] = useSearchParams();
@@ -38,13 +38,9 @@ export const NavigationBar: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    checkLoginStatus();
-  }, [checkLoginStatus]);
-
-  const handleSearchResults = (results: IProduct[]) => {
-    // console.log("검색 결과:", results); 
-  };
+  // const handleSearchResults = (results: IProduct[]) => {
+  //   console.log("검색 결과:", results); 
+  // };
 
   // const handleSearchTermChange = (searchTerm: string) => {
   //   setSearchParams({ search: searchTerm });
@@ -84,13 +80,14 @@ export const NavigationBar: React.FC = () => {
           isLogin={isLogin}
           cartLength={cartLength}
           initCart={initCart}
+          resetCart={resetCart}
           toggleModal={toggleModal}
         />
       )}
 
       <div className="justify-between items-center ml-6 w-80">
         <div className="flex-grow flex justify-around">
-          <CartButton user={user} cartLength={cartLength} initCart={initCart} />
+          <CartButton user={user} cartLength={cartLength} initCart={initCart} resetCart={resetCart} />
           <ProfileButton user={user} isLogin={isLogin} />
           {isLogin ? <LogoutButton /> : <LoginButton />}
         </div>

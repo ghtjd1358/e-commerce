@@ -139,7 +139,12 @@ export const loginAPI = async (
     const user = userCredential.user;
 
     const token = await user.getIdToken();
-    Cookies.set("accessToken", token, { expires: 30 });
+    Cookies.set("accessToken", token, { 
+      expires: 30, 
+      secure: true, 
+      sameSite: "Strict" 
+    });
+    
 
     const userDocRef = doc(db, "users", user.uid);
     const userDocSnap = await getDoc(userDocRef);

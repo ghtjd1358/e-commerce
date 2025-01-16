@@ -14,20 +14,24 @@ interface CartButtonProps {
   user?: User | null;
   cartLength: number;
   initCart: (uid: string) => void;
+  resetCart: (uid:string) => void;
 }
 
 export const CartButton: React.FC<CartButtonProps> = ({
   user,
   cartLength,
   initCart,
+  resetCart
 }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user?.uid) {
       initCart(user.uid);
+    }else{
+      resetCart("guest")
     }
-  }, [user?.uid, initCart]);
+  }, [user?.uid, initCart, resetCart]);
 
   const handleClickCart = () => {
     navigate(pageRoutes.shoppingcart);

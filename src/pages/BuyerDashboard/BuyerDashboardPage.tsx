@@ -4,8 +4,6 @@ import { lazy, Suspense } from "react";
 import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { BuyerOrderSkeleton } from "./components/skeleton/BuyerOrderSkeleton";
-// import { Profile } from "../common/components/auth/Profile";
-// import { BuyerProductList } from "./components/BuyerProductList";
 
 const Profile = lazy(() =>
   import("../common/components/auth/Profile").then((module) => ({

@@ -16,9 +16,11 @@ import { ProductList } from "./components/ProductList";
 
 export const ProductPage: React.FC = () => {
   const [searchParams ] = useSearchParams();
+  console.log('searchParams', searchParams)
   const category = searchParams.get("category") || ALL_CATEGORY_ID; 
-  console.log(category)
+  console.log('category', category)
   const { user, isLogin } = useAuthStore();
+
   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
     useFetchInfiniteQueryProducts({
       pageSize: 20,
@@ -27,12 +29,14 @@ export const ProductPage: React.FC = () => {
   const { ref, inView } = useInView();
 
   const totalCount = data?.pages[0]?.totalCount || 0;
-  const products = data ? data.pages.flatMap((page) => page.products) : [];
 
+  const products = data ? data.pages.flatMap((page) => page.products) : [];
+    
   const filteredProducts =
     category === ALL_CATEGORY_ID
       ? products
-      : products.filter((product) => product.productCategory.id === category);
+      : products.filter((product) => product.productCategory.name === category);
+      console.log(filteredProducts)
 
   useEffect(() => {
     if (inView && hasNextPage) {

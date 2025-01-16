@@ -24,6 +24,7 @@ export const MainProductList: React.FC = () => {
 
   const cartItem = cart.map((item) => item.id);
 
+  // group products
   const groupedProducts =
     data?.reduce(
       (acc, product) => {
@@ -61,6 +62,7 @@ export const MainProductList: React.FC = () => {
     }
   };
 
+  // prefetch
   const handlePrefetchProducts = async (categoryId: string) => {
     const queryKey = [PRODUCT_KEY, { categoryId }];
 
@@ -96,7 +98,7 @@ export const MainProductList: React.FC = () => {
               <div className="flex justify-between">
                 <h3 className="text-3xl font-bold mb-6">{category}</h3>
                 <Link
-                  to={`${pageRoutes.product}?category=${items[0].productCategory.id}`}
+                  to={`${pageRoutes.product}?category=${items[0].productCategory.name}`}
                   onMouseEnter={() =>
                     handlePrefetchProducts(items[0].productCategory.id)
                   }

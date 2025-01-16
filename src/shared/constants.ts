@@ -13,9 +13,9 @@ export const ALL_CATEGORY_ID = "All";
 export const PRODUCT_PAGE_SIZE = 20;
 
 export const categories: { id: string; name: string; img?: string }[] = [
-  { id: ALL_CATEGORY_ID, name: "전체", img: All },
+  { id: ALL_CATEGORY_ID, name: ALL_CATEGORY_ID, img: All },
   { id: "1", name: "Beretta", img: beretta },
-  { id: "2", name: "Bond Arms", img: bondarms },
+  { id: `2`, name: "Bond Arms", img: bondarms },
   { id: "3", name: "Browning", img: brwoing },
   { id: "4", name: "CZ Guns", img: czgunz },
   { id: "5", name: "Colt", img: colt },
@@ -39,7 +39,4 @@ export const orderType = {
 
 export const heroSlides = [
   { image: soldier, alt: "전체 상품", title: "당신의 필요에 맞는 총기를 다양한 브랜드를 통해 찾아보세요" },
-  // { image: woman, alt: "Designer Handbag", title: "Iconic Style" },
-  // { image: whiskey, alt: "Premium Jewelry", title: "Radiant Beauty" },
-  // { image: animal, alt: "Animal", title: "Beautiful Nature" },
 ];

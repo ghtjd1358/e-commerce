@@ -35,11 +35,11 @@ export default defineConfig({
             output: {
                 manualChunks: function (id) {
                     if (id.includes("node_modules")) {
-                        var module_1 = id.split("node_modules/").pop().split("/")[0];
-                        if (id.includes("firebase")) {
+                        if (id.includes("firebase"))
                             return "firebase";
-                        }
-                        return "vendor-".concat(module_1); // 기타 node_modules 모듈을 개별적으로 분리
+                        if (id.includes("@tanstack/react-query"))
+                            return "react-query";
+                        return "vendor";
                     }
                 },
             },

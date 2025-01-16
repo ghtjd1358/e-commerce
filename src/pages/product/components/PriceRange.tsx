@@ -27,7 +27,7 @@ export const PriceRange: React.FC<PriceRangeProps> = ({
           className="pr-8 w-[120px]"
         />
         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
-          원
+          $
         </span>
       </div>
       <span className="text-sm">~</span>
@@ -42,7 +42,7 @@ export const PriceRange: React.FC<PriceRangeProps> = ({
           className="pr-8 w-[120px]"
         />
         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
-          원
+          $
         </span>
       </div>
     </div>
