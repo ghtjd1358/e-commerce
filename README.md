@@ -31,9 +31,10 @@
 
 <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white"> <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
 
-<img src="https://img.shields.io/badge/Zustand-1E4CC9?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/React Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white"> <img src="https://img.shields.io/badge/React Hook Form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=white">
+<img src="https://img.shields.io/badge/Zustand-1E4CC9?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/React Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white"> <img src="https://img.shields.io/badge/React Hook Form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=white"> <img src="https://img.shields.io/badge/Zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white">
 
 <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">
+<img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=Vite&logoColor=white">
 
 <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=netlify&logoColor=white">
 <br/>
@@ -45,6 +46,7 @@
 - Tanstack Query 활용한 페이지네이션, 캐시관리
 - 카카오 우편번호 API, 포트원 SDK 활용하여 배송 정보 입력 및 결제 기능
 - Local Storage를 활용한 장바구니 관리
+- invalidateQueries를 활용한 자동 업데이트
 
 <br/>
 
@@ -106,3 +108,19 @@
   ┣ 📁styles
   ┣ 📁types
   ┣ 📁utils
+
+```
+| 폴더명 |  | 설명 |
+| --- | --- | --- |
+| `components` | 각 페이지별 컴포넌트를 모아놓은 폴더   | |
+| `components` |  `common` | 재사용 가능한 컴포넌트를 모아놓은 폴더  | 
+| `app` | 각 페이지를 모아놓은 폴더   | |
+| `hooks` | 커스텀 훅 선언   | |
+| `interface` | 타입에 대한 정의를 모아놓은 폴더    | |
+| `layout` | 컴포넌트 페이지 레이아웃을 모아놓은 폴더   | |
+| `pages` | 컴포넌트 페이지를 모아놓은 폴더   | |
+| `router` | 페이지 라우터 컴포넌트들을 모아놓은 폴더 | |
+| `service` | 서버와 관련된 config 폴더 | |
+| `store` | 전역 상태를 관리하기 위한 폴더 | |
+| `styles` | 전역 스타일을 관리학 위한 폴더 | |
+| `utils` | 유틸 함수를 모아놓은 폴더 | |
