@@ -42,7 +42,6 @@ firestore.rules
 vercel.json
 
 # PostCSS and TailwindCSS configuration (if not needed)
-postcss.config.js
 tailwind.config.js
 
 # Temporary or backup files
@@ -56,3 +55,5 @@ tailwind.config.js
 Thumbs.db
 
 # Ignore other IDE or editor-specific files if necessary (optional)
+vercel.json
+postcss.config.js
