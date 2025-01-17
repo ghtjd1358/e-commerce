@@ -42,10 +42,10 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast }) => {
   let backgroundColor = "bg-gray-800";
   let Icon = Info;
   if (toast.type === "success") {
-    backgroundColor = "bg-green-500";
+    backgroundColor = "bg-green-700";
     Icon = CheckCircle;
   } else if (toast.type === "error") {
-    backgroundColor = "bg-red-500";
+    backgroundColor = "bg-red-700";
     Icon = XCircle;
   }
 
