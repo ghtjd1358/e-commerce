@@ -10,12 +10,12 @@ export default defineConfig({
     tsconfigPaths(),
     viteCompression({
       algorithm: "brotliCompress",
-      threshold: 5120, 
+      threshold: 5120, // 5KB 이상 파일만 압축
       deleteOriginFile: false,
     }),
     visualizer({
-      filename: './dist/stats.html',
-      open: true,
+      filename: "./dist/stats.html",
+      open: false,
       gzipSize: true,
       brotliSize: true,
     }),
@@ -27,14 +27,13 @@ export default defineConfig({
   build: {
     sourcemap: true,
     outDir: "dist",
-    minify: "terser", 
+    minify: "terser",
     commonjsOptions: {
       include: [/firebase/, /node_modules/],
     },
     rollupOptions: {
-      treeshake: true,
       output: {
-        manualChunks: (id) => {
+        manualChunks(id) {
           if (id.includes("node_modules")) {
             if (id.includes("firebase")) return "firebase";
             if (id.includes("@tanstack/react-query")) return "react-query";
@@ -49,5 +48,9 @@ export default defineConfig({
       "@": "/src",
     },
     dedupe: ["react", "react-dom"],
+  },
+  optimizeDeps: {
+    // 사전 번들링에 포함할 모듈 지정
+    include: ["react", "react-dom", "@tanstack/react-query", "firebase"],
   },
 });
