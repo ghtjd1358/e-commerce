@@ -57,3 +57,5 @@ Thumbs.db
 # Ignore other IDE or editor-specific files if necessary (optional)
 vercel.json
 postcss.config.js
+
+.prettierignore
