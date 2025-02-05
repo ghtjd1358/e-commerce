@@ -10,9 +10,6 @@ import { CartButton } from "./CartButton";
 import { ProfileButton } from "./ProfileButton";
 import { LoginButton } from "./LoginButton";
 import { LogoutButton } from "./LogoutButton";
-// import { SearchBar } from "./SearchBar";
-// import { IProduct } from "@/features/products/type";
-// import { useSearchParams } from "react-router-dom";
 
 export const NavigationBar: React.FC = () => {
   const { isOpen, toggleModal } = useModal();
@@ -38,14 +35,6 @@ export const NavigationBar: React.FC = () => {
     };
   }, []);
 
-  // const handleSearchResults = (results: IProduct[]) => {
-  //   console.log("검색 결과:", results); 
-  // };
-
-  // const handleSearchTermChange = (searchTerm: string) => {
-  //   setSearchParams({ search: searchTerm });
-  // };
-
   return (
     <header
       className={`${bgColor} pt-4 pb-4 pl-8 pr-8 flex justify-between items-center mb-60px fixed z-10 w-full`}
@@ -66,13 +55,6 @@ export const NavigationBar: React.FC = () => {
           <span>DoGun</span>
         </h1>
       </Link>
-
-      {/* <nav className="hidden md:block w-[30%]">
-        <SearchBar
-          onSearchResults={handleSearchResults}
-          // onSearchTermChange={handleSearchTermChange}
-        />
-      </nav> */}
 
       {isOpen && (
         <SideNavigationBar

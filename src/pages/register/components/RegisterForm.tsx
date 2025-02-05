@@ -82,7 +82,6 @@ export const RegisterForm: React.FC = () => {
                   placeholder="닉네임을 입력해주세요"
                   type="text"
                 />
-                {/* 닉네임 체크 상태 표시 */}
                 {isCheckingNickname ? (
                   <p className="text-yellow-500 text-xs">닉네임 확인 중...</p>
                 ) : nicknameExists ? (
