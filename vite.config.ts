@@ -50,7 +50,6 @@ export default defineConfig({
     dedupe: ["react", "react-dom"],
   },
   optimizeDeps: {
-    // 사전 번들링에 포함할 모듈 지정
     include: ["react", "react-dom", "@tanstack/react-query", "firebase"],
   },
 });
