@@ -38,11 +38,7 @@ firebase.json
 firestore.indexes.json
 firestore.rules
 
-# Vercel related files
-vercel.json
-
 # PostCSS and TailwindCSS configuration (if not needed)
-tailwind.config.js
 
 # Temporary or backup files
 *.tmp
@@ -53,10 +49,6 @@ tailwind.config.js
 
 # System specific files (Windows, macOS)
 Thumbs.db
-
-# Ignore other IDE or editor-specific files if necessary (optional)
-vercel.json
-postcss.config.js
 
 .prettierignore
 
