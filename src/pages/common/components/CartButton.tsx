@@ -1,8 +1,7 @@
-import { pageRoutes } from "@/app/apiRouters";
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 import { Button } from "../ui/button";
+import { useModalContext } from "@/shared/hooks/useModalContext";
 
 interface User {
   uid: string;
@@ -14,31 +13,28 @@ interface CartButtonProps {
   user?: User | null;
   cartLength: number;
   initCart: (uid: string) => void;
-  resetCart: (uid:string) => void;
+  resetCart: (uid: string) => void;
 }
 
 export const CartButton: React.FC<CartButtonProps> = ({
   user,
   cartLength,
   initCart,
-  resetCart
+  resetCart,
 }) => {
-  const navigate = useNavigate();
-
   useEffect(() => {
     if (user?.uid) {
       initCart(user.uid);
-    }else{
-      resetCart("guest")
+    } else {
+      resetCart("guest");
     }
   }, [user?.uid, initCart, resetCart]);
 
-  const handleClickCart = () => {
-    navigate(pageRoutes.shoppingcart);
-  };
+  const { openModal } = useModalContext()
 
+  
   return (
-    <Button variant="ghost" onClick={handleClickCart} className="relative">
+    <Button variant="ghost" onClick={openModal} className="relative">
       <ShoppingCart className="w-7 h-7 text-gray-500" />
       {cartLength > 0 && (
         <span className="absolute -top-1 right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">

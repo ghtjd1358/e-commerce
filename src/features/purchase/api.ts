@@ -7,9 +7,7 @@ export const makePurchaseAPI = async (
   buyerId: string,
 ) => {
   try {
-    console.log("🛒 구매 API 호출");
     await runTransaction(db, async (transaction) => {
-      console.log("🔄 트랜잭션 시작");
 
       await Promise.all(
         cartData.map(async (item) => {
@@ -38,11 +36,7 @@ export const makePurchaseAPI = async (
           });
         }),
       );
-
-      console.log("🔄 트랜잭션 종료");
     });
-
-    console.log("✅ 모든 트랜잭션 완료");
   } catch (error) {
     console.error("구매 처리 중 오류 발생:", error);
   }

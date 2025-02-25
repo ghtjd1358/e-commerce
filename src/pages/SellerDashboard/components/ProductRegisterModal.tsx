@@ -36,6 +36,8 @@ interface ProductFormInputs {
   quantity: number;
   description: string;
   categoryId: string;
+  authorName: string, 
+  publisher: string,
 }
 
 interface ImagePreview {
@@ -86,6 +88,8 @@ export const ProductRegistrationModal: React.FC<
         productPrice: Number(data.price),
         productQuantity: Number(data.quantity),
         productDescription: data.description,
+        productAuthorName: data.authorName, 
+        productPublisher: data.publisher,
         productCategory: {
           id: selectedCategory.id,
           name: selectedCategory.name,
@@ -136,6 +140,24 @@ export const ProductRegistrationModal: React.FC<
             />
             {errors.title && (
               <p className="text-red-500 text-sm">{errors.title.message}</p>
+            )}
+
+            <Input
+              className="bg-gray-700 border-gray-600"
+              {...register("authorName", { required: "작가명을 입력해주세요." })}
+              placeholder="작가"
+            />
+            {errors.authorName && (
+              <p className="text-red-500 text-sm">{errors.authorName.message}</p>
+            )}
+
+            <Input
+              className="bg-gray-700 border-gray-600"
+              {...register("publisher", { required: "출판사를 입력해주세요." })}
+              placeholder="출판사"
+            />
+            {errors.publisher && (
+              <p className="text-red-500 text-sm">{errors.publisher.message}</p>
             )}
 
             <Input

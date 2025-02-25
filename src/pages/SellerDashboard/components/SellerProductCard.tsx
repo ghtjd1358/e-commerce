@@ -26,11 +26,8 @@ export const SellerProductCard: React.FC<ProductCardProps> = ({
       return;
     }
 
-    try {
-      await mutateAsync(product.id);
-    } catch (error) {
-      console.log(error);
-    }
+      mutateAsync(product.id);
+    
   };
 
   return (

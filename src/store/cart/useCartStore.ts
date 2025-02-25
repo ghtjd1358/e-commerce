@@ -45,7 +45,6 @@ export const useCartStore = create<CartStore>((set) => ({
         (cartItem) => cartItem.id === item.id,
       );
 
-      console.log("인덱스 반환", existingItemIndex);
       let updatedCart: CartItem[];
 
       if (existingItemIndex !== -1) {

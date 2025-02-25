@@ -60,7 +60,7 @@ export const deleteAccountApi = async (uid: string): Promise<void> => {
   try {
     const userRef = doc(db, "users", uid);
     await deleteDoc(userRef);
-    console.log("계정이 성공적으로 삭제되었습니다.");
+    // console.log("계정이 성공적으로 삭제되었습니다.");
   } catch (error) {
     console.error("계정 삭제 중 오류 발생:", error);
     throw new Error("계정 삭제에 실패했습니다.");

@@ -9,7 +9,6 @@ export const pageRoutes = {
   sellerdashboard: "/sellerdashboard", // 판매자 마이페이지
   profileEdit: "/profileEdit", // 프로필 수정
 
-  shoppingcart: "/shoppingcart", // 장바구니
   checkout: "/checkout", // 구매 (결제)
   payment: "/payment", // 결제 완료
 };

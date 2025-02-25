@@ -93,16 +93,12 @@ export const cancelOrderApi = async (orderId: string) => {
 
       // 주문 상태를 "CANCELLED"로 변경
       transaction.update(orderRef, { status: "주문 취소" });
-      console.log(`주문 ${orderId} 상태가 '결제취소'로 변경되었습니다.`);
     });
 
-    console.log("주문 취소 완료");
   } catch (error) {
     if (error instanceof Error) {
-      console.error("주문 취소 중 오류 발생:", error.message);
       alert(`주문 취소 중 오류가 발생했습니다: ${error.message}`);
     } else {
-      console.error("주문 취소 중 알 수 없는 오류 발생:", error);
       alert("주문 취소 중 알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
     }
   }
@@ -129,10 +125,8 @@ export const updateOrderStatusApi = async (
       }
 
       transaction.update(orderRef, { status: newStatus });
-      console.log(`주문 ${orderId} 상태가 '${newStatus}'로 변경되었습니다.`);
     });
 
-    console.log("주문 상태 업데이트 완료");
   } catch (error) {
     if (error instanceof Error) {
       console.error("주문 상태 변경 중 오류 발생:", error.message);

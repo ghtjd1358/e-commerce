@@ -3,7 +3,6 @@ import { DaumPostcode } from "./DaumPostcode";
 
 export const AddressSearch = () => {
   const [address, setAddress] = useState<string>("");
-  console.log(address);
 
   const handleAddressComplete = (selectedAddress: string) => {
     setAddress(selectedAddress);

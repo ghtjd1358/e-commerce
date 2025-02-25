@@ -19,7 +19,7 @@ export const SortRange: React.FC = () => {
         id="sort-select"
         name="filter"
         onChange={(e) => handleSortChange(e.target.value)}
-        className="border border-gray-300 rounded py-2 bg-gray-900 text-white"
+        className="border border-gray-300 rounded py-2"
         defaultValue={searchParams.get("sort") || "latest"}
       >
         <option value="" disabled>

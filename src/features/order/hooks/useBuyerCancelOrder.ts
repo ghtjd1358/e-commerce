@@ -13,9 +13,8 @@ export const useBuyerCancelOrder = () => {
       queryClient.invalidateQueries({ queryKey: [ORDER_KEY] });
       addToast("구매가 최소되었습니다.", "success");
     },
-    onError: (error: Error) => {
-      addToast("구매하여야합니다", "error");
-      console.log(error);
-    },
+    // onError: (error: Error) => {
+    //   addToast("구매하여야합니다", "error");
+    // },
   });
 };

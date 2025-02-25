@@ -13,5 +13,6 @@ export const useFetchSearchProducts = (searchTerm: string) => {
       const { products } = await fetchSearchProductsApi(searchTerm, 10, 1);
       return products;
     },
+    enabled : !!searchTerm.trim(),
   });
 };

@@ -1,11 +1,10 @@
 import { pageRoutes } from "@/app/apiRouters";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 
 export const LoginButton = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  console.log(location);
+  
 
   const clickHandlerLogin = () => {
     navigate(pageRoutes.login);

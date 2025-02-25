@@ -26,13 +26,9 @@ export const SellerOrderCard: React.FC<BuyerProductCardProps> = ({
   }
 
   const handleUpdateOrder = async () => {
-    try {
       if (product?.id) {
         await mutateAsync({ orderId: product.id, newStatus: selectedStatus });
       }
-    } catch (error) {
-      console.log("주문 상태 변경 실패:", error);
-    }
   };
 
   return (

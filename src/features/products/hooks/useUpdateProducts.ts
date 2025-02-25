@@ -19,9 +19,8 @@ export const useUpdateProductsStore = () => {
       addToast("물품 업데이트 성공", "success");
       queryClient.invalidateQueries({ queryKey: [PRODUCT_KEY] });
     },
-    onError: (error: Error) => {
-      addToast("물품에 업데이트에 실패하였습니다", "success");
-      console.log(error);
-    },
+    // onError: (error: Error) => {
+    //   addToast("물품에 업데이트에 실패하였습니다", "success");
+    // },
   });
 };

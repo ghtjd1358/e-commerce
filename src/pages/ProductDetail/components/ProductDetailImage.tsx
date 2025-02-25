@@ -16,7 +16,7 @@ export const ProductDetailImage: React.FC<ProductDetailImageProps> = ({
         <img
           src={findProducts.productImage[selectedImageIndex]}
           alt="Main Product Image"
-          className="w-full h-full object-fill border-2 border-yellow-600"
+          className="w-full h-full object-fill"
         />
       </div>
 

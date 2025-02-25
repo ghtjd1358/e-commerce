@@ -54,7 +54,7 @@ export const SellerProductList = ({ pageSize = 5 }) => {
 
   return (
     <div className="w-full">
-      <Card className="bg-gray-800 border-gray-700">
+      <Card className="border-gray-700">
         <CardHeader>
           <div className="flex justify-between mb-4 ">
             <CardTitle className="text-yellow-500 mb-5">판매 목록</CardTitle>

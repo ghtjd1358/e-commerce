@@ -101,6 +101,8 @@ export const fetchFilterProductsApi = async (
         productPrice: Number(data.productPrice),
         productCategory: data.productCategory,
         productImage: data.productImage || "",
+        productAuthorName: data.productAuthorName, 
+        productPublisher: data.productPublisher,  
         createdAt: data.createdAt?.toDate().toISOString(),
         updatedAt: data.updatedAt?.toDate().toISOString(),
       };
@@ -142,6 +144,8 @@ export const fetchProductsApi = async (): Promise<IProduct[]> => {
         productName: data.productName,
         productPrice: Number(data.productPrice),
         productCategory: data.productCategory,
+        productAuthorName: data.productAuthorName, 
+        productPublisher: data.productPublisher,
         productImage: data.productImage || "",
         createdAt: data.createdAt?.toDate().toISOString(),
         updatedAt: data.updatedAt?.toDate().toISOString(),
@@ -172,6 +176,8 @@ export const addProductAPI = async (
         productPrice: productData.productPrice,
         productQuantity: productData.productQuantity,
         productDescription: productData.productDescription,
+        productAuthorName: productData.productAuthorName, 
+        productPublisher: productData.productPublisher,
         productCategory: productData.productCategory,
         productImage: productData.productImage || [],
         createdAt: serverTimestamp(),
@@ -220,11 +226,11 @@ export const updateProductAPI = async (
       productPrice: updatedProduct.productPrice,
       productQuantity: updatedProduct.productQuantity,
       productDescription: updatedProduct.productDescription,
+      productAuthorName: updatedProduct.productAuthorName, 
+      productPublisher: updatedProduct.productPublisher,
       productImage: updatedProduct.productImage,
       updatedAt: serverTimestamp(),
     });
-
-    console.log(`Product with id ${productId} updated successfully.`);
   } catch (error) {
     console.error("Error updating product: ", error);
     throw error;
@@ -236,7 +242,6 @@ export const deleteProductAPI = async (productId: string): Promise<void> => {
   try {
     const productRef = doc(db, "products", productId);
     await deleteDoc(productRef);
-    console.log(`Product with id ${productId} deleted successfully.`);
   } catch (error) {
     console.error("Error deleting product: ", error);
     throw error;
@@ -272,6 +277,8 @@ export const fetchSearchProductsApi = async (
         productName: data.productName,
         productPrice: Number(data.productPrice),
         productCategory: data.productCategory,
+        productAuthorName: data.productAuthorName, 
+        productPublisher: data.productPublisher,
         productImage: data.productImage || "",
         createdAt: data.createdAt?.toDate().toISOString(),
         updatedAt: data.updatedAt?.toDate().toISOString(),

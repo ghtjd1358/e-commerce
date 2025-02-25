@@ -20,7 +20,6 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
   isLogin,
 }) => {
   const navigate = useNavigate();
-  // const queryClient = useQueryClient();
 
   const handleClickProfile = () => {
     if (user) {
@@ -33,7 +32,6 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
       className="text-yellow-400 font-semibold tracking-widest"
       variant="ghost"
       onClick={handleClickProfile}
-      // onMouseEnter={handlePrefetchUserAndOrders}
     >
       {isLogin && user ? (
         <>

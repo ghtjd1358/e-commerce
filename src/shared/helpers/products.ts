@@ -10,7 +10,6 @@ export const createNewProduct = (
   imageUrl: string,
   user: User | null,
 ) => {
-  console.log("프로덕트", product);
 
   const categoryObj = categories.find(
     (cat) => cat.id === product.productCategory.id,

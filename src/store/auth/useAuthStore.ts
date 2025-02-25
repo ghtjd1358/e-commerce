@@ -74,7 +74,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
   logout: () => {
     Cookies.remove("accessToken");
-    console.log("로그아웃 되었습니다.");
     set({
       isLogin: false,
       user: null,
@@ -86,7 +85,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
 
   setUser: (user?: IUser | GoogleUser) => {
-    console.log("사용자 정보가 업데이트되었습니다:", user);
     set({ user });
   },
 }));

@@ -11,7 +11,6 @@ import { useFetchAccount } from "@/features/account/hooks/useFetchAccount";
 
 export const Profile: React.FC = () => {
   const { user, isLoading } = useAuthStore();
-  console.log('user', user)
   const { data } = useFetchAccount(user?.uid ?? "");
   const { mutate: seller } = useSellerUser();
   const location = useLocation();

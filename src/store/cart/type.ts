@@ -17,6 +17,9 @@ export interface CartItem {
   productImage: string[];
   productName: string;
   productPrice: number;
+  productCategory:{
+    name : string; 
+  };
   count: number;
   isSelected?: boolean;
 }

@@ -9,7 +9,6 @@ import { ErrorPage } from "@/pages/error/ErrorPage";
 import { NotFoundPage } from "@/pages/error/NotFoundPage";
 
 import { HomePage } from "@/pages/home/HomePage";
-import { ShoppingCartPage } from "@/pages/cart/ShoppingCartPage";
 import { BuyerDashboardPage } from "@/pages/BuyerDashboard/BuyerDashboardPage";
 import { lazy } from "react";
 
@@ -48,11 +47,6 @@ export const router = createBrowserRouter([
       {
         path: `${pageRoutes.productDetail}/:id`,
         element: <ProductDetaiPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: pageRoutes.shoppingcart,
-        element: <ShoppingCartPage />,
         errorElement: <ErrorPage />,
       },
       {

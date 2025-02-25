@@ -38,11 +38,6 @@ export const setCartToLocalStorage = (
     ? (parseJSON(cartData) as Record<string, CartItem[]>)
     : {};
 
-  console.log("Saving cart to local storage:", {
-    ...cartItems,
-    [userId]: cart,
-  });
-
   setItem(CART_LOCAL_STORAGE_KEY, {
     ...cartItems,
     [userId]: cart,

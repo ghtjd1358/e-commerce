@@ -9,6 +9,8 @@ export interface IProduct {
   productImage: string[];
   createdAt: string;
   updatedAt: string;
+  productAuthorName: string; 
+  productPublisher: string;  
 }
 export interface PaginatedProductsDTO {
   products: IProduct[];
@@ -27,4 +29,6 @@ export interface NewProductDTO {
   productImage?: string[];
   createdAt: string;
   updatedAt: string;
+  productAuthorName: string; 
+  productPublisher: string; 
 }

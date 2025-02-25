@@ -1,7 +1,7 @@
 import React from "react";
 import { IProduct } from "@/features/products/type";
 import { Label } from "@radix-ui/react-label";
-import { Minus, Plus, Star } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import { Input } from "@/pages/common/ui/input";
 import { Button } from "@/pages/common/ui/button";
 import { ProductDetailImage } from "./ProductDetailImage";
@@ -28,14 +28,14 @@ export const ProductDetailInfo: React.FC<ProductDetailInfoProps> = ({
         <h1 className="text-3xl font-bold text-gold">
           {findProducts.productName}
         </h1>
-        <div className="flex items-center space-x-2">
+        {/* <div className="flex items-center space-x-2">
           <div className="flex">
             {[1, 2, 3, 4, 5].map((star) => (
               <Star key={star} className="w-5 h-5 fill-gold text-gold" />
             ))}
           </div>
           <span className="text-sm text-gray-400">(24 reviews)</span>
-        </div>
+        </div> */}
         <p className="text-2xl font-bold text-gold">
           ${findProducts.productPrice}
         </p>

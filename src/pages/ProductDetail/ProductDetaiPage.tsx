@@ -9,9 +9,9 @@ import { pageRoutes } from "@/app/apiRouters";
 import { useCartStore } from "@/store/cart/useCartStore";
 import { Layout } from "../common/components/Layout";
 import { ProductDetailInfo } from "./components/ProductDetailInfo";
-import { ProductDetailReview } from "./components/ProductDetailReview";
 import { useDetailFetchProducts } from "@/features/products/hooks/useDetailFetchProducts";
 import { ProductDetailSkeleton } from "./components/skeleton/ProductDetailSkeleton";
+import { useModalContext } from "@/shared/hooks/useModalContext";
 
 export const ProductDetaiPage: React.FC = () => {
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ export const ProductDetaiPage: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
   const { addToast } = useToastStore();
   const { addCartItem } = useCartStore();
+  const { openModal } = useModalContext()
 
   const handleCartAction = (product: IProduct, e: React.MouseEvent): void => {
     e.stopPropagation();
@@ -44,10 +45,11 @@ export const ProductDetaiPage: React.FC = () => {
     e.stopPropagation();
     e.preventDefault();
 
+
     if (isLogin && user) {
       const cartItem: CartItem = { ...product, count: quantity };
       addCartItem(cartItem, user.uid, quantity);
-      navigate(pageRoutes.shoppingcart);
+      openModal()
     } else {
       navigate(pageRoutes.login);
     }
@@ -78,7 +80,6 @@ export const ProductDetaiPage: React.FC = () => {
             handlePurchaseAction={handlePurchaseAction}
             handleCartAction={handleCartAction}
           />
-          <ProductDetailReview findProducts={product} />
         </div>
       </div>
     </Layout>
