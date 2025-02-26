@@ -84,6 +84,9 @@ export const CartCard: React.FC<ProductCardProps> = ({
           <span className="text-gray-500 font-medium text-sm">
             {product.productCategory.name}
           </span>
+          <span className="text-gray-500 font-medium text-sm">
+          {product.productAuthorName} · {product.productPublisher}
+          </span>
           <span className="text-gray-900 font-bold text-lg">
             {product.productPrice.toLocaleString()} 원
           </span>

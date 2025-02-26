@@ -16,6 +16,8 @@ export interface CartItem {
   id: string;
   productImage: string[];
   productName: string;
+  productAuthorName : string
+  productPublisher : string
   productPrice: number;
   productCategory:{
     name : string; 
