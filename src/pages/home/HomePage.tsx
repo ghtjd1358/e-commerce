@@ -68,7 +68,7 @@ const LoadingSkeleton = () => (
     {[...Array(PRODUCT_PAGE_SIZE)].map((_, index) => (
       <div
         key={index}
-        className="h-64 bg-gray-600 rounded-lg animate-pulse mb-32 w-full"
+        className="h-64 rounded-lg animate-pulse mb-32 w-full"
       />
     ))}
   </div>

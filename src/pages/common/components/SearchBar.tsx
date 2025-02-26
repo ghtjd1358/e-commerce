@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
-import { Input } from "../ui/input";
 import { IProduct } from "@/features/products/type";
 import { useFetchSearchProducts } from "@/features/products/hooks/useSearchProducts";
 import { motion, AnimatePresence } from "framer-motion";
 import { SearchCard } from "./Card/SearchCard";
+import { useModal } from "@/shared/hooks/useModals";
 
 interface SearchBarProps {
   onSearchResults: (results: IProduct[]) => void;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults }) => {
-  const [searchTerm, setSearchTerm] = useState<string>(""); // 검색어 상태
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // 모달 상태
-  const { data: searchResults } = useFetchSearchProducts(searchTerm); // 검색 결과 가져오기
+  const [searchTerm, setSearchTerm] = useState<string>(""); 
+  const { isOpen, toggleModal } = useModal();
+  const { data: searchResults } = useFetchSearchProducts(searchTerm);
 
   // 검색 결과를 부모 컴포넌트로 전달
   useEffect(() => {
@@ -22,51 +22,51 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults }) => {
     }
   }, [searchResults, onSearchResults]);
 
-  // 모달 열기 핸들러
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  // 모달 닫기 핸들러
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSearchTerm(""); // 검색어 초기화
+  // 모달 닫힐 때 검색어 초기화
+  const handleCloseModal = () => {
+    toggleModal(); 
+    setSearchTerm(""); 
   };
 
   return (
     <>
-      <div className="relative">
-        {/* 검색창 */}
+      {/* 검색창 */}
+      <div className="relative z-50">
         <motion.div
-          className="flex items-center gap-2 rounded-lg p-2 bg-transparent"
-          initial={{ width: "200px" }} 
-          animate={{ width: isModalOpen ? "400px" : "200px" }} 
-          transition={{ duration: 0.3 }} 
+          className={`flex items-center gap-2 rounded-lg bg-white shadow-md py-1 px-4
+            ${
+              isOpen ? "border border-orange-500" : "border border-transparent"
+            }
+            `}
+          initial={{ width: "200px" }}
+          animate={{ width: isOpen ? "400px" : "200px" }}
+          transition={{ duration: 0.3 }}
         >
-          <Search className="text-gray-400" />
-          <Input
+          {/* 검색 입력 필드 */}
+          <input
             type="search"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="상품 검색..."
-            className="w-full bg-transparent text-white focus:outline-none"
-            onFocus={openModal} 
+            placeholder="Search"
+            className="w-full border-none focus:outline-none text-black"
+            onFocus={toggleModal}
           />
+          <Search className="text-gray-500" />
         </motion.div>
       </div>
 
       {/* 모달 */}
       <AnimatePresence>
-        {isModalOpen && (
+        {isOpen && (
           <>
             {/* 배경 오버레이 */}
             <motion.div
-              className="fixed inset-0 bg-black bg-opacity-50 z-40"
+              className="fixed inset-0 bg-black bg-opacity-80 z-40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.6 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              onClick={closeModal} // 배경 클릭 시 모달 닫기
+              onClick={handleCloseModal}
             ></motion.div>
 
             {/* 모달 본문 */}
@@ -82,10 +82,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults }) => {
                 {searchResults?.map((product) => (
                   <li key={product.id}>
                     {/* SearchCard 컴포넌트 렌더링 */}
-                    <SearchCard 
-                      product={{...product}}
-                      user={null} 
-                    />
+                    <SearchCard product={{ ...product }} user={null} />
                   </li>
                 ))}
                 {!searchResults?.length && (
