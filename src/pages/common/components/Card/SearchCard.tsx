@@ -8,33 +8,24 @@ interface ProductCardProps {
 
 export const SearchCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
-    <div className="w-full flex flex-col sm:flex-row rounded-lg shadow-md bg-gray-300 p-4 border border-red-500">
+    <div className="w-full h-[100px] flex flex-col sm:flex-row rounded-lg shadow-md bg-gray-300 py-7 items-center justify-center">
       {/* 이미지 */}
-      <div className="flex justify-center items-center sm:w-1/3 h-32 border border-blue-500">
+      <div className="flex justify-center items-center sm:w-1/4 h-20">
         <img
           src={product.productImage[0]}
           alt={product.productName}
-          className="w-32 h-32 object-contain"
+          className="w-full h-full object-contain" 
         />
       </div>
 
       {/* 상품 정보 */}
-      <div className="sm:w-2/3 flex flex-col flex-grow sm:pl-4 border border-green-500">
-        {/* 카테고리 */}
-        <div className="mb-1">
-          <span className="text-gray-500 font-medium text-sm">
-            {product.productCategory.name}
-          </span>
-        </div>
+      <div className="sm:w-3/4 h-20 flex flex-col flex-grow sm:pl-4">
         {/* 상품명 */}
-        <div className="mb-2">
+        <div className="flex space-x-2 mb-2">
           <span className="font-semibold text-gray-700 text-lg">
             {product.productName}
           </span>
-        </div>
-        {/* 저자 및 출판사 */}
-        <div className="mb-2">
-          <span className="text-gray-500 font-medium text-sm">
+          <span className="text-gray-700 text-lg">
             {product.productAuthorName} · {product.productPublisher}
           </span>
         </div>
