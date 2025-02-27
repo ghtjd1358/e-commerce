@@ -22,7 +22,7 @@ export const SellerLoginButton: React.FC<BuyerLoginButtonProps> = ({
   return (
     <Button
       variant="ghost"
-      className="w-full flex items-center justify-center bg-gray-700 text-white gap-4 font-bold hover:bg-blue-300"
+      className="w-full flex items-center justify-center text-black gap-4 font-bold hover:bg-blue-200 border border-solid border-gray-300"
       onClick={handleClickSellerLogin}
     >
       판매자 로그인

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { CircleUserRound } from "lucide-react";
 import { pageRoutes } from "@/app/apiRouters";
 import { Button } from "../ui/button";
+import { useScrollThreshold } from "@/shared/hooks/useScroll";
+
 interface User {
   uid: string;
   photoURL?: string | null;
@@ -20,6 +22,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
   isLogin,
 }) => {
   const navigate = useNavigate();
+  const isScrolled = useScrollThreshold(60);
 
   const handleClickProfile = () => {
     if (user) {
@@ -29,7 +32,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
 
   return (
     <Button
-      className="text-yellow-400 font-semibold tracking-widest"
+      className={`font-semibold tracking-widest ${isScrolled ? "text-black" : "text-white"}`}
       variant="ghost"
       onClick={handleClickProfile}
     >

@@ -28,7 +28,7 @@ export const useCartStore = create<CartStore>((set) => ({
   },
 
   // resetCart: 장바구니를 비우고 로컬 저장소에서도 초기화
-  resetCart: (userId: string) => {
+  resetCart: (userId?: string) => {
     resetCartAtLocalStorage(userId);
 
     set({
@@ -71,7 +71,7 @@ export const useCartStore = create<CartStore>((set) => ({
   },
 
   // removeCartItem: 장바구니에서 항목 제거하는 함수
-  removeCartItem: (itemId: string, userId: string) => {
+  removeCartItem: (itemId: string, userId?: string) => {
     set((state) => {
       // 특정 항목을 제외한 새 장바구니 생성
       const updatedCart = state.cart.filter(
@@ -89,7 +89,7 @@ export const useCartStore = create<CartStore>((set) => ({
     });
   },
 
-  changeCartItemCount: (itemId: string, count: number, userId: string) => {
+  changeCartItemCount: (itemId: string, count: number, userId?: string) => {
     set((state) => {
       const updatedCart = state.cart.map((cartItem) => {
         if (cartItem.id === itemId) {

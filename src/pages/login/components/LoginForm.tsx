@@ -21,6 +21,7 @@ import { Form } from "@/pages/common/ui/form";
 import { RHFInput } from "@/pages/common/components/RHFInput";
 import { BuyerLoginButton } from "./BuyerLoginButton";
 import { SellerLoginButton } from "./SellerLoginButton";
+import { LogoButton } from "@/pages/common/components/LogoButton";
 
 interface FormInput {
   email: string;
@@ -45,67 +46,59 @@ export const LoginForm: React.FC = () => {
   };
 
   return (
-    <Card className="w-full max-w-md bg-gray-800 text-gray-100 border-gray-700">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center text-gold tracking-wider">
-          로그인
+    <Card className="w-full max-w-md text-gray-800 border border-gray-300 shadow-lg rounded-lg">
+      <CardHeader className="space-y-2 text-center">
+        <CardTitle className="text-3xl font-bold text-gold tracking-wide">
+           <LogoButton className="my-4" />
         </CardTitle>
-        <p className="text-center text-gray-400">
-          환영합니다! 로그인해 주세요.
-        </p>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6">
         <FormProvider {...form}>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-              <div className="grid gap-4">
-                <div className="grid gap-2">
-                  <RHFInput
-                    name="email"
-                    label="이메일 : "
-                    placeholder="이메일을 입력해주세요"
-                    type="email"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <RHFInput
-                    name="password"
-                    label="비밀번호 : "
-                    placeholder="비밀번호를 입력해주세요"
-                    type="password"
-                  />
-                </div>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+              {/* 이메일 입력 필드 */}
+              <div className="space-y-4 mb-6">
+              <RHFInput
+                name="email"
+                label="이메일"
+                placeholder="이메일을 입력해주세요"
+                type="email"
+                className="border-gray-300 focus:ring-gold focus:border-gold"
+              />
+              {/* 비밀번호 입력 필드 */}
+              <RHFInput
+                name="password"
+                label="비밀번호"
+                placeholder="비밀번호를 입력해주세요"
+                type="password"
+                className="border-gray-300 focus:ring-gold focus:border-gold"
+              />
               </div>
-              <CardFooter className="flex flex-col space-y-4">
-                {/* 일반 로그인 버튼 */}
-                <Button
-                  variant="ghost"
-                  className="w-full bg-gold hover:bg-gold/90 text-gray-100 bg-gray-700 hover:bg-blue-300"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "접속중입니다..." : "로그인"}
-                </Button>
+              {/* 로그인 버튼 */}
+              <Button
+                variant="ghost"
+                className="w-full h-10 appearance-none border border-solid border-gray-300 flex items-center justify-center text-black gap-4 font-bold hover:bg-blue-200"
+                disabled={isLoading}
+              >
+                {isLoading ? "로그인 중..." : "로그인"}
+              </Button>
 
-                {/* 구매자 로그인 버튼 */}
-                <BuyerLoginButton onSubmit={form.handleSubmit(onSubmit)} />
-                <SellerLoginButton onSubmit={form.handleSubmit(onSubmit)} />
-
-                {/* 회원가입 링크 */}
-                <p className="text-right text-sm text-gray-400">
-                  계정이 없습니까?{" "}
-                  <Link
-                    to={pageRoutes.register}
-                    className="text-gold hover:underline"
-                  >
-                    회원가입
-                  </Link>
-                </p>
-              </CardFooter>
+              <BuyerLoginButton onSubmit={form.handleSubmit(onSubmit)} />
+              <SellerLoginButton onSubmit={form.handleSubmit(onSubmit)} />
+              <GoogleLoginButton />
             </form>
           </Form>
         </FormProvider>
-        <GoogleLoginButton />
       </CardContent>
+      <CardFooter className="flex flex-col items-center space-y-4">
+        {/* 회원가입 링크 */}
+        <p className="text-sm text-gray-400">
+          계정이 없으신가요?{" "}
+          <Link to={pageRoutes.register} className="text-black hover:underline">
+            회원가입
+          </Link>
+        </p>
+      </CardFooter>
     </Card>
   );
 };

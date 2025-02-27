@@ -8,12 +8,12 @@ interface LogoProps {
 }
 
 export const LogoButton: React.FC<LogoProps> = ({
-  text = "딱총마켓",
+  text = "북스토리",
   to = "/", 
   className = "", 
 }) => {
   return (
-    <Link to={to} className="flex gap-2">
+    <Link to={to} className="flex gap-2 justify-center items-center">
       <img src="/public/favicon.jpg" alt="logo"  className="w-10 h-10 rounded border-2 border-black"/>
       <h1
         className={`text-2xl font-bold text-black tracking-widest ${className}`}

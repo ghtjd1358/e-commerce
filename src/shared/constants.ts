@@ -3,8 +3,6 @@ import beretta from "../../public/logo/Bretta.svg";
 import bondarms from "../../public/logo/bondarms_webp.webp";
 import brwoing from "../../public/logo/brwoing_webp.webp";
 import czgunz from "../../public/logo/cz-gunz_webp.webp";
-import colt from "../../public/logo/Colt-Logo_webp.webp";
-import soldier from "../../public/gun-1927664_1280_webp.webp";
 
 export const MAX_CART_VALUE = 999;
 
@@ -14,11 +12,10 @@ export const PRODUCT_PAGE_SIZE = 20;
 
 export const categories: { id: string; name: string; img?: string }[] = [
   { id: ALL_CATEGORY_ID, name: ALL_CATEGORY_ID, img: All },
-  { id: "1", name: "Beretta", img: beretta },
-  { id: `2`, name: "Bond Arms", img: bondarms },
-  { id: "3", name: "Browning", img: brwoing },
-  { id: "4", name: "CZ Guns", img: czgunz },
-  { id: "5", name: "Colt", img: colt },
+  { id: "1", name: "국내도서", img: beretta },
+  { id: `2`, name: "해외도서", img: bondarms },
+  { id: "3", name: "eBook", img: brwoing },
+  { id: "4", name: "sam", img: czgunz },
 ];
 
 export const authStatusType = {
@@ -37,6 +34,4 @@ export const orderType = {
   PAYLOAD_START: "발송 시작",
 };
 
-export const heroSlides = [
-  { image: soldier, alt: "전체 상품", title: "당신의 필요에 맞는 총기를 다양한 브랜드를 통해 찾아보세요" },
-];
+

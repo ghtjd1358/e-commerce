@@ -20,7 +20,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/pages/common/ui/card";
-
+import { LogoButton } from "@/pages/common/components/LogoButton";
 interface FormInputs {
   name: string;
   nickname: string;
@@ -54,19 +54,16 @@ export const RegisterForm: React.FC = () => {
   };
 
   return (
-    <Card className="w-full max-w-md bg-gray-800 text-gray-100 border-gray-700">
+    <Card className="w-full max-w-md text-gray-800 border border-gray-300 shadow-lg rounded-lg">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold text-center text-gold tracking-wider">
-          회원가입
+              <LogoButton className="my-4"/>
         </CardTitle>
-        <p className="text-center text-gray-400">
-          간편하게 회원가입하고 다양한 서비스를 이용해 보세요!
-        </p>
       </CardHeader>
       <CardContent className="space-y-4">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-            <div className="grid gap-4">
+            <div className="grid gap-4 mb-10">
               <div className="grid gap-2">
                 <RHFInput
                   name="name"
@@ -99,7 +96,7 @@ export const RegisterForm: React.FC = () => {
               <div className="grid gap-2">
                 <RHFInput
                   name="email"
-                  label="이메일 : "
+                  label="이메일"
                   placeholder="m@example.com"
                   type="email"
                 />
@@ -107,7 +104,7 @@ export const RegisterForm: React.FC = () => {
               <div className="grid gap-2">
                 <RHFInput
                   name="password"
-                  label="비밀번호 : "
+                  label="비밀번호"
                   placeholder="비밀번호를 입력해주세요"
                   type="password"
                 />
@@ -115,7 +112,7 @@ export const RegisterForm: React.FC = () => {
               <div className="grid gap-2">
                 <RHFInput
                   name="confirmPassword"
-                  label="비밀번호 확인 : "
+                  label="비밀번호 확인"
                   placeholder="비밀번호를 다시 입력해주세요"
                   type="password"
                 />
@@ -124,7 +121,8 @@ export const RegisterForm: React.FC = () => {
             <CardFooter className="flex flex-col space-y-4">
               <Button
                 type="submit"
-                className="w-full bg-gold hover:bg-gold/90 text-gray-100 bg-gray-700 border-gray-600"
+                variant="ghost"
+                className="w-full appearance-none border border-solid border-gray-300 flex items-center justify-center text-black gap-4 font-bold hover:bg-blue-200"
                 disabled={isLoading}
               >
                 {isLoading ? "가입 중..." : "회원가입"}
@@ -133,7 +131,7 @@ export const RegisterForm: React.FC = () => {
                 이미 계정이 있습니까?{" "}
                 <Link
                   to={pageRoutes.login}
-                  className="text-gold hover:underline"
+                  className="text-black hover:underline"
                 >
                   로그인
                 </Link>

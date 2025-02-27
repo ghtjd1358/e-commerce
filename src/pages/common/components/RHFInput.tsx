@@ -14,6 +14,7 @@ import {
 interface RHFInputProps {
   name: string;
   label: string;
+  className?: string;
   placeholder: string;
   description?: string;
   type?: HTMLInputTypeAttribute;
@@ -24,7 +25,8 @@ export const RHFInput: React.FC<RHFInputProps> = ({
   label,
   placeholder,
   description,
-  type,
+  className = "",
+  type = "text",
 }) => {
   const { control } = useFormContext();
 
@@ -34,18 +36,20 @@ export const RHFInput: React.FC<RHFInputProps> = ({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <div className="flex items-center">
-            <FormLabel>{label}</FormLabel>
-          </div>
+          <FormLabel className="text-sm font-medium text-black">{label}</FormLabel>
           <FormControl>
             <Input
-              className="border-gray-700"
               {...field}
               placeholder={placeholder}
               type={type}
+              className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-gold focus:border-gold ${className}`}
             />
           </FormControl>
-          {description && <FormDescription>{description}</FormDescription>}
+          {description && (
+            <FormDescription className="text-xs text-gray-500">
+              {description}
+            </FormDescription>
+          )}
           <FormMessage />
         </FormItem>
       )}

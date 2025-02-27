@@ -29,7 +29,9 @@ export const ProductPage: React.FC = () => {
 
   return (
     <Layout authStatus={authStatusType.COMMON}>
-      <div className="min-h-screen bg-gray-50 p-16 pt-28">
+      <div className="w-full">
+
+      <div className="max-w-screen-xl mx-auto">
         <ProductFilter
           totalCount={
             category === ALL_CATEGORY_ID ? totalCount : filteredProducts.length
@@ -37,7 +39,10 @@ export const ProductPage: React.FC = () => {
           category={category}
           filteredProducts={filteredProducts}
         />
+        </div>
 
+        
+        <div className="max-w-screen-xl mx-auto">
         <hr className="mt-3 mb-10" />
         <ApiErrorBoundary>
           <ProductList
@@ -50,6 +55,7 @@ export const ProductPage: React.FC = () => {
             isFetching={isFetching}
           />
         </ApiErrorBoundary>
+        </div>
       </div>
     </Layout>
   );

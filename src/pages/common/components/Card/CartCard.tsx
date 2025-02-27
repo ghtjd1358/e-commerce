@@ -65,26 +65,23 @@ export const CartCard: React.FC<ProductCardProps> = ({
       </div>
 
       {/* 상품 정보 */}
-      <div className="flex flex-col flex-grow space-y-4">
+      <div className="flex flex-col flex-grow">
         {/* 체크박스 및 상품명 */}
         <div className="flex items-center space-x-2">
+          <span className="font-semibold text-gray-700 text-lg">
+            {product.productName}
+          </span>
           <input
             type="checkbox"
             checked={product.isSelected}
             onChange={handleSelect}
-            className="w-5 h-5 text-gold border-gray-300 rounded focus:ring-gold"
+            className="w-4 h-4 text-gold border-gray-300 rounded focus:ring-gold"
           />
-          <span className="font-semibold text-gray-700 text-lg">
-            {product.productName}
-          </span>
         </div>
 
         {/* 카테고리 및 가격 */}
-        <div className="flex flex-col">
-          <span className="text-gray-500 font-medium text-sm">
-            {product.productCategory.name}
-          </span>
-          <span className="text-gray-500 font-medium text-sm">
+        <div className="flex flex-col mb-5">
+          <span className="text-gray-400 font-medium text-xs">
           {product.productAuthorName} · {product.productPublisher}
           </span>
           <span className="text-gray-900 font-bold text-lg">
@@ -97,14 +94,14 @@ export const CartCard: React.FC<ProductCardProps> = ({
           <button
             onClick={handleDecrease}
             disabled={count <= 1}
-            className="px-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:bg-gray-100"
+            className="px-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:bg-gray-100 shadow-md"
           >
             -
           </button>
           <span className="text-gray-700 font-semibold">{count}</span>
           <button
             onClick={handleIncrease}
-            className="px-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+            className="px-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 shadow-md"
           >
             +
           </button>
