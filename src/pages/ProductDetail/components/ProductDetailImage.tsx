@@ -1,5 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { IProduct } from "@/features/products/type";
+import {  
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious, 
+} from "@/pages/common/ui/carousel";
+
+
+
 
 interface ProductDetailImageProps {
   findProducts: IProduct;
@@ -8,29 +18,35 @@ interface ProductDetailImageProps {
 export const ProductDetailImage: React.FC<ProductDetailImageProps> = ({
   findProducts,
 }) => {
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-
   return (
     <div className="space-y-4">
-      <div className="aspect-square bg-gray-800 rounded-lg">
-        <img
-          src={findProducts.productImage[selectedImageIndex]}
-          alt="Main Product Image"
-          className="w-full h-full object-fill"
-        />
+      {/* 캐러셀 적용 */}
+      <div className="rounded-lg">
+        <Carousel className="w-full">
+          <CarouselContent>
+            {findProducts.productImage.map((image, i) => (
+              <CarouselItem key={i}>
+                <img
+                  src={image}
+                  alt={`Product Image ${i + 1}`}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </div>
 
-      <div className="grid grid-cols-4 gap-4">
+      {/* 썸네일 리스트 */}
+      <div className="w-full grid grid-cols-4 gap-3">
         {findProducts.productImage.map((image, i) => (
-          <div
-            key={i}
-            className={`aspect-square bg-gray-800 overflow-hidden cursor-pointer ${selectedImageIndex === i && "border-2 border-yellow-600"}`}
-            onClick={() => setSelectedImageIndex(i)}
-          >
+          <div key={i} className="overflow-hidden cursor-pointer">
             <img
-              src={image || "장고"}
-              alt={`Product Image ${i + 1}`}
-              className="w-full h-full object-fill"
+              src={image}
+              alt={`Thumbnail ${i + 1}`}
+              className="w-full h-32 object-cover rounded-lg"
             />
           </div>
         ))}

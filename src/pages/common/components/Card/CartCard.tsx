@@ -54,7 +54,7 @@ export const CartCard: React.FC<ProductCardProps> = ({
   };
 
   return (
-    <div className="flex flex-col sm:flex-row border rounded-lg shadow-md p-4 bg-white space-y-4 sm:space-y-0 sm:space-x-4">
+    <div className="flex flex-col sm:flex-row border rounded-lg shadow-md p-5 bg-white space-y-4 sm:space-y-0 sm:space-x-4 mr-4">
       {/* 이미지 */}
       <div className="flex justify-center sm:w-1/4">
         <img

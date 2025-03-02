@@ -16,6 +16,7 @@ export const categories: { id: string; name: string; img?: string }[] = [
   { id: `2`, name: "해외도서", img: bondarms },
   { id: "3", name: "eBook", img: brwoing },
   { id: "4", name: "sam", img: czgunz },
+  { id: "5", name: "핫트랙스", img: czgunz }
 ];
 
 export const authStatusType = {

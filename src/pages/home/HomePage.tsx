@@ -4,9 +4,7 @@ import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
 import { MainArticleSlider } from "./components/MainArticleSlider";
 import { MainCategoryList } from "./components/MainCategoryList";
 
-
 export const HomePage: React.FC = () => {
-
   return (
     <Layout authStatus={authStatusType.COMMON}>
       <div className="w-full">

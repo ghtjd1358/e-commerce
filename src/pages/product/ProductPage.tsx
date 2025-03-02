@@ -41,7 +41,6 @@ export const ProductPage: React.FC = () => {
         />
         </div>
 
-        
         <div className="max-w-screen-xl mx-auto">
         <hr className="mt-3 mb-10" />
         <ApiErrorBoundary>
