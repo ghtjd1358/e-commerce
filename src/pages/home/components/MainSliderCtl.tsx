@@ -17,7 +17,7 @@ export const MainSliderControls: React.FC<SliderControlsProps> = ({
       <Button
         onClick={onPrev}
         variant={null}
-        className="absolute bottom-5 right-[5.5rem] text-black rounded-full hover:bg-gray-200 transition-all duration-300"
+        className="absolute bottom-10 right-[5.5rem] text-black rounded-full hover:bg-gray-200 transition-all duration-300"
       >
         <ChevronLeft className="w-5 h-5" />
       </Button>
@@ -26,7 +26,7 @@ export const MainSliderControls: React.FC<SliderControlsProps> = ({
       <Button
         onClick={onNext}
         variant={null}
-        className="absolute bottom-5 right-5 text-black rounded-full hover:bg-gray-200 transition-all duration-300"
+        className="absolute bottom-10 right-5 text-black rounded-full hover:bg-gray-200 transition-all duration-300"
       >
         <ChevronRight className="w-5 h-5" />
       </Button>

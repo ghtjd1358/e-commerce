@@ -59,9 +59,9 @@ export const AccountForm: React.FC = () => {
           name: data.displayName,
           nickname: data.nickname,
           email: data.email,
-          address: data.address ?? "",  // 주소가 없으면 빈 문자열로 설정
-          phoneNumber: data.phoneNumber ?? "",  // 전화번호가 없으면 빈 문자열로 설정
-          detailAddress: data.detailAddress ?? "",  // 상세 주소가 없으면 빈 문자열로 설정
+          address: data.address ?? "",  
+          phoneNumber: data.phoneNumber ?? "", 
+          detailAddress: data.detailAddress ?? "", 
         });
       }
     }, [data, form]);
@@ -91,7 +91,7 @@ export const AccountForm: React.FC = () => {
   };
 
   return (
-    <Card className="w-full max-w-md bg-gray-800 text-gray-100 border-gray-700">
+    <Card className="w-full max-w-md bg-gray-50 text-black">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold text-center text-gold tracking-wider">
           회원 정보 변경
@@ -142,15 +142,13 @@ export const AccountForm: React.FC = () => {
                 type="text"
               />
             </div>
-            <CardFooter className="flex flex-col space-y-4">
               <Button
                 type="submit"
-                className="w-full bg-gold hover:bg-gray-600 text-gray-100 bg-gray-700 "
+                className="w-full bg-gold hover:bg-yellow-500 text-black font-semibold bg-yellow-400 "
                 disabled={isLoading}
               >
                 {isLoading ? "저장 중..." : "회원 정보 저장"}
               </Button>
-            </CardFooter>
           </form>
         </Form>
       </CardContent>

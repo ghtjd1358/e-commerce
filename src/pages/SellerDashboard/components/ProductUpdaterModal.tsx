@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/pages/common/ui/select";
+import { useAuthStore } from "@/store/auth/useAuthStore";
 
 interface ProductUpdaterModalProps {
   isOpen: boolean;
@@ -36,6 +37,8 @@ interface ProductFormInputs {
   quantity: number;
   description: string;
   categoryId: string;
+  authorName: string, 
+  publisher: string,
 }
 
 interface ImagePreview {
@@ -58,6 +61,8 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
   } = useForm<ProductFormInputs>({
     defaultValues: {
       title: product.productName,
+      authorName: product.productAuthorName,
+      publisher: product.productPublisher, 
       price: product.productPrice,
       quantity: product.productQuantity,
       description: product.productDescription,
@@ -70,6 +75,7 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
   const [existingImage, setExistingImage] = useState<string[]>(
     product.productImage || [],
   );
+  const { user } = useAuthStore();
   const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
 
   const toggleDeleteImage = (imageUrl: string) => {
@@ -107,10 +113,13 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
 
       const updatedProduct: IProduct = {
         ...product,
-        productName: data.title,
-        productPrice: Number(data.price),
-        productQuantity: Number(data.quantity),
-        productDescription: data.description,
+        sellerId: user?.uid || "",
+        productName: data.title || "",
+        productPrice: Number(data.price) || 0,
+        productQuantity: Number(data.quantity) || 0,
+        productDescription: data.description || "",
+        productAuthorName: data.authorName || "",
+        productPublisher: data.publisher || "", 
         productCategory: {
           id: selectedCategory.id,
           name: selectedCategory.name,
@@ -152,14 +161,13 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-gray-800 border-gray-700 text-gray-100 p-8">
+      <DialogContent className="bg-gray-50 border-gray-500 text-black p-8">
         <DialogHeader>
-          <DialogTitle className="text-yellow-500">상품 수정</DialogTitle>
+          <DialogTitle>상품 수정</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-4 py-4">
             <Input
-              className="bg-gray-700 border-gray-600"
               {...register("title", { required: "상품명을 입력해주세요." })}
               placeholder="상품명"
             />
@@ -167,7 +175,21 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
               <p className="text-red-500 text-sm">{errors.title.message}</p>
             )}
             <Input
-              className="bg-gray-700 border-gray-600"
+            {...register("authorName")}
+              placeholder="작가"
+            />
+            {errors.authorName && (
+              <p className="text-red-500 text-sm">{errors.authorName.message}</p>
+            )}
+
+            <Input
+            {...register("publisher")}
+              placeholder="출판사"
+            />
+            {errors.publisher && (
+              <p className="text-red-500 text-sm">{errors.publisher.message}</p>
+            )}
+            <Input
               type="number"
               {...register("price", { required: "가격을 입력해주세요." })}
               placeholder="가격"
@@ -176,7 +198,6 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
               <p className="text-red-500 text-sm">{errors.price.message}</p>
             )}
             <Input
-              className="bg-gray-700 border-gray-600"
               type="number"
               {...register("quantity", { required: "수량을 입력해주세요." })}
               placeholder="수량"
@@ -185,7 +206,6 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
               <p className="text-red-500 text-sm">{errors.quantity.message}</p>
             )}
             <Textarea
-              className="bg-gray-700 border-gray-600 resize-none"
               {...register("description", {
                 required: "상품 설명을 입력해주세요.",
               })}
@@ -212,7 +232,7 @@ export const ProductUpdaterModal: React.FC<ProductUpdaterModalProps> = ({
                         placeholder="카테고리 선택"
                       />
                     </SelectTrigger>
-                    <SelectContent className="bg-gray-700 border-gray-600">
+                    <SelectContent>
                       {categories
                         .filter((category) => category.id !== ALL_CATEGORY_ID)
                         .map((category) => (

@@ -1,17 +1,9 @@
 import React, { useState } from "react";
 import {
-  Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/pages/common/ui/card";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/pages/common/ui/table";
 import { SellerOrderCard } from "./SellerOrderCard";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useSellerOrders } from "@/features/order/hooks/useFetchSellerOrders";
@@ -64,81 +56,27 @@ export const SellerOrderList: React.FC = () => {
 
   return (
     <div className="w-full">
-      <Card className="bg-gray-800 border-gray-700">
+      <div className="border border-gray-500 rounded-md">
         <CardHeader>
-          <div className="flex justify-between mb-4">
-            <CardTitle className="text-yellow-500 mb-5">주문 목록</CardTitle>
+          <div className="flex justify-between items-center mb-4">
+            <CardTitle className="text-black font-bold text-2xl">주문 목록</CardTitle>
           </div>
         </CardHeader>
-
         <CardContent>
+          {/* Skeleton 로딩 상태 */}
           {isLoading ? (
-            <Table className="w-full">
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                    ID
-                  </TableHead>
-                  <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                    제품
-                  </TableHead>
-                  <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                    이미지
-                  </TableHead>
-                  <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                    수량
-                  </TableHead>
-                  <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                    상태
-                  </TableHead>
-                  <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                    날짜
-                  </TableHead>
-                  <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                    상태선택
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {Array.from({ length: pageSize }, (_, index) => (
-                  <SellerProductCardSkeleton key={index} />
-                ))}
-              </TableBody>
-            </Table>
+            Array.from({ length: pageSize }).map((_, idx) => (
+              <SellerProductCardSkeleton key={idx} />
+            ))
           ) : currentOrders && currentOrders.length > 0 ? (
             <>
-              <Table className="w-full">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                      ID
-                    </TableHead>
-                    <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                      제품
-                    </TableHead>
-                    <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                      이미지
-                    </TableHead>
-                    <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                      수량
-                    </TableHead>
-                    <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                      상태
-                    </TableHead>
-                    <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                      날짜
-                    </TableHead>
-                    <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
-                      상태선택
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {currentOrders.map((order) => (
-                    <SellerOrderCard key={order.id} product={order} />
-                  ))}
-                </TableBody>
-              </Table>
+              {/* 주문 리스트 */}
+              <div className="flex flex-col space-y-2">
+                {currentOrders.map((order) => (
+                  <SellerOrderCard key={order.id} product={order} />
+                ))}
+              </div>
+              {/* Pagination */}
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -149,7 +87,7 @@ export const SellerOrderList: React.FC = () => {
             <EmptyProduct />
           )}
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 };

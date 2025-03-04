@@ -24,15 +24,15 @@ export const Pagination: React.FC<PaginationProps> = ({
   ].filter(Boolean);
 
   return (
-    <div className="flex items-center justify-center space-x-2 mt-4">
+    <div className="flex items-center justify-center space-x-2 mt-4 text-black">
       {/* 이전 버튼 */}
       <Button
         onClick={() => onClick("prev")}
         disabled={currentPage === 1}
         className={`px-3 py-1 rounded-md ${
           currentPage === 1
-            ? "bg-gray-500 cursor-not-allowed"
-            : "bg-yellow-500 hover:bg-yellow-600 text-white"
+            ? "bg-gray-200 cursor-not-allowed text-gray-500 border border-gray-300"
+            : "bg-yellow-400 hover:bg-yellow-500 text-white border border-gray-300"
         }`}
       >
         &lt;
@@ -46,8 +46,8 @@ export const Pagination: React.FC<PaginationProps> = ({
             onClick={() => onClick(page)}
             className={`px-3 py-1 rounded-md ${
               currentPage === page
-                ? "bg-yellow-600 text-white font-bold"
-                : "bg-gray-700 hover:bg-gray-800 text-gray-300"
+                ? "bg-yellow-400 text-white font-bold border border-yellow-500"
+                : "bg-gray-100 hover:bg-yellow-400 hover:text-white text-gray-700 border border-gray-300"
             }`}
           >
             {page}
@@ -65,8 +65,8 @@ export const Pagination: React.FC<PaginationProps> = ({
         disabled={currentPage === totalPages}
         className={`px-3 py-1 rounded-md ${
           currentPage === totalPages
-            ? "bg-gray-500 cursor-not-allowed"
-            : "bg-yellow-500 hover:bg-yellow-600 text-white"
+            ? "bg-gray-200 cursor-not-allowed text-gray-500 border border-gray-300"
+            : "bg-yellow-400 hover:bg-yellow-500 text-white border border-gray-300"
         }`}
       >
         &gt;

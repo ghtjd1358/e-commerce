@@ -28,11 +28,6 @@ export const Header: React.FC = () => {
           ? "border-b border-black bg-gray-50 duration-300"
           : "bg-transparent border-none"
       }`}
-      style={{
-        background: !isScrolled
-          ? "linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0))"
-          : undefined,
-      }}
     >
       <div className="w-full">
         <div className="max-w-screen-xl mx-auto flex justify-between items-center">
@@ -48,9 +43,7 @@ export const Header: React.FC = () => {
           {/* 로고 */}
           <div>
           <LogoButton
-              className={`text-3xl font-bold text-center md:text-left ${
-                isScrolled ? "text-black" : "text-white"
-              }`}/>
+              className="text-3xl font-bold text-center md:text-left"/>
           </div>
           {/* 사이드 내비게이션 바 */}
           {isOpen && (
@@ -63,7 +56,7 @@ export const Header: React.FC = () => {
               toggleModal={toggleModal}
             />
           )}
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center p-4">
             <SearchBar onSearchResults={(results) => console.log(results)} />
             {/* CartButton에 색상 props 전달 */}
             <CartButton

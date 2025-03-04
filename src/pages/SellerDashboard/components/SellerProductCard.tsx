@@ -5,7 +5,6 @@ import { useModal } from "@/shared/hooks/useModals";
 import { Edit, Trash2 } from "lucide-react";
 import { useDeleteProducts } from "@/features/products/hooks/useDeleteProducts";
 import { ProductUpdaterModal } from "./ProductUpdaterModal";
-import { TableCell, TableRow } from "@/pages/common/ui/table";
 
 interface ProductCardProps {
   product: IProduct;
@@ -26,45 +25,77 @@ export const SellerProductCard: React.FC<ProductCardProps> = ({
       return;
     }
 
-      mutateAsync(product.id);
-    
+    try {
+      await mutateAsync(product.id);
+      addToast("상품이 성공적으로 삭제되었습니다.", "success");
+    } catch (error) {
+      addToast("상품 삭제에 실패했습니다.", "error");
+    }
   };
 
   return (
     <>
-      <TableRow key={product.id}>
-        <TableCell className="text-gray-400 w-1/6 text-center">
-          {product.id}
-        </TableCell>
-        <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-normal text-center">
-          {product.productName}
-        </TableCell>
-        <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">
-          $ {product.productPrice}
-        </TableCell>
-        <TableCell className="text-gray-400 w-1/5 overflow-hidden overflow-ellipsis whitespace-nowrap text-center">
-          {product.productQuantity} 개
-        </TableCell>
-        <TableCell className="w-1/5 text-center">
+      <div className="flex flex-col sm:flex-row border rounded-lg shadow-md p-5 bg-white space-y-4 sm:space-y-0 sm:space-x-4">
+        {/* 이미지 */}
+        <div className="flex justify-center sm:w-1/4">
           <img
             src={product.productImage[0]}
             alt={product.productName}
-            className="w-16 h-16 object-contain m-auto"
+            className="w-32 h-32 object-contain"
           />
-        </TableCell>
-        <TableCell className="font-medium text-gray-400 w-1/4 overflow-hidden overflow-ellipsis whitespace-normal text-center">
-          {product.updatedAt.slice(0, 10)}
-        </TableCell>
-        <TableCell className=" cursor-pointer">
+        </div>
+
+        {/* 상품 정보 */}
+        <div className="flex flex-col flex-grow">
+          {/* 상품명 */}
+          <div className="flex items-center space-x-2">
+            <span className="font-semibold text-gray-700 text-lg">
+              {product.productName}
+            </span>
+          </div>
+
+          {/* 가격 및 수량 */}
+          <div className="flex flex-col mb-5">
+            <span className="text-gray-900 font-bold text-lg">
+              {product.productPrice.toLocaleString()}
+            </span>
+            <span className="text-gray-900 font-bold text-lg">
+              {product.productQuantity} 개
+            </span>
+          </div>
+
+          {/* 날짜 */}
+          <div className="space-x-2">
+            <span className="text-gray-400 font-medium text-xs">
+              등록일: {new Date(product.updatedAt).toLocaleDateString("ko-KR")}
+            </span>
+          </div>
+        </div>
+
+        {/* 수정/삭제 버튼 */}
+        <div className="flex flex-col justify-evenly items-end sm:w-auto p-2">
           {product.sellerId === user?.uid && (
             <>
-              <Edit onClick={openModal} />
-              <Trash2 onClick={handleDeleteProduct} />
+              <button
+                onClick={openModal}
+                className="flex items-center gap-1 px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              >
+                <Edit className="w-4 h-4" />
+                수정
+              </button>
+              <button
+                onClick={handleDeleteProduct}
+                className="flex items-center gap-1 px-3 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              >
+                <Trash2 className="w-4 h-4" />
+                삭제
+              </button>
             </>
           )}
-        </TableCell>
-      </TableRow>
+        </div>
+      </div>
 
+      {/* 수정 모달 */}
       <Suspense fallback={<div>Loading...</div>}>
         {isOpen && (
           <ProductUpdaterModal

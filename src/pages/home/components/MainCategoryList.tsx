@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IProduct } from "@/features/products/type";
 import { Link, useNavigate } from "react-router-dom";
 import { pageRoutes } from "@/app/apiRouters";
@@ -13,6 +13,21 @@ import { useQueryClient } from "@tanstack/react-query";
 import { fetchFilterProductsApi } from "@/features/products/api";
 import { PRODUCT_KEY } from "@/features/products/key";
 import { ProductCard } from "@/pages/common/components/Card/ProductCard";
+import { categoryDisplaySettings, categoryOrder } from "@/shared/constants";
+
+type CountType = {
+  xs: number;
+  sm: number;
+  md: number;
+  lg: number;
+  xl?: number;
+  '2xl'?: number;
+};
+
+type CategorySettingsType = {
+  count: CountType;
+  gridCols: string;
+};
 
 export const MainCategoryList: React.FC = () => {
   const { data, isLoading } = useFetchProducts();
@@ -21,43 +36,30 @@ export const MainCategoryList: React.FC = () => {
   const { addToast } = useToastStore();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const cartItem = cart.map((item) => item.id);
 
-  // 카테고리별로 보여줄 상품 개수와 그리드 컬럼 설정
-  const categoryDisplaySettings: Record<string, { count: number; gridCols: string }> = {
-    "국내도서": { count: 4, gridCols: "grid-cols-4" },
-    "해외도서": { count: 5, gridCols: "grid-cols-5" },
-    "eBook": { count: 5, gridCols: "grid-cols-5" },
-    "sam": { count: 6, gridCols: "grid-cols-6" },
-  };
+  const groupedProducts = data?.reduce((acc, product) => {
+    const category = product.productCategory.name;
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(product);
+    return acc;
+  }, {} as Record<string, IProduct[]>) || {};
 
-  // 원하는 카테고리 정렬 순서
-  const categoryOrder = ["국내도서", "해외도서", "eBook", "sam"];
-
-  // group products
-  const groupedProducts =
-    data?.reduce(
-      (acc, product) => {
-        const category = product.productCategory.name;
-        if (!acc[category]) {
-          acc[category] = [];
-        }
-        acc[category].push(product);
-        return acc;
-      },
-      {} as Record<string, IProduct[]>
-    ) || {};
-
-  // 장바구니
   const handleCartAction = (product: IProduct): void => {
     if (isLogin && user) {
       const cartItem: CartItem = { ...product, count: 1 };
       addCartItem(cartItem, user.uid, 1);
-      addToast(
-        `${product.productName} 상품이 장바구니에 담겼습니다.`,
-        "success"
-      );
+      addToast(`${product.productName} 상품이 장바구니에 담겼습니다.`, "success");
     } else {
       navigate(pageRoutes.login);
     }
@@ -72,7 +74,6 @@ export const MainCategoryList: React.FC = () => {
     }
   };
 
-  // prefetch
   const handlePrefetchProducts = async (categoryId: string) => {
     const queryKey = [PRODUCT_KEY, { categoryId }];
     const cachedData = queryClient.getQueryData(queryKey);
@@ -89,10 +90,19 @@ export const MainCategoryList: React.FC = () => {
     }
   };
 
+  const getDisplayCount = (settings: CategorySettingsType): number => {
+    if (windowWidth >= 1536 && settings.count['2xl']) return settings.count['2xl'];
+    if (windowWidth >= 1280 && settings.count.xl) return settings.count.xl;
+    if (windowWidth >= 1024) return settings.count.lg;
+    if (windowWidth >= 768) return settings.count.md;
+    if (windowWidth >= 640) return settings.count.sm;
+    return settings.count.xs;
+  };
+
   return (
     <section className="w-full">
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {Array.from({ length: 10 }, (_, index) => (
             <ProductCardSkeleton key={index} />
           ))}
@@ -104,28 +114,24 @@ export const MainCategoryList: React.FC = () => {
           .sort(([a], [b]) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b)) 
           .map(([category, items]) => {
             const settings = categoryDisplaySettings[category] || {
-              count: 5,
-              gridCols: "grid-cols-5",
+              count: { xs: 1, sm: 2, md: 3, lg: 4, xl: 5 },
+              gridCols: "grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
             };
 
             return (
               <div key={category} className="overflow-hidden">
-                {/* 카테고리 헤더 */}
-                <div className="flex justify-between items-center mt-6 mb-2">
-                  <h3 className="text-2xl font-bold">{category}</h3>
+                <div className="flex justify-between items-center mt-6">
+                  <h3 className="text-3xl mb-3 font-bold tracking-wide">{category}</h3>
                   <Link
                     to={`${pageRoutes.product}?category=${items[0].productCategory.name}`}
-                    onMouseEnter={() =>
-                      handlePrefetchProducts(items[0].productCategory.id)
-                    }
+                    onMouseEnter={() => handlePrefetchProducts(items[0].productCategory.id)}
                     className="text-lg font-semibold text-blue-500 hover:text-blue-700"
                   >
                     더보기
                   </Link>
                 </div>
-                {/* 상품 카드 */}
-                <div className={`grid gap-4 ${settings.gridCols}`}>
-                  {items.slice(0, settings.count).map((product) => (
+                <div className={`grid gap-4 ${settings.gridCols} mb-5`}>
+                  {items.slice(0, getDisplayCount(settings)).map((product) => (
                     <ProductCard
                       key={product.id}
                       cart={cartItem}

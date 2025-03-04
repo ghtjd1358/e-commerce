@@ -25,10 +25,10 @@ export const Profile: React.FC = () => {
   };
 
   return (
-    <div className="w-full">
-      <Card className="bg-gray-800 border-gray-700 text-gray-300">
+    <div className="w-full font-semibold">
+      <Card className="border-gray-700 text-black">
         <CardHeader>
-          <CardTitle className="text-yellow-500 text-2xl">
+          <CardTitle className="text-black-500 font-bold text-2xl mb-5">
             {location.pathname === "/checkout" ? "구매자 정보" : "계정 정보"}
           </CardTitle>
         </CardHeader>

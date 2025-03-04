@@ -22,9 +22,8 @@ export const BuyerDashboardPage: React.FC = () => {
 
   return (
     <Layout authStatus={authStatusType.IS_BUYER}>
-      <div className="min-h-screen bg-gray-900 text-gray-100 p-32">
-        <div className="max-w-6xl mx-auto space-y-8">
-          <h1 className="text-3xl font-bold text-gold">마이페이지</h1>
+      <div className="w-full bg-gray-50 text-black">
+        <div className="mt-28 max-w-screen-xl mx-auto space-y-8">
           <ApiErrorBoundary>
             <Suspense fallback={<BuyerOrderSkeleton />}>
               <Profile />

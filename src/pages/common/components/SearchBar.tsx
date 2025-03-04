@@ -33,11 +33,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults }) => {
       {/* 검색창 */}
       <div className="relative z-50">
         <motion.div
-          className={`flex items-center gap-2 rounded-lg bg-white shadow-md py-1 px-4
-            ${
-              isOpen ? "border border-orange-500" : "border border-transparent"
-            }
-            `}
+          className="flex items-center gap-2 rounded-lg bg-white shadow-md py-1 px-4"
           initial={{ width: "200px" }}
           animate={{ width: isOpen ? "400px" : "200px" }}
           transition={{ duration: 0.3 }}
@@ -70,8 +66,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults }) => {
             ></motion.div>
 
             {/* 모달 본문 */}
+            <div className="relative">
             <motion.div
-              className="fixed top-20 left-1/2 transform -translate-x-1/2 w-[90%] md:w-[600px] bg-white rounded-lg shadow-lg z-50 p-6"
+              className="absolute top-10 -right-48  w-[90%] md:w-[600px] bg-white rounded-lg shadow-lg z-50 p-6 max-h-[80vh] overflow-y-auto"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -90,6 +87,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearchResults }) => {
                 )}
               </ul>
             </motion.div>
+            </div>
           </>
         )}
       </AnimatePresence>

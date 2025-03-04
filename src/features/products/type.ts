@@ -11,6 +11,7 @@ export interface IProduct {
   updatedAt: string;
   productAuthorName: string; 
   productPublisher: string;  
+  platform?: string
 }
 export interface PaginatedProductsDTO {
   products: IProduct[];

@@ -35,4 +35,27 @@ export const orderType = {
   PAYLOAD_START: "발송 시작",
 };
 
+export const categoryDisplaySettings = {
+  "국내도서": { 
+    count: { xs: 1, sm: 2, md: 3, lg: 4 }, 
+    gridCols: "grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" 
+  },
+  "해외도서": { 
+    count: { xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }, 
+    gridCols: "grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5" 
+  },
+  "eBook": { 
+    count: { xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }, 
+    gridCols: "grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5" 
+  },
+  "sam": { 
+    count: { xs: 1, sm: 2, md: 3, lg: 4, xl: 5, '2xl': 6 }, 
+    gridCols: "grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6" 
+  },
+  "핫트랙스": { 
+    count: { xs: 1, sm: 2, md: 3, lg: 4, xl: 6, '2xl': 7 }, 
+    gridCols: "grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7" 
+  }
+};
 
+export const categoryOrder = ["국내도서", "해외도서", "eBook", "sam", "핫트랙스"];

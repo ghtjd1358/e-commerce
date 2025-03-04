@@ -15,11 +15,24 @@ const passwordSchema = z
   .regex(/^(?=.*[\W_])/, "특수문자 하나 이상이 필요합니다.")
   .min(8, { message: "비밀번호는 최소 8자 이상이어야 합니다." });
 
+// 로그인 비밀번호 스키마
+const loginPasswordSchema = z
+  .string()
+  .regex(/^(?=.*[A-Z])/, "대문자 하나 이상이 필요합니다.")
+  .regex(/^(?=.*[a-z])/, "소문자 하나 이상이 필요합니다.")
+  .regex(/^(?=.*\d)/, "숫자 하나 이상이 필요합니다.")
+  .regex(/^(?=.*[\W_])/, "특수문자 하나 이상이 필요합니다.")
+
 // 이메일 스키마
 const emailSchema = z
   .string()
   .min(1, { message: "이메일을 입력해 주세요." })
   .regex(EMAIL_PATTERN, { message: "유효하지 않은 이메일 형식입니다." });
+
+// 로그인 이메일 스키마
+const loginEmailSchema = z
+.string()
+.regex(EMAIL_PATTERN, { message: "유효하지 않은 이메일 형식입니다." });
 
 // 이름 스키마
 const nameSchema = z
@@ -36,7 +49,9 @@ const nicknameSchema = z
   .max(20, { message: "닉네임은 20자 이내여야 합니다." });
 
 // 주소 스키마
-const addressSchema = z.string().min(1, { message: "주소를 입력해 주세요." }).trim();
+const addressSchema = z
+.string()
+.min(1, { message: "주소를 입력해 주세요." });
 
 const detailAddressSchema = z
   .string()
@@ -68,9 +83,13 @@ const refinedRegisterSchema = registerSchema.refine(
 
 // 로그인 스키마
 const loginSchema = z.object({
-  email: emailSchema,
-  password: passwordSchema,
+  email: z
+    .string()
+    .min(1, { message: "이메일을 입력해 주세요." })
+    .regex(EMAIL_PATTERN, { message: "유효하지 않은 이메일 형식입니다." }),
+  password: z.string().min(1, { message: "비밀번호를 입력해 주세요." }),
 });
+
 
 // 회원 정보 스키마
 const accountSchema = z.object({

@@ -1,17 +1,5 @@
-import React, { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/pages/common/ui/card";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/pages/common/ui/table";
+import React, { useState, useMemo } from "react";
+import { CardContent, CardHeader, CardTitle } from "@/pages/common/ui/card";
 import { BuyerProductCard } from "./BuyerProductCard";
 import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
@@ -23,40 +11,34 @@ interface ProductOrderListProps {
   buyerId: string;
 }
 
-interface Order {
-  id: string;
-  buyerId: string;
-  productId: string;
-}
-
-export const BuyerProductList: React.FC<ProductOrderListProps> = ({
-  buyerId,
-}) => {
+export const BuyerProductList: React.FC<ProductOrderListProps> = ({ buyerId }) => {
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 5;
   const { data: products } = useFetchProducts();
-  
-  // '주문 완료'와 '주문 취소' 상태만 가져오기
-  const { data: orders, isLoading: ordersLoading } = useFetchOrders(buyerId, [
-    "주문 완료",
-    "주문 취소",
-  ]) as {
-    data: Order[] | undefined;
-    isLoading: boolean;
-  };
+  const { data: orders, isLoading: ordersLoading } = useFetchOrders(buyerId, ["주문 완료", "주문 취소"]);
 
-  // 클라이언트에서 페이지네이션 처리
-  const totalItems = orders?.length ?? 0;
-  const totalPages = Math.ceil(totalItems / PAGE_SIZE);
-  const currentData = orders
-    ?.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
-    .map((order) => {
-      const product = products?.find((item) => item.id === order.productId);
-      return product
-        ? { ...order, productName: product.productName, productImage: product.productImage?.[0] }
-        : null;
-    })
-    .filter(Boolean);
+  const groupedOrders = useMemo(() => {
+    if (!orders || !products) return {};
+    
+    return orders.reduce((acc, order) => {
+      const product = products.find(item => item.id === order.productId);
+      if (!product) return acc;
+      
+      const date = new Date(order.updatedAt).toLocaleDateString();
+
+      if (!acc[date]) acc[date] = [];
+      acc[date].push({ ...order, productName: product.productName, productImage: product.productImage?.[0] });
+      return acc;
+    }, {});
+  }, [orders, products]);
+
+  const sortedDates = useMemo(() => {
+    return Object.keys(groupedOrders).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+  }, [groupedOrders]);
+
+  const paginatedDates = sortedDates.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  const totalPages = Math.ceil(sortedDates.length / PAGE_SIZE);
 
   const handlePageClick = (selected: number | "prev" | "next") => {
     if (typeof selected === "number") {
@@ -70,39 +52,27 @@ export const BuyerProductList: React.FC<ProductOrderListProps> = ({
 
   return (
     <div className="w-full">
-      <Card className="bg-gray-800 border-gray-700">
+      <div className=" border border-gray-500 rounded-md">
         <CardHeader>
-          <CardTitle className="text-yellow-500 mb-5">구매 목록</CardTitle>
+          <CardTitle className="text-black-500 font-bold text-2xl mb-5">구매 목록</CardTitle>
         </CardHeader>
         <CardContent>
           {ordersLoading ? (
-            <Table>
-              <TableBody>
-                {Array.from({ length: PAGE_SIZE }).map((_, idx) => (
-                  <OrderProductCardSkeleton key={idx} />
-                ))}
-              </TableBody>
-            </Table>
-          ) : currentData && currentData.length > 0 ? (
+            Array.from({ length: PAGE_SIZE }).map((_, idx) => (
+              <OrderProductCardSkeleton key={idx} />
+            ))
+          ) : paginatedDates.length > 0 ? (
             <>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-1/6 text-center">제품</TableHead>
-                    <TableHead className="w-1/6 text-center">이미지</TableHead>
-                    <TableHead className="w-1/6 text-center">수량</TableHead>
-                    <TableHead className="w-1/6 text-center">판매자</TableHead>
-                    <TableHead className="w-1/6 text-center">상태</TableHead>
-                    <TableHead className="w-1/6 text-center">날짜</TableHead>
-                    <TableHead className="w-1/6 text-center">주문</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {currentData.map((product) => (
-                    <BuyerProductCard key={product?.id} product={product} />
-                  ))}
-                </TableBody>
-              </Table>
+              {paginatedDates.map(date => (
+                <div key={date} className="mb-6">
+                  <h3 className="text-lg font-semibold text-black mb-3">{date}</h3>
+                  <div className="flex flex-col space-y-2">
+                    {groupedOrders[date].map(product => (
+                      <BuyerProductCard key={product.id} product={product} />
+                    ))}
+                  </div>
+                </div>
+              ))}
               <Pagination
                 currentPage={page}
                 totalPages={totalPages}
@@ -113,8 +83,7 @@ export const BuyerProductList: React.FC<ProductOrderListProps> = ({
             <EmptyProduct />
           )}
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 };
-

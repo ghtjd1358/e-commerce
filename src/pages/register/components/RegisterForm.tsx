@@ -97,7 +97,7 @@ export const RegisterForm: React.FC = () => {
                 <RHFInput
                   name="email"
                   label="이메일"
-                  placeholder="m@example.com"
+                  placeholder="이메일을 입력해주세요"
                   type="email"
                 />
               </div>

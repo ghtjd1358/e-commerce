@@ -49,7 +49,7 @@ export const LoginForm: React.FC = () => {
     <Card className="w-full max-w-md text-gray-800 border border-gray-300 shadow-lg rounded-lg">
       <CardHeader className="space-y-2 text-center">
         <CardTitle className="text-3xl font-bold text-gold tracking-wide">
-           <LogoButton className="my-4" />
+          <LogoButton className="my-4" />
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -58,31 +58,34 @@ export const LoginForm: React.FC = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
               {/* 이메일 입력 필드 */}
               <div className="space-y-4 mb-6">
-              <RHFInput
-                name="email"
-                label="이메일"
-                placeholder="이메일을 입력해주세요"
-                type="email"
-                className="border-gray-300 focus:ring-gold focus:border-gold"
-              />
-              {/* 비밀번호 입력 필드 */}
-              <RHFInput
-                name="password"
-                label="비밀번호"
-                placeholder="비밀번호를 입력해주세요"
-                type="password"
-                className="border-gray-300 focus:ring-gold focus:border-gold"
-              />
+                <RHFInput
+                  name="email"
+                  label="이메일"
+                  placeholder="이메일을 입력해주세요"
+                  type="email"
+                  className="border-gray-300 focus:ring-gold focus:border-gold"
+                />
+                {/* 비밀번호 입력 필드 */}
+                <RHFInput
+                  name="password"
+                  label="비밀번호"
+                  placeholder="비밀번호를 입력해주세요"
+                  type="password"
+                  className="border-gray-300 focus:ring-gold focus:border-gold"
+                />
               </div>
               {/* 로그인 버튼 */}
               <Button
                 variant="ghost"
-                className="w-full h-10 appearance-none border border-solid border-gray-300 flex items-center justify-center text-black gap-4 font-bold hover:bg-blue-200"
+                className={`w-full h-10 appearance-none border border-solid border-gray-300 flex items-center justify-center text-black gap-4 font-bold ${
+                  isLoading ? "bg-blue-100" : "hover:bg-blue-200"
+                }`}
                 disabled={isLoading}
               >
                 {isLoading ? "로그인 중..." : "로그인"}
               </Button>
 
+              {/* 추가 로그인 옵션 */}
               <BuyerLoginButton onSubmit={form.handleSubmit(onSubmit)} />
               <SellerLoginButton onSubmit={form.handleSubmit(onSubmit)} />
               <GoogleLoginButton />

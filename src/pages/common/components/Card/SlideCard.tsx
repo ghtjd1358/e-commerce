@@ -1,5 +1,6 @@
+import { pageRoutes } from "@/app/apiRouters";
 import React from "react";
-import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 interface SlideCardProps {
   product: {
@@ -15,12 +16,9 @@ interface SlideCardProps {
 
 export const SlideCard: React.FC<SlideCardProps> = ({ product }) => {
   return (
-    <motion.div
-      className="max-w-screen-xl flex items-center gap-7 mt-5"
-      initial={{ x: 100, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }} 
-      exit={{ x: -100, opacity: 0 }} 
-      transition={{ duration: 0.5 }} 
+    <Link
+      to={`${pageRoutes.productDetail}/${product.id}`}
+      className="max-w-screen-xl flex items-center gap-7 mt-5" 
     >
       {/* 이미지 섹션 */}
       <div className="w-1/5 flex items-center justify-center">
@@ -35,7 +33,7 @@ export const SlideCard: React.FC<SlideCardProps> = ({ product }) => {
       <div className="w-4/5 h-[350px] text-left">
         {/* 상품명 */}
         <div className="mb-2">
-          <h1 className="text-5xl font-bold">{product.productName}</h1>
+          <h1 className="text-4xl font-bold">{product.productName}</h1>
         </div>
 
         {/* 저자 및 출판사 */}
@@ -57,6 +55,6 @@ export const SlideCard: React.FC<SlideCardProps> = ({ product }) => {
           <p className="text-xl text-black line-clamp-5">{product.productDescription}</p>
         </div>
       </div>
-    </motion.div>
+    </Link>
   );
 };

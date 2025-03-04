@@ -83,13 +83,13 @@ export const ProductRegistrationModal: React.FC<
       }
 
       const newProductData: NewProductDTO = {
-        sellerId: user?.uid,
-        productName: data.title,
-        productPrice: Number(data.price),
-        productQuantity: Number(data.quantity),
-        productDescription: data.description,
-        productAuthorName: data.authorName, 
-        productPublisher: data.publisher,
+        sellerId: user?.uid || "",
+        productName: data.title || "",
+        productPrice: Number(data.price) || 0,
+        productQuantity: Number(data.quantity) || 0,
+        productDescription: data.description || "",
+        productAuthorName: data.authorName || "",
+        productPublisher: data.publisher || "", 
         productCategory: {
           id: selectedCategory.id,
           name: selectedCategory.name,
@@ -126,15 +126,15 @@ export const ProductRegistrationModal: React.FC<
   };
 
   return (
+    <div className="w-full">
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-gray-800 border-gray-700 text-gray-100 p-8">
+      <DialogContent className="bg-gray-50 border-gray-500 text-black p-8">
         <DialogHeader>
-          <DialogTitle className="text-yellow-500">상품 등록</DialogTitle>
+          <DialogTitle>상품 등록</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-4 py-4">
             <Input
-              className="bg-gray-700 border-gray-600"
               {...register("title", { required: "상품명을 입력해주세요." })}
               placeholder="상품명"
             />
@@ -143,8 +143,7 @@ export const ProductRegistrationModal: React.FC<
             )}
 
             <Input
-              className="bg-gray-700 border-gray-600"
-              {...register("authorName", { required: "작가명을 입력해주세요." })}
+              {...register("authorName")}
               placeholder="작가"
             />
             {errors.authorName && (
@@ -152,8 +151,7 @@ export const ProductRegistrationModal: React.FC<
             )}
 
             <Input
-              className="bg-gray-700 border-gray-600"
-              {...register("publisher", { required: "출판사를 입력해주세요." })}
+              {...register("publisher")}
               placeholder="출판사"
             />
             {errors.publisher && (
@@ -161,7 +159,6 @@ export const ProductRegistrationModal: React.FC<
             )}
 
             <Input
-              className="bg-gray-700 border-gray-600"
               type="number"
               {...register("price", { required: "가격을 입력해주세요." })}
               placeholder="가격"
@@ -171,7 +168,6 @@ export const ProductRegistrationModal: React.FC<
             )}
 
             <Input
-              className="bg-gray-700 border-gray-600"
               type="number"
               {...register("quantity", { required: "수량을 입력해주세요." })}
               placeholder="수량"
@@ -181,7 +177,6 @@ export const ProductRegistrationModal: React.FC<
             )}
 
             <Textarea
-              className="bg-gray-700 border-gray-600 resize-none"
               {...register("description", {
                 required: "상품 설명을 입력해주세요.",
               })}
@@ -210,7 +205,7 @@ export const ProductRegistrationModal: React.FC<
                         placeholder="카테고리 선택"
                       />
                     </SelectTrigger>
-                    <SelectContent className="bg-gray-700 border-gray-600">
+                    <SelectContent>
                       {categories
                         .filter((category) => category.id !== ALL_CATEGORY_ID)
                         .map((category) => (
@@ -277,5 +272,6 @@ export const ProductRegistrationModal: React.FC<
         </form>
       </DialogContent>
     </Dialog>
+  </div>
   );
 };

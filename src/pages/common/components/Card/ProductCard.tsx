@@ -125,12 +125,16 @@ export const ProductCard: React.FC<ProductCardProps> = memo(
               <h3 className="text-lg font-semibold mt-1 line-clamp-1">
                 {product.productName}
               </h3>
-
-              <div className="flex justify-between items-center line-clamp-1">
-                <span className="text-sm text-gray-500">
-                  {product.productAuthorName} · {product.productPublisher}
+              <div className="flex justify-between items-center">
+              {/* 작가와 출판사 정보 조건부 렌더링 */}
+              {product.productAuthorName || product.productPublisher ? (
+                <span className="text-sm text-gray-500 line-clamp-1">
+                  {product.productAuthorName && product.productPublisher
+                    ? `${product.productAuthorName} · ${product.productPublisher}`
+                    : product.productAuthorName || product.productPublisher}
                 </span>
-              </div>
+              ) : null}
+            </div>
             </div>
           </Link>
           {/* 판매 완료 오버레이 */}
@@ -142,10 +146,10 @@ export const ProductCard: React.FC<ProductCardProps> = memo(
         </div>
 
         {/* 하단 설명 및 버튼 */}
-        <div className="absolute left-0 -bottom-1 right-0 bg-black bg-opacity-75 text-white p-4 transform translate-y-full group-hover:-translate-y-0 transition-transform duration-300 ease-in-out">
+        <div className="absolute left-0 -bottom-1 right-0 bg-white opacity-95 text-black p-4 transform translate-y-full group-hover:-translate-y-0 transition-transform duration-300 ease-in-out">
           <Link to={`${pageRoutes.productDetail}/${product.id}`}>
-            <h3 className="text-lg font-semibold mt-1 line-clamp-1">{product.productName}</h3>
-            <p className="text-sm text-gray-300 line-clamp-2 mb-5">
+            <h3 className="text-lg font-bold mt-1">책소개</h3>
+            <p className="text-sm text-gray-700 line-clamp-5 mb-5">
               {product.productDescription || "설명이 없습니다."}
             </p>
 
