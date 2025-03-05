@@ -14,6 +14,7 @@ import { useDetailFetchProducts } from "@/features/products/hooks/useDetailFetch
 import { ProductDetailSkeleton } from "./components/skeleton/ProductDetailSkeleton";
 import { useModalContext } from "@/shared/hooks/useModalContext";
 import { ProductDetailCommend } from "./components/ProductDetailCommend";
+import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 
 export const ProductDetaiPage: React.FC = () => {
   const navigate = useNavigate();
@@ -25,28 +26,15 @@ export const ProductDetaiPage: React.FC = () => {
   const { addCartItem } = useCartStore();
   const { openModal } = useModalContext();
 
-  // 예제 추천 상품 데이터 (실제 데이터는 API 호출로 대체 가능)
-  const recommendedProducts = [
-    {
-      id: "1",
-      productName: "추천 상품 1",
-      productPrice: 15000,
-      productImage: ["/images/product1.jpg"],
-      productAuthorName: "저자 A",
-      productPublisher: "출판사 A",
-      productCategory: { id : '1' ,name: "카테고리 A" },
-    },
-    {
-      id: "2",
-      productName: "추천 상품 2",
-      productPrice: 20000,
-      productImage: ["/images/product2.jpg"],
-      productAuthorName: "저자 B",
-      productPublisher: "출판사 B",
-      productCategory: { id : '2', name: "카테고리 B" },
-    },
-    // 더 많은 추천 상품 추가 가능
-  ];
+  // 모든 상품 데이터 가져오기
+  const { data: allProducts = [] } = useFetchProducts();
+
+  // 현재 상품과 동일한 카테고리의 추천 상품 필터링
+  const recommendations = allProducts.filter(
+    (item) =>
+      item.productCategory.id === product?.productCategory.id &&
+      item.id !== product?.id // 현재 상품 제외
+  );
 
   const handleCartAction = (product: IProduct, e: React.MouseEvent): void => {
     e.stopPropagation();
@@ -82,12 +70,11 @@ export const ProductDetaiPage: React.FC = () => {
   if (isLoading) {
     return (
       <Layout authStatus={authStatusType.COMMON}>
-        <div className="min-h-screen bg-gray-900 text-gray-100 p-14 pt-32">
-          <div className="max-w-6xl mx-auto space-y-8">
-            <ProductDetailSkeleton />
-          </div>
+        <div className="min-h-screen bg-gray-white text-gray-black p-[30px] pt-[50px]">
+          <ProductDetailSkeleton />
         </div>
       </Layout>
+
     );
   }
 
@@ -108,18 +95,18 @@ export const ProductDetaiPage: React.FC = () => {
 
           {/* 추천 상품 */}
           <div>
-          <ProductDetailCommend recommendations={recommendedProducts} />
+            <ProductDetailCommend recommendations={recommendations} />
           </div>
 
           {/* 고정된 하단 섹션 */}
           <div>
-          <ProductDetailCart
-            findProducts={product}
-            quantity={quantity}
-            setQuantity={setQuantity}
-            handlePurchaseAction={handlePurchaseAction}
-            handleCartAction={handleCartAction}
-          />
+            <ProductDetailCart
+              findProducts={product}
+              quantity={quantity}
+              setQuantity={setQuantity}
+              handlePurchaseAction={handlePurchaseAction}
+              handleCartAction={handleCartAction}
+            />
           </div>
         </div>
       </div>

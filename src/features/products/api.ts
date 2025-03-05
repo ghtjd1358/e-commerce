@@ -75,8 +75,8 @@ export const fetchFilterProductsApi = async (
     if (filter.title && filter.title.length > 0) {
       q = query(
         q,
-        where("productName", ">=", filter.title[0]),
-        where("productName", "<=", filter.title[0] + "\uf8ff"),
+        where("productName", ">=", filter.title),
+        where("productName", "<=", filter.title + "\uf8ff"),
       );
     }
 
@@ -108,17 +108,33 @@ export const fetchFilterProductsApi = async (
       };
     }) as IProduct[];
 
-    if (filter.title) {
-      products = products.filter((product) =>
-        product.productName.toLowerCase().includes(filter.title!.toLowerCase()),
-      );
-    }
+    // 카테고리별로 그룹화
+    const groupedProducts = products.reduce((acc, product) => {
+      const category = product.productCategory.id;
+      if (!acc[category]) {
+        acc[category] = [];
+      }
+      acc[category].push(product);
+      return acc;
+    }, {} as Record<string, IProduct[]>);
+
+    // 각 카테고리에서 pageSize만큼 선택하고 합치기
+    let paginatedProducts = Object.values(groupedProducts).flatMap(
+      categoryProducts => categoryProducts.slice(0, pageSize)
+    );
+
+    // 제목 필터 적용 (이미 서버에서 필터링되었으므로 제거)
+    // if (filter.title) {
+    //   paginatedProducts = paginatedProducts.filter((product) =>
+    //     product.productName.toLowerCase().includes(filter.title!.toLowerCase()),
+    //   );
+    // }
 
     const totalCount = products.length;
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    const paginatedProducts = products.slice(startIndex, endIndex);
-    const hasNextPage = endIndex < totalCount;
+    paginatedProducts = paginatedProducts.slice(startIndex, endIndex);
+    const hasNextPage = products.length > endIndex;
     const nextPage = hasNextPage ? page + 1 : undefined;
 
     return { products: paginatedProducts, hasNextPage, totalCount, nextPage };
@@ -127,6 +143,7 @@ export const fetchFilterProductsApi = async (
     throw error;
   }
 };
+
 
 // 상품 fetch 필터 적용 전
 export const fetchProductsApi = async (): Promise<IProduct[]> => {

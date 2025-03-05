@@ -1,60 +1,29 @@
 import React from "react";
-import { ALL_CATEGORY_ID, categories } from "@/shared/constants";
-import { useSearchParams } from "react-router-dom";
-import { Button } from "@/pages/common/ui/button";
+import { categories } from "@/shared/constants";
 
 interface CategorySelectGroupProps {
-  categoryId: string | undefined;
+  categoryId?: string;
+  onCategoryChange: (category: string) => void;
 }
 
 export const CategorySelectUrl: React.FC<CategorySelectGroupProps> = ({
   categoryId,
+  onCategoryChange
 }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const handleCategoryChange = (newCategoryId: string) => {
-    const updatedParams = new URLSearchParams(searchParams);
-    updatedParams.set(
-      "category",
-      newCategoryId === ALL_CATEGORY_ID ? ALL_CATEGORY_ID : newCategoryId,
-    );
-    setSearchParams(updatedParams);
-  };
-
   return (
-    <div className="flex justify-between p-6 w-full">
+    <div className="flex justify-between items-center w-full border-b border-gray-300 mt-28">
       {categories.map((category) => (
         <button
           key={category.id}
-          onClick={() => handleCategoryChange(category.name)}
-          className="flex flex-col items-center group"
+          onClick={() => onCategoryChange(category.name)}
+          className={`px-4 py-2 text-sm font-medium transition-all duration-300 
+            ${
+              category.name === categoryId
+                ? "text-yellow-500 border-b-2 border-yellow-500"
+                : "text-gray-500 hover:text-yellow-500 hover:border-b-2 hover:border-yellow-500"
+            }`}
         >
-          {category.img && (
-            <img
-              src={category.img}
-              alt={category.name}
-              className={`w-16 h-16 mb-2 border rounded-full object-center transition-all duration-300 
-                ${
-                  category.name === categoryId
-                    ? "border-2 border-yellow-600"
-                    : "border-gray-600"
-                } 
-                group-hover:border-yellow-600 border-2
-                `
-              }
-            />
-          )}
-          <Button
-            variant={null}
-            className={`flex transition-all duration-300 
-              ${
-                category.name === categoryId
-                  ? "text-yellow-500"
-                  : "text-gray-300 group-hover:text-yellow-500"
-              }`}
-          >
-            {category.name}
-          </Button>
+          {category.name}
         </button>
       ))}
     </div>

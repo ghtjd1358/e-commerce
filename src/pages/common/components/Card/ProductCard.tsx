@@ -105,7 +105,7 @@ export const ProductCard: React.FC<ProductCardProps> = memo(
 
     return (
       <div
-        className="relative overflow-hidden group"
+        className="relative overflow-hidden group mb-5"
         onMouseEnter={() => handleMouseEnter(product.id)}
         onMouseLeave={handleMouseLeave}
       >

@@ -2,22 +2,15 @@ import React from "react";
 import { useFilterStore } from "@/store/filter/useFilterStore";
 import { IProduct } from "@/features/products/type";
 import { PriceRange } from "./PriceRange";
-import { ALL_CATEGORY_ID, categories } from "@/shared/constants";
 import { SortRange } from "./SortRange";
 import { CategorySelectUrl } from "./CategotySelectUrl";
 
 export const ProductFilter: React.FC<{
-  totalCount: number;
   category: string | undefined;
   filteredProducts: IProduct[];
-}> = ({ totalCount, category, filteredProducts }) => {
+  onCategoryChange: (category: string) => void;
+}> = ({ category, onCategoryChange }) => {
   const { minPrice, maxPrice, setMinPrice, setMaxPrice } = useFilterStore();
-
-  const categoryName =
-    categories.find((cat) => cat.name === category)?.name || "카테고리 없음";
-
-  const displayCount =
-    category === ALL_CATEGORY_ID ? totalCount : filteredProducts.length;
 
   const handlePriceChange =
     (actionCreator: (value: number) => void) =>
@@ -34,16 +27,12 @@ export const ProductFilter: React.FC<{
     };
 
   return (
-    <div className="flex justify-between items-end">
-      <h1 className="text-3xl font-bold text-gold w-[30%]">
-        브랜드 <span>{categoryName}</span> <span>( {displayCount} )</span>
-      </h1>
-
-      <div className="flex mb-12 w-[60%] pl-10 pr-10">
-        <CategorySelectUrl categoryId={category} />
+    <div className="flex flex-col items-end">
+      <div className="flex w-full">
+        <CategorySelectUrl categoryId={category} onCategoryChange={onCategoryChange} />
       </div>
 
-      <div className="flex justify-end w-[30%] mt-4 gap-6">
+      <div className="flex justify-end mt-4 gap-6">
         <SortRange />
         <PriceRange
           onChangeMinPrice={handlePriceChange(setMinPrice)}

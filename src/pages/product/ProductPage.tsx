@@ -9,17 +9,17 @@ import { ApiErrorBoundary } from "../common/components/ApiErrorBoundary";
 import { ProductList } from "./components/ProductList";
 
 export const ProductPage: React.FC = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.get("category") || ALL_CATEGORY_ID;
   const { user, isLogin } = useAuthStore();
 
-  const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
-    useFetchInfiniteQueryProducts({
-      pageSize: 20,
-    });
+  const { infiniteQuery, handleCategoryChange } = useFetchInfiniteQueryProducts({
+    pageSize: 20,
+  });
 
-  const totalCount = data?.pages[0]?.totalCount || 0;
-  const products = data ? data.pages.flatMap((page) => page.products) : [];
+  const { data, fetchNextPage, hasNextPage, isFetching, isLoading } = infiniteQuery;
+
+  const products = data ? data.products : [];
 
   // 카테고리 필터링
   const filteredProducts =
@@ -27,33 +27,35 @@ export const ProductPage: React.FC = () => {
       ? products
       : products.filter((product) => product.productCategory.name === category);
 
+  const handleCategoryClick = (newCategory: string) => {
+    handleCategoryChange(newCategory);
+    setSearchParams({ category: newCategory });
+  };
+
   return (
     <Layout authStatus={authStatusType.COMMON}>
       <div className="w-full">
-
-      <div className="max-w-screen-xl mx-auto">
-        <ProductFilter
-          totalCount={
-            category === ALL_CATEGORY_ID ? totalCount : filteredProducts.length
-          }
-          category={category}
-          filteredProducts={filteredProducts}
-        />
+        <div className="max-w-screen-xl mx-auto">
+          <ProductFilter
+            category={category}
+            filteredProducts={filteredProducts}
+            onCategoryChange={handleCategoryClick}
+          />
         </div>
 
         <div className="max-w-screen-xl mx-auto">
-        <hr className="mt-3 mb-10" />
-        <ApiErrorBoundary>
-          <ProductList
-            filteredProducts={filteredProducts}
-            isLogin={isLogin}
-            user={user}
-            isLoading={isLoading}
-            fetchNextPage={fetchNextPage}
-            hasNextPage={hasNextPage}
-            isFetching={isFetching}
-          />
-        </ApiErrorBoundary>
+          <hr className="mt-3 mb-10" />
+          <ApiErrorBoundary>
+            <ProductList
+              products={filteredProducts}
+              isLogin={isLogin}
+              user={user}
+              isLoading={isLoading}
+              fetchNextPage={fetchNextPage}
+              hasNextPage={hasNextPage}
+              isFetching={isFetching}
+            />
+          </ApiErrorBoundary>
         </div>
       </div>
     </Layout>

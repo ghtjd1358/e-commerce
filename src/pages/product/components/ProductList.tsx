@@ -13,7 +13,7 @@ import { useInView } from "react-intersection-observer";
 import { Button } from "@/pages/common/ui/button";
 
 interface ProductListProps {
-  filteredProducts: IProduct[];
+  products: IProduct[];
   isLogin: boolean;
   user: IUser | GoogleUser | null;
   isLoading: boolean;
@@ -23,7 +23,7 @@ interface ProductListProps {
 }
 
 export const ProductList: React.FC<ProductListProps> = ({
-  filteredProducts,
+  products,
   isLogin,
   user,
   isLoading,
@@ -36,8 +36,10 @@ export const ProductList: React.FC<ProductListProps> = ({
   const { cart, addCartItem } = useCartStore();
   const cartItemCount = cart.map((item) => item.id);
 
-  // Intersection Observer로 무한 스크롤 구현
-  const { ref, inView } = useInView();
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    rootMargin: "10px"
+  });
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -45,7 +47,6 @@ export const ProductList: React.FC<ProductListProps> = ({
     }
   }, [inView, fetchNextPage, hasNextPage]);
 
-  // 장바구니 추가 액션
   const handleCartAction = (product: IProduct): void => {
     if (isLogin && user) {
       const cartItem: CartItem = { ...product, count: 1 };
@@ -59,7 +60,6 @@ export const ProductList: React.FC<ProductListProps> = ({
     }
   };
 
-  // 구매 액션
   const handlePurchaseAction = (product: IProduct): void => {
     if (isLogin && user) {
       const cartItem: CartItem = { ...product, count: 1 };
@@ -71,15 +71,14 @@ export const ProductList: React.FC<ProductListProps> = ({
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-      {/* 로딩 상태 */}
       {isLoading ? (
         <>
-          {[...Array(20)].map((_, index) => (
+          {[...Array(10)].map((_, index) => (
             <ProductCardSkeleton key={index} />
           ))}
         </>
-      ) : filteredProducts.length > 0 ? (
-        filteredProducts.map((product) => (
+      ) : products.length > 0 ? (
+        products.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
@@ -98,11 +97,14 @@ export const ProductList: React.FC<ProductListProps> = ({
         <EmptyProduct />
       )}
 
-      {/* 무한 스크롤 버튼 */}
       {hasNextPage && (
-        <div ref={ref} className="flex justify-center items-center col-span-full">
-          <Button variant="outline" className="w-full bg-gray-700">
-            {isFetching ? "...로딩중" : "더 불러오기"}
+        <div ref={ref} className="w-full flex justify-center items-center col-span-full">
+          <Button
+            variant="outline"
+            className="w-1/2 bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all duration-300"
+            disabled={isFetching}
+          >
+            {isFetching ? "로딩 중..." : "더 불러오기"}
           </Button>
         </div>
       )}
