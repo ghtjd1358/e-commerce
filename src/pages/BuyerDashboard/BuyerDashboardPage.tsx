@@ -7,18 +7,6 @@ import { BuyerOrderSkeleton } from "./components/skeleton/BuyerOrderSkeleton";
 import { Profile } from "../common/components/auth/Profile";
 import { BuyerProductList } from "./components/BuyerProductList";
 
-// const Profile = lazy(() =>
-//   import("../common/components/auth/Profile").then((module) => ({
-//     default: module.Profile,
-//   })),
-// );
-
-// const BuyerProductList = lazy(() =>
-//   import("./components/BuyerProductList").then((module) => ({
-//     default: module.BuyerProductList,
-//   })),
-// );
-
 export const BuyerDashboardPage: React.FC = () => {
   const { user } = useAuthStore();
 

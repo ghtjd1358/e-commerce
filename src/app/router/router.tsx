@@ -1,37 +1,64 @@
 import { createBrowserRouter } from "react-router-dom";
 import { pageRoutes } from "../apiRouters";
 import { CommonLayout } from "./routerLayout";
-import { LoginPage } from "@/pages/login/LoginPage";
-import { RegisterPage } from "@/pages/register/RegisterPage";
-import { CheckoutPage } from "@/pages/Checkuot/CheckoutPage";
-import { ProfileEditPage } from "@/pages/ProfileEdit/ProfileEditPage";
 import { ErrorPage } from "@/pages/error/ErrorPage";
 import { NotFoundPage } from "@/pages/error/NotFoundPage";
-
 import { HomePage } from "@/pages/home/HomePage";
-import { BuyerDashboardPage } from "@/pages/BuyerDashboard/BuyerDashboardPage";
-// import { lazy } from "react";
-import { SellerDashboardPage } from "@/pages/SellerDashboard/SellerDashboardPage";
-import { ProductPage } from "@/pages/product/ProductPage";
-import { ProductDetaiPage } from "@/pages/ProductDetail/ProductDetaiPage";
+// import { BuyerDashboardPage } from "@/pages/BuyerDashboard/BuyerDashboardPage";
+// import { LoginPage } from "@/pages/login/LoginPage";
+// import { RegisterPage } from "@/pages/register/RegisterPage";
+// import { CheckoutPage } from "@/pages/Checkuot/CheckoutPage";
+// import { ProfileEditPage } from "@/pages/ProfileEdit/ProfileEditPage";
+import { lazy } from "react";
 
-// const SellerDashboardPage = lazy(() =>
-//   import("@/pages/SellerDashboard/SellerDashboardPage").then((module) => ({
-//     default: module.SellerDashboardPage,
-//   })),
-// );
+const LoginPage = lazy(() =>
+  import("@/pages/login/LoginPage").then((module) => ({
+    default: module.LoginPage,
+  }))
+);
 
-// const ProductPage = lazy(() =>
-//   import("@/pages/product/ProductPage").then((module) => ({
-//     default: module.ProductPage,
-//   })),
-// );
+const RegisterPage = lazy(() =>
+  import("@/pages/register/RegisterPage").then((module) => ({
+    default: module.RegisterPage,
+  }))
+);
 
-// const ProductDetaiPage = lazy(() =>
-//   import("@/pages/ProductDetail/ProductDetaiPage").then((module) => ({
-//     default: module.ProductDetaiPage,
-//   })),
-// );
+const CheckoutPage = lazy(() =>
+  import("@/pages/Checkuot/CheckoutPage").then((module) => ({
+    default: module.CheckoutPage,
+  }))
+);
+
+const ProfileEditPage = lazy(() =>
+  import("@/pages/ProfileEdit/ProfileEditPage").then((module) => ({
+    default: module.ProfileEditPage,
+  }))
+);
+
+const BuyerDashboardPage = lazy(() =>
+  import("@/pages/BuyerDashboard/BuyerDashboardPage").then((module) => ({
+    default: module.BuyerDashboardPage,
+  }))
+);
+
+
+const SellerDashboardPage = lazy(() =>
+  import("@/pages/SellerDashboard/SellerDashboardPage").then((module) => ({
+    default: module.SellerDashboardPage,
+  })),
+);
+
+const ProductPage = lazy(() =>
+  import("@/pages/product/ProductPage").then((module) => ({
+    default: module.ProductPage,
+  })),
+);
+
+const ProductDetaiPage = lazy(() =>
+  import("@/pages/ProductDetail/ProductDetaiPage").then((module) => ({
+    default: module.ProductDetaiPage,
+  })),
+);
 
 export const router = createBrowserRouter([
   {

@@ -1,18 +1,17 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { LogOut } from "lucide-react";
 import { useAuthStore } from "@/store/auth/useAuthStore";
-import { useScrollThreshold } from "@/shared/hooks/useScroll"; // 커스텀 훅 import
+import { useScrollThreshold } from "@/shared/hooks/useScroll"; 
 
 export const LogoutButton = () => {
   const { logout } = useAuthStore();
-  const isScrolled = useScrollThreshold(60); // 스크롤 상태 확인
+  const isScrolled = useScrollThreshold(60);
   const navigate = useNavigate();
 
   const clickHandlerLogout = () => {
     logout();
-    navigate("/"); // 로그아웃 후 메인 페이지로 이동
+    navigate("/"); 
   };
 
   return (

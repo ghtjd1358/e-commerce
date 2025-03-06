@@ -6,15 +6,8 @@ import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { OrderType } from "@/features/order/types";
 import { ProfilePayload } from "./components/ProfilePayload";
-// import { lazy } from "react";
 import { CheckoutBtn } from "./components/CheckoutBtn";
 import { Profile } from "../common/components/auth/Profile";
-
-// const Profile = lazy(() =>
-//   import("../common/components/auth/Profile").then((module) => ({
-//     default: module.Profile,
-//   })),
-// );
 
 interface Order {
   id: string;

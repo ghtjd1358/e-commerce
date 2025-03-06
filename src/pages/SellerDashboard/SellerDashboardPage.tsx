@@ -7,24 +7,6 @@ import { Profile } from "../common/components/auth/Profile";
 import { SellerProductList } from "./components/SellerProductList";
 import { SellerOrderList } from "./components/SellerOrderList";
 
-// const Profile = lazy(() =>
-//   import("../common/components/auth/Profile").then((module) => ({
-//     default: module.Profile,
-//   })),
-// );
-
-// const SellerProductList = lazy(() =>
-//   import("./components/SellerProductList").then((module) => ({
-//     default: module.SellerProductList,
-//   })),
-// );
-
-// const SellerOrderList = lazy(() =>
-//   import("./components/SellerOrderList").then((module) => ({
-//     default: module.SellerOrderList,
-//   })),
-// );
-
 interface ProductListProps {
   pageSize?: number;
 }
