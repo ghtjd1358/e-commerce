@@ -30,12 +30,12 @@ export const CategorySelectUrl: React.FC<CategorySelectGroupProps> = ({
         <Button
           key={category.id}
           onClick={() => handleCategoryChange(category.name)}
-          variant="ghost"
+          variant= {null}
           className={`flex flex-col items-center transition-all duration-300 
             ${
               category.name === categoryId
                 ? "text-yellow-500"
-                : "text-gray-300 hover:text-yellow-500"
+                : "text-gray-500 hover:text-yellow-500"
             }`}
         >
           {category.name}

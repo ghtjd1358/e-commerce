@@ -14,7 +14,6 @@ export const LogoButton: React.FC<LogoProps> = ({
 }) => {
   return (
     <Link to={to} className="flex gap-2 justify-center items-center">
-      <img src="/public/favicon.jpg" alt="logo"  className="w-10 h-10 rounded border-2 border-black"/>
       <h1
         className={`text-2xl font-bold text-black tracking-widest ${className}`}
       >

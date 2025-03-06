@@ -56,7 +56,7 @@ export const CartCard: React.FC<ProductCardProps> = ({
   return (
     <div className="flex flex-col sm:flex-row border rounded-lg shadow-md p-5 bg-white space-y-4 sm:space-y-0 sm:space-x-4 mr-4">
       {/* 이미지 */}
-      <div className="flex justify-center sm:w-1/4">
+      <div className="flex justify-center">
         <img
           src={product.productImage[0]}
           alt={product.productName}
@@ -67,21 +67,22 @@ export const CartCard: React.FC<ProductCardProps> = ({
       {/* 상품 정보 */}
       <div className="flex flex-col flex-grow">
         {/* 체크박스 및 상품명 */}
+        
         <div className="flex items-center space-x-2">
-          <span className="font-semibold text-gray-700 text-lg">
-            {product.productName}
-          </span>
-          <input
+        <input
             type="checkbox"
             checked={product.isSelected}
             onChange={handleSelect}
             className="w-4 h-4 text-gold border-gray-300 rounded focus:ring-gold"
           />
+          <span className="font-semibold text-gray-700 text-lg line-clamp-1">
+            {product.productName}
+          </span>
         </div>
 
         {/* 카테고리 및 가격 */}
         <div className="flex flex-col mb-5">
-          <span className="text-gray-400 font-medium text-xs">
+          <span className="text-gray-400 font-medium text-xs line-clamp-1">
           {product.productAuthorName} · {product.productPublisher}
           </span>
           <span className="text-gray-900 font-bold text-lg">
