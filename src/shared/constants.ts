@@ -1,22 +1,16 @@
-import All from "../../public/logo/glock-2424292_640_webp.webp";
-import beretta from "../../public/logo/Bretta.svg";
-import bondarms from "../../public/logo/bondarms_webp.webp";
-import brwoing from "../../public/logo/brwoing_webp.webp";
-import czgunz from "../../public/logo/cz-gunz_webp.webp";
-
 export const MAX_CART_VALUE = 999;
 
 export const ALL_CATEGORY_ID = "All";
 
 export const PRODUCT_PAGE_SIZE = 20;
 
-export const categories: { id: string; name: string; img?: string }[] = [
-  { id: ALL_CATEGORY_ID, name: ALL_CATEGORY_ID, img: All },
-  { id: "1", name: "국내도서", img: beretta },
-  { id: `2`, name: "해외도서", img: bondarms },
-  { id: "3", name: "eBook", img: brwoing },
-  { id: "4", name: "sam", img: czgunz },
-  { id: "5", name: "핫트랙스", img: czgunz }
+export const categories: { id: string; name: string; }[] = [
+  { id: ALL_CATEGORY_ID, name: ALL_CATEGORY_ID },
+  { id: "1", name: "국내도서" },
+  { id: "2", name: "해외도서" },
+  { id: "3", name: "eBook" },
+  { id: "4", name: "sam" },
+  { id: "5", name: "핫트랙스" }
 ];
 
 export const authStatusType = {

@@ -14,13 +14,7 @@ export const useFetchInfiniteQueryProducts = ({
   const filter = { minPrice, maxPrice, title, categoryId, sortOption };
   const queryKey = [PRODUCT_KEY, filter];
 
-  const handleCategoryChange = (newCategory: string) => {
-    setCategoryId(newCategory);
-    queryClient.refetchQueries({ queryKey: [PRODUCT_KEY, { categoryId: newCategory }] });
-  };
-  
-
-  const infiniteQuery = useInfiniteQuery<PaginatedProductsDTO, Error, PaginatedProductsDTO>({
+  const infiniteQuery = useInfiniteQuery<PaginatedProductsDTO, Error>({
     queryKey,
     queryFn: async ({ pageParam = 1 }) => {
       try {
@@ -39,12 +33,16 @@ export const useFetchInfiniteQueryProducts = ({
     staleTime: 5 * 60 * 1000,
     gcTime: 15 * 60 * 1000,
     select: (data) => ({
+      pages: data.pages,
+      pageParams: data.pageParams,
       products: data.pages.flatMap(page => page.products),
-      hasNextPage: data.pages[data.pages.length - 1].hasNextPage,
-      totalCount: data.pages[0].totalCount,
-      nextPage: data.pages[data.pages.length - 1].nextPage,
     }),
   });
 
-  return { infiniteQuery, handleCategoryChange };
+  const resetCategoryQuery = (newCategoryId: string) => {
+    setCategoryId(newCategoryId);
+    queryClient.removeQueries({ queryKey: [PRODUCT_KEY, { ...filter, categoryId: newCategoryId }] });
+  };
+
+  return { infiniteQuery, resetCategoryQuery };
 };

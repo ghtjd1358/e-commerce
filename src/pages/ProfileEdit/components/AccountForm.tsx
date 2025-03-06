@@ -11,7 +11,6 @@ import { RHFInput } from "@/pages/common/components/RHFInput";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/pages/common/ui/card";

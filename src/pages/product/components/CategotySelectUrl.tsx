@@ -1,30 +1,45 @@
 import React from "react";
-import { categories } from "@/shared/constants";
+import { ALL_CATEGORY_ID, categories } from "@/shared/constants";
+import { useSearchParams } from "react-router-dom";
+import { Button } from "@/pages/common/ui/button";
+import { useCategoryHandler } from "@/shared/hooks/useCategotyHandler";
 
 interface CategorySelectGroupProps {
-  categoryId?: string;
-  onCategoryChange: (category: string) => void;
+  categoryId: string | undefined;
 }
 
 export const CategorySelectUrl: React.FC<CategorySelectGroupProps> = ({
   categoryId,
-  onCategoryChange
 }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { handleClickCategory } = useCategoryHandler();
+
+  const handleCategoryChange = (newCategoryId: string) => {
+    const updatedParams = new URLSearchParams(searchParams);
+    updatedParams.set(
+      "category",
+      newCategoryId === ALL_CATEGORY_ID ? ALL_CATEGORY_ID : newCategoryId,
+    );
+    setSearchParams(updatedParams);
+    handleClickCategory(newCategoryId);
+  };
+
   return (
-    <div className="flex justify-between items-center w-full border-b border-gray-300 mt-28">
+    <div className="flex justify-between p-6 w-full">
       {categories.map((category) => (
-        <button
+        <Button
           key={category.id}
-          onClick={() => onCategoryChange(category.name)}
-          className={`px-4 py-2 text-sm font-medium transition-all duration-300 
+          onClick={() => handleCategoryChange(category.name)}
+          variant="ghost"
+          className={`flex flex-col items-center transition-all duration-300 
             ${
               category.name === categoryId
-                ? "text-yellow-500 border-b-2 border-yellow-500"
-                : "text-gray-500 hover:text-yellow-500 hover:border-b-2 hover:border-yellow-500"
+                ? "text-yellow-500"
+                : "text-gray-300 hover:text-yellow-500"
             }`}
         >
           {category.name}
-        </button>
+        </Button>
       ))}
     </div>
   );

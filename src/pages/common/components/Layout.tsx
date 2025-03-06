@@ -6,6 +6,7 @@ import { useFilterStore } from "@/store/filter/useFilterStore";
 import { ALL_CATEGORY_ID, authStatusType } from "@/shared/constants";
 import { pageRoutes } from "@/app/apiRouters";
 import { Header } from "./Header";
+import { Footer } from "./Footer";
 interface LayoutProps {
   children: ReactNode;
   containerClassName?: string;
@@ -61,6 +62,7 @@ export const Layout: React.FC<LayoutProps> = ({
           {children}
         </div>
       </main>
+      <Footer/>
     </div>
   );
 };

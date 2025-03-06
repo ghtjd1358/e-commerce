@@ -38,9 +38,9 @@ export const ProductDetailCommend: React.FC<RecommendedProductsProps> = ({
               className="w-full h-48 object-cover rounded-md"
             />
             {/* 상품 이름 */}
-            <h3 className="text-lg font-semibold mt-2">{product.productName}</h3>
+            <h3 className="text-lg font-semibold mt-2 line-clamp-1">{product.productName}</h3>
             {/* 저자 및 출판사 */}
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 line-clamp-1">
               {product.productAuthorName || "알 수 없음"} ·{" "}
               {product.productPublisher || "알 수 없음"}
             </p>

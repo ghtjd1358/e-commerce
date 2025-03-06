@@ -6,27 +6,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/pages/common/ui/card";
-import { useLocation } from "react-router-dom";
 
 export const ProfileSkeleton: React.FC = () => {
-  const location = useLocation();
 
   return (
-    <Card className="bg-gradient-to-r from-gray-100 via-gray-200 to-gray-white border border-gray-300 text-gray-black animate-pulse mb-[20px]">
+    <Card className="bg-white border border-gray-300 rounded-lg shadow-md animate-pulse mb-5">
       <CardHeader>
-        <CardTitle className="text-xl font-bold text-gray-black">
-          {location.pathname === "/checkout" ? "구매자 정보" : "계정 정보"}
+        <CardTitle className="text-xl font-bold bg-gray-300">
+          <div className="h-6 bg-gray-200 rounded w-3/4" />
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-[20px]">
+      <CardContent className="space-y-4">
         {[User, CreditCard, UserCircle, Home, PhoneIcon].map((Icon, index) => (
-          <div key={index} className="flex items-center space-x-[10px]">
-            <Icon className="w-[20px] h-[20px] text-gray-black" />
-            <span>정보 :</span>
-            <div className="h-[20px] w-[50%] bg-gradient-to-r from-gray-white via-gray-white rounded mx-auto" />
+          <div key={index} className="flex items-center space-x-3">
+            <Icon className="w-5 h-5 text-gray-300" />
+            <span className="text-gray-300 w-16">정보 :</span>
+            <div className="h-5 w-1/2 bg-gray-200 rounded" />
           </div>
         ))}
-        <Button disabled className="w-full h-[40px] bg-gradient-to-r from-gray-white via-gray-white rounded"></Button>
+        <Button
+          disabled
+          className="w-full h-10 bg-gray-200 rounded mt-2"
+        ></Button>
       </CardContent>
     </Card>
   );

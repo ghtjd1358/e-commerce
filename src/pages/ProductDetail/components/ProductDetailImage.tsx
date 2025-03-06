@@ -8,9 +8,6 @@ import {
   CarouselPrevious, 
 } from "@/pages/common/ui/carousel";
 
-
-
-
 interface ProductDetailImageProps {
   findProducts: IProduct;
 }

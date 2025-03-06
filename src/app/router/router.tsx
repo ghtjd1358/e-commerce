@@ -11,24 +11,27 @@ import { NotFoundPage } from "@/pages/error/NotFoundPage";
 import { HomePage } from "@/pages/home/HomePage";
 import { BuyerDashboardPage } from "@/pages/BuyerDashboard/BuyerDashboardPage";
 import { lazy } from "react";
+import { SellerDashboardPage } from "@/pages/SellerDashboard/SellerDashboardPage";
+import { ProductPage } from "@/pages/product/ProductPage";
+import { ProductDetaiPage } from "@/pages/ProductDetail/ProductDetaiPage";
 
-const SellerDashboardPage = lazy(() =>
-  import("@/pages/SellerDashboard/SellerDashboardPage").then((module) => ({
-    default: module.SellerDashboardPage,
-  })),
-);
+// const SellerDashboardPage = lazy(() =>
+//   import("@/pages/SellerDashboard/SellerDashboardPage").then((module) => ({
+//     default: module.SellerDashboardPage,
+//   })),
+// );
 
-const ProductPage = lazy(() =>
-  import("@/pages/product/ProductPage").then((module) => ({
-    default: module.ProductPage,
-  })),
-);
+// const ProductPage = lazy(() =>
+//   import("@/pages/product/ProductPage").then((module) => ({
+//     default: module.ProductPage,
+//   })),
+// );
 
-const ProductDetaiPage = lazy(() =>
-  import("@/pages/ProductDetail/ProductDetaiPage").then((module) => ({
-    default: module.ProductDetaiPage,
-  })),
-);
+// const ProductDetaiPage = lazy(() =>
+//   import("@/pages/ProductDetail/ProductDetaiPage").then((module) => ({
+//     default: module.ProductDetaiPage,
+//   })),
+// );
 
 export const router = createBrowserRouter([
   {

@@ -19,32 +19,32 @@ export const SellerOrderSkeleton: React.FC = () => {
   return (
     <div className="w-full">
       <ProfileSkeleton />
-      <Card className="bg-gray-800 border-gray-700">
+      <Card className="bg-gray-100 border-gray-200">
         <CardHeader>
           <div className="flex justify-between mb-4">
-            <CardTitle className="text-yellow-500 mb-5">주문 목록</CardTitle>
+            <CardTitle className="text-gray-700 mb-5">주문 목록</CardTitle>
           </div>
         </CardHeader>
         <CardContent>
           <Table className="w-full">
             <TableHeader>
               <TableRow>
-                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
+                <TableHead className="text-gray-600 sticky top-0 bg-gray-100 z-10 text-center">
                   제품
                 </TableHead>
-                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
+                <TableHead className="text-gray-600 sticky top-0 bg-gray-100 z-10 text-center">
                   이미지
                 </TableHead>
-                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
+                <TableHead className="text-gray-600 sticky top-0 bg-gray-100 z-10 text-center">
                   수량
                 </TableHead>
-                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
+                <TableHead className="text-gray-600 sticky top-0 bg-gray-100 z-10 text-center">
                   판매자
                 </TableHead>
-                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 text-center">
+                <TableHead className="text-gray-600 sticky top-0 bg-gray-100 z-10 text-center">
                   상태
                 </TableHead>
-                <TableHead className="text-gray-100 sticky top-0 bg-gray-800 z-10 w-1/2 text-center">
+                <TableHead className="text-gray-600 sticky top-0 bg-gray-100 z-10 w-1/2 text-center">
                   날짜
                 </TableHead>
               </TableRow>
