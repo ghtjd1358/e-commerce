@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url';
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import viteCompression from "vite-plugin-compression";
-import legacy from '@vitejs/plugin-legacy';
+// import legacy from '@vitejs/plugin-legacy';
 import path from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -16,20 +16,13 @@ export default defineConfig({
     viteCompression({
       verbose : true,
       disable : false,
-      algorithm: "gzip",
-      threshold: 10240, // 10KB
-      ext: '.gz',
-    }),
-    viteCompression({
-      verbose : true,
-      disable : false,
       algorithm: "brotliCompress",
       threshold: 10240, // 10KB
       ext: '.br',
     }),
-    legacy({
-      targets: ['defaults', 'not IE 11'],
-    }),
+    // legacy({
+    //   targets: ['defaults', 'not IE 11'],
+    // }),
   ],
   build: {
     sourcemap: process.env.NODE_ENV === 'development',
@@ -67,10 +60,9 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, 'src'),
     },
-    dedupe: ["react", "react-dom"],
   },
   optimizeDeps: {
-    include: ["react", "react-dom", "@tanstack/react-query", "firebase"],
+    include: ["react", "react-dom",],
   },
   server: {
     port: 3000,
