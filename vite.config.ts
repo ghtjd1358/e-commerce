@@ -1,24 +1,79 @@
 import { defineConfig } from "vite";
+import { fileURLToPath } from 'url';
 import react from "@vitejs/plugin-react";
-import { visualizer } from "rollup-plugin-visualizer";
-import path from "path";
+import tsconfigPaths from "vite-tsconfig-paths";
+import viteCompression from "vite-plugin-compression";
+import legacy from '@vitejs/plugin-legacy';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default defineConfig({
   plugins: [
     react(),
-    visualizer({
-      filename: "./dist/stats.html",
-      open: false,
-      gzipSize: false,
+    tsconfigPaths(),
+    viteCompression({
+      verbose : true,
+      disable : false,
+      algorithm: "gzip",
+      threshold: 10240, // 10KB
+      ext: '.gz',
+    }),
+    viteCompression({
+      verbose : true,
+      disable : false,
+      algorithm: "brotliCompress",
+      threshold: 10240, // 10KB
+      ext: '.br',
+    }),
+    legacy({
+      targets: ['defaults', 'not IE 11'],
     }),
   ],
-  
-  server: {
-    port: 3000,
+  build: {
+    sourcemap: process.env.NODE_ENV === 'development',
+    target: 'es2015',
+    minify: "terser",
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 500,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes("firebase")) return "firebase";
+            if (id.includes("@tanstack/react-query")) return "react-query";
+            return id
+              .toString()
+              .split('node_modules/')[1]
+              .split('/')[0]
+              .toString();
+          }
+        },
+        assetFileNames: (assetInfo) => {
+          let extType = assetInfo.name.split('.')[1];
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+            extType = 'img';
+          }
+          return `assets/${extType}/[name]-[hash][extname]`;
+        },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+      },
+    },
   },
+  
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
+      "@": path.resolve(__dirname, 'src'),
     },
+    dedupe: ["react", "react-dom"],
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom", "@tanstack/react-query", "firebase"],
+  },
+  server: {
+    port: 3000,
+    open: true,
   },
 });
