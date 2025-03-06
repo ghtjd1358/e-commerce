@@ -33,10 +33,10 @@ dist-ssr
 *.sw?
 
 # Firebase related files
-# .firebaserc
-# firebase.json
-# firestore.indexes.json
-# firestore.rules
+.firebaserc
+firebase.json
+firestore.indexes.json
+firestore.rules
 
 # PostCSS and TailwindCSS configuration (if not needed)
 

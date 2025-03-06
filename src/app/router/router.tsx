@@ -10,7 +10,7 @@ import { NotFoundPage } from "@/pages/error/NotFoundPage";
 
 import { HomePage } from "@/pages/home/HomePage";
 import { BuyerDashboardPage } from "@/pages/BuyerDashboard/BuyerDashboardPage";
-import { lazy } from "react";
+// import { lazy } from "react";
 import { SellerDashboardPage } from "@/pages/SellerDashboard/SellerDashboardPage";
 import { ProductPage } from "@/pages/product/ProductPage";
 import { ProductDetaiPage } from "@/pages/ProductDetail/ProductDetaiPage";
