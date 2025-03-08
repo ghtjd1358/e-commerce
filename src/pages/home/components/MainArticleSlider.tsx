@@ -1,10 +1,14 @@
-// MainArticleSlider.tsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MainSlideContent } from "./MainSliderContent";
 import { MainSliderIndicator } from "./MainSliderIndicator";
 import { MainSliderControls } from "./MainSliderCtl";
 import { heroSlides } from "@/shared/slider";
+
+const preloadImage = (imagePath: string) => {
+  const img = new Image();
+  img.src = imagePath;
+};
 
 export function MainArticleSlider() {
   const products = heroSlides;
@@ -46,6 +50,12 @@ export function MainArticleSlider() {
       opacity: 0,
     }),
   };
+
+  useEffect(() => {
+    products.forEach((product) => {
+      preloadImage(product.productImage);
+    });
+  }, [products]);
 
   return (
     <aside className="w-full relative flex justify-center mx-auto max-w-full overflow-hidden">
