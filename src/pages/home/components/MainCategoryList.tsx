@@ -9,11 +9,9 @@ import { CartItem } from "@/store/cart/type";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { ProductCardSkeleton } from "./MainProductListSkeleton";
 import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
-import { useQueryClient } from "@tanstack/react-query";
-import { fetchFilterProductsApi } from "@/features/products/api";
-import { PRODUCT_KEY } from "@/features/products/key";
 import { ProductCard } from "@/pages/common/components/Card/ProductCard";
 import { categoryDisplaySettings, categoryOrder } from "@/shared/constants";
+import usePrefetchProductDetail from "@/shared/hooks/usePrefetch";
 
 type CountType = {
   xs: number;
@@ -35,8 +33,8 @@ export const MainCategoryList: React.FC = () => {
   const { cart, addCartItem } = useCartStore();
   const { addToast } = useToastStore();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const { handleMouseEnter, handleMouseLeave } = usePrefetchProductDetail();
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -74,22 +72,6 @@ export const MainCategoryList: React.FC = () => {
     }
   };
 
-  const handlePrefetchProducts = async (categoryId: string) => {
-    const queryKey = [PRODUCT_KEY, { categoryId }];
-    const cachedData = queryClient.getQueryData(queryKey);
-
-    if (!cachedData) {
-      await queryClient.prefetchQuery({
-        queryKey,
-        queryFn: async () => {
-          const filter = { categoryId };
-          const response = await fetchFilterProductsApi(filter, 20, 1);
-          return response.products;
-        },
-      });
-    }
-  };
-
   const getDisplayCount = (settings: CategorySettingsType): number => {
     if (windowWidth >= 1536 && settings.count['2xl']) return settings.count['2xl'];
     if (windowWidth >= 1280 && settings.count.xl) return settings.count.xl;
@@ -124,7 +106,8 @@ export const MainCategoryList: React.FC = () => {
                   <h3 className="text-3xl mb-3 font-bold tracking-wide">{category}</h3>
                   <Link
                     to={`${pageRoutes.product}?category=${items[0].productCategory.name}`}
-                    onMouseEnter={() => handlePrefetchProducts(items[0].productCategory.id)}
+                    onMouseEnter={() => handleMouseEnter(items[0].productCategory.id)}
+                    onMouseLeave={handleMouseLeave}
                     className="text-lg font-semibold text-blue-500 hover:text-blue-700"
                   >
                     더보기

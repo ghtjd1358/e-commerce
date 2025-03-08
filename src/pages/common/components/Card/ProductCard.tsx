@@ -2,11 +2,8 @@ import React, { memo } from "react";
 import { IProduct } from "@/features/products/type";
 import { Link } from "react-router-dom";
 import { pageRoutes } from "@/app/apiRouters";
-import { useQueryClient } from "@tanstack/react-query";
-import { fetchDetailProductApi } from "@/features/products/api";
-import { PRODUCT_KEY } from "@/features/products/key";
-import { useRef } from "react";
 import { useModalContext } from "@/shared/hooks/useModalContext";
+import usePrefetchProductDetail from "@/shared/hooks/usePrefetch";
 
 interface ProductCardProps {
   product: IProduct;
@@ -24,34 +21,8 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = memo(
   ({ product, cart, onClickAddCartButton, onClickPurchaseButton }) => {
     const { openModal } = useModalContext();
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const queryClient = useQueryClient();
+    const { handleMouseEnter, handleMouseLeave } = usePrefetchProductDetail();
 
-    // 상품 상세 정보를 prefetch
-    const handlePrefetchDetail = async (productId: string) => {
-      const queryKey = [PRODUCT_KEY, { productId }];
-      const cachedData = queryClient.getQueryData(queryKey);
-      if (!cachedData) {
-        await queryClient.prefetchQuery({
-          queryKey,
-          queryFn: () => fetchDetailProductApi(productId),
-        });
-      }
-    };
-
-    // 마우스 오버 시 prefetch 실행
-    const handleMouseEnter = (productId: string) => {
-      timeoutRef.current = setTimeout(() => {
-        handlePrefetchDetail(productId);
-      }, 1500);
-    };
-
-    const handleMouseLeave = () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
-    };
 
     // 장바구니 추가 버튼 클릭
     const handleClickAddCartButton = (

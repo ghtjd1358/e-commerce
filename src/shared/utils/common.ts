@@ -17,6 +17,23 @@ export const pick = <T extends object, K extends keyof T>(
   return result;
 };
 
+export const throttle = <T extends (...args: any[]) => void>(
+  fn: T,
+  wait: number,
+): ((...args: Parameters<T>) => void) => {
+  let timeout: number | null = null;
+
+  return (...args: Parameters<T>) => {
+    if (!timeout) {
+      fn(...args);
+      timeout = window.setTimeout(() => {
+        timeout = null;
+      }, wait);
+    }
+  };
+};
+
+
 export const debounce = <T extends (...args: any[]) => void>(
   fn: T,
   wait: number,
