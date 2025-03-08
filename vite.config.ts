@@ -3,8 +3,10 @@ import { fileURLToPath } from 'url';
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import viteCompression from "vite-plugin-compression";
-// import legacy from '@vitejs/plugin-legacy';
 import path from 'path';
+import viteImagemin from '@vheemstra/vite-plugin-imagemin';
+import imageminWebp from 'imagemin-webp';
+import imageminPngquant from 'imagemin-pngquant';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,6 +21,20 @@ export default defineConfig({
       algorithm: "brotliCompress",
       threshold: 10240, // 10KB
       ext: '.br',
+    }),
+    viteImagemin({
+      plugins: {
+        png: imageminPngquant({
+          quality: [0.6, 0.8],
+        }),
+      },
+      makeWebp: {
+        plugins: {
+          png: imageminWebp(),
+          jpg: imageminWebp(),
+          jpeg: imageminWebp(),
+        },
+      },
     }),
     // legacy({
     //   targets: ['defaults', 'not IE 11'],
