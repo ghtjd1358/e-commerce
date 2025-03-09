@@ -1,7 +1,7 @@
-import ghost from "../../public/ghost.jpg";
-import level from "../../public/level.jpg";
-import mickey from "../../public/mickey.jpg";
-import ryu from "../../public/ryu.jpg";
+import ghost from "../assets/ghost.jpg";
+import level from "../assets/level.jpg";
+import mickey from "../assets/mickey.jpg";
+import ryu from "../assets/ryu.jpg";
 
 export const heroSlides = [
   {
