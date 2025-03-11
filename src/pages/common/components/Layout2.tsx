@@ -5,7 +5,6 @@ import { Toast } from "./Toast";
 import { useFilterStore } from "@/store/filter/useFilterStore";
 import { ALL_CATEGORY_ID, authStatusType } from "@/shared/constants";
 import { pageRoutes } from "@/app/apiRouters";
-import { Header } from "./Header";
 interface LayoutProps {
   children: ReactNode;
   containerClassName?: string;

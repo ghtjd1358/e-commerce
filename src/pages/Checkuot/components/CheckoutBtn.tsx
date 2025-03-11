@@ -4,14 +4,34 @@ import { OrderStatus } from "@/features/order/types";
 import { Button } from "@/pages/common/ui/button";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useCartStore } from "@/store/cart/useCartStore";
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+const loadIamportScript = () => {
+  if (!document.querySelector('script[src="https://cdn.iamport.kr/v1/iamport.js"]')) {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.iamport.kr/v1/iamport.js';
+    script.async = true;
+    document.body.appendChild(script);
+  }
+};
 
 export const CheckoutBtn: React.FC = () => {
   const { user } = useAuthStore();
-  const { IMP } = window;
   const { cart, totalPrice, removeCartItem } = useCartStore();
   const { mutate: updateOrderStatus } = useUpdateOrderStatus();
   const { data: orders = [] } = useFetchOrders(user?.uid ?? "", ["결제 대기"]);
+  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+
+  useEffect(() => {
+    loadIamportScript();
+    const scriptLoadedHandler = () => {
+      setIsScriptLoaded(true);
+    };
+    document.addEventListener('load', scriptLoadedHandler);
+    return () => {
+      document.removeEventListener('load', scriptLoadedHandler);
+    };
+  }, []);
 
   const selectedCartItems = cart.filter((item) => item.isSelected);
   const selectedCartItemsProductName = selectedCartItems.map(
@@ -24,12 +44,14 @@ export const CheckoutBtn: React.FC = () => {
     selectedCartItemsId.includes(item.productId ?? ""),
   );
 
-  // 포트원 초기화
-  IMP.init("imp58346007");
-
   const handlePayment = () => {
     if (!user) {
       alert("사용자 정보가 없습니다.");
+      return;
+    }
+
+    if (!isScriptLoaded) {
+      alert("스크립트가 로드되지 않았습니다.");
       return;
     }
 
@@ -46,24 +68,25 @@ export const CheckoutBtn: React.FC = () => {
     };
 
     // 결제 요청
+    const IMP = (window as any).IMP;
+    IMP.init("imp58346007");
     IMP.request_pay(paymentData, (response: any) => {
       if (response.success) {
-        // 결제 성공 시 주문 상태 업데이
-
+        // 결제 성공 시 주문 상태 업데이트
         alert("결제가 완료되었습니다!");
       } else {
         alert(`결제 실패: ${response.error_msg}`);
         orderMaps.forEach((order) => {
-            updateOrderStatus({
-              orderId: order.id,
-              newStatus: OrderStatus.COMPLETED,
-            });
+          updateOrderStatus({
+            orderId: order.id,
+            newStatus: OrderStatus.COMPLETED,
           });
-  
-          // 로컬 스토리지에서 장바구니 항목 제거
-          selectedCartItems.forEach((item) => {
-            removeCartItem(item.id, user.uid);
-          });
+        });
+
+        // 로컬 스토리지에서 장바구니 항목 제거
+        selectedCartItems.forEach((item) => {
+          removeCartItem(item.id, user.uid);
+        });
       }
     });
   };

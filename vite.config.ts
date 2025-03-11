@@ -19,7 +19,7 @@ export default defineConfig({
       verbose : true,
       disable : false,
       algorithm: "brotliCompress",
-      threshold: 10240, // 10KB
+      threshold: 2048, // 10KB
       ext: '.br',
     }),
     viteImagemin({
@@ -43,7 +43,7 @@ export default defineConfig({
   build: {
     sourcemap: process.env.NODE_ENV === 'development',
     target: 'es2015',
-    minify: "terser",
+    minify: "esbuild",
     cssCodeSplit: true,
     chunkSizeWarningLimit: 500,
     rollupOptions: {
@@ -59,15 +59,15 @@ export default defineConfig({
               .toString();
           }
         },
-        assetFileNames: (assetInfo) => {
-          let extType = assetInfo.name.split('.')[1];
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-            extType = 'img';
-          }
-          return `assets/${extType}/[name]-[hash][extname]`;
-        },
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
+        // assetFileNames: (assetInfo) => {
+        //   let extType = assetInfo.name.split('.')[1];
+        //   if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+        //     extType = 'img';
+        //   }
+        //   return `assets/${extType}/[name]-[hash][extname]`;
+        // },
+        // chunkFileNames: 'assets/js/[name]-[hash].js',
+        // entryFileNames: 'assets/js/[name]-[hash].js',
       },
     },
   },
