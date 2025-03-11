@@ -111,7 +111,7 @@ export const ProductCard: React.FC<ProductCardProps> = memo(
           {/* 판매 완료 오버레이 */}
           {product.productQuantity === 0 && (
             <div className="absolute inset-0 bg-gray-50 bg-opacity-65 flex items-center justify-center">
-              <span className="text-3xl font-bold text-black">품절</span>
+              <span className="text-3xl font-bold text-black mb-20">품절</span>
             </div>
           )}
         </div>

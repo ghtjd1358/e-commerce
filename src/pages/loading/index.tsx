@@ -1,9 +1,12 @@
-import React from "react";
+import { Loader2 } from "lucide-react";
+import { DeferredComponent } from "../common/components/DeferredComponent";
 
-export const LoadingPage: React.FC = () => {
+export const LoadingPage = () => {
   return (
-    <div className="bg-gray-500 h-screen w-screen flex items-center justify-center">
-      {/* <p className="text-white">Loading...</p> */}
-    </div>
+    <DeferredComponent delay={200}>
+      <div className="flex justify-center items-center h-screen fixed top-0 w-screen">
+        Loading... <Loader2 className="w-8 h-8 animate-spin" />
+      </div>
+    </DeferredComponent>
   );
 };
