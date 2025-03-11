@@ -5,6 +5,15 @@ import ryu from "../assets/ryu.jpg";
 
 export const heroSlides = [
   {
+    id: "ThnhRJLkdkzm0mICXoO1",
+    productImage: level,
+    productName: "나 혼자만 레벨업",
+    productPrice: 3500,
+    productPublisher: "추공 (Chugong)",
+    productAuthorName: "D&C미디어",
+    productDescription: "10년 전 열린 '게이트'로 인해 몬스터와 던전이 현실 세계에 등장하고, 이를 사냥하는 헌터들이 생겨났다. 주인공 성진우는 최약체 E급 헌터로, 생계를 위해 위험한 던전에 들어가지만 항상 죽음의 위기에 처한다. 어느 날 이중 던전에서 죽음 직전의 상황에 놓인 그는 `플레이어가 되겠습니까? `라는 메시지를 받고 특별한 능력을 얻게 된다. 몬스터를 사냥하고 퀘스트를 완료하며 레벨업할 수 있는 유일한 존재가 된 성진우는 점차 강력해지고, 그 과정에서 세상의 비밀과 자신의 운명에 다가간다.",
+  },
+  {
     id: "ySzxWabhr1tAufZ7YmEr",
     productImage: mickey,
     productName: "Mickey7 (Movie-Tie-In edition)",
@@ -13,15 +22,6 @@ export const heroSlides = [
     productAuthorName: "St. Martin's Griffin",
     productDescription: "Now experience where the hit movie from Academy Award-winning director Bong Joon-ho, starring Robert Pattinson, started in Mickey7 (the inspiration for the film Mickey 17). Dying isn’t any fun…but at least it’s a living. Mickey Barnes is an Expendable: a disposable employee on a human expedition sent to colonize the ice world Niflheim. Whenever there’s a mission that’s too dangerous―even suicidal―the crew turns to Mickey. After one iteration dies, a new body is regenerated with most of his memories intact. After six deaths, Mickey7 understands the terms of his deal…and why it was the only colonial position unfilled when he took it. On a routine scouting mission, Mickey7 goes missing and is presumed dead. By the time he returns to the colony base, surprisingly helped back by native life, his fate has been sealed. There’s a new clone, Mickey8, reporting for Expendable duties, and there can only be one Expendable. If Mickey7 reports his survival to Command, one of them is going into the recycler. If he doesn’t and they’re caught, they both are. Meanwhile, life on Niflheim is getting worse. The atmosphere is unsuitable for humans, food is in short supply, and terraforming is going poorly. The native species are growing curious about their new neighbors, and that curiosity has Commander Marshall very afraid. Ultimately, the survival of both lifeforms will come down to Mickey7. That is, if he can just keep from dying for good.",
   },
-    {
-      id: "ThnhRJLkdkzm0mICXoO1",
-      productImage: level,
-      productName: "나 혼자만 레벨업",
-      productPrice: 3500,
-      productPublisher: "추공 (Chugong)",
-      productAuthorName: "D&C미디어",
-      productDescription: "10년 전 열린 '게이트'로 인해 몬스터와 던전이 현실 세계에 등장하고, 이를 사냥하는 헌터들이 생겨났다. 주인공 성진우는 최약체 E급 헌터로, 생계를 위해 위험한 던전에 들어가지만 항상 죽음의 위기에 처한다. 어느 날 이중 던전에서 죽음 직전의 상황에 놓인 그는 `플레이어가 되겠습니까? `라는 메시지를 받고 특별한 능력을 얻게 된다. 몬스터를 사냥하고 퀘스트를 완료하며 레벨업할 수 있는 유일한 존재가 된 성진우는 점차 강력해지고, 그 과정에서 세상의 비밀과 자신의 운명에 다가간다.",
-    },
     {
         id: "fVp3CUbF04K0Wa0fAXnu",
         productImage: ryu,

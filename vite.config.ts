@@ -25,7 +25,7 @@ export default defineConfig({
     viteImagemin({
       plugins: {
         png: imageminPngquant({
-          quality: [0.6, 0.8],
+          quality: [0.4, 0.6],
         }),
       },
       makeWebp: {

@@ -1,14 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { MainSlideContent } from "./MainSliderContent";
 import { MainSliderIndicator } from "./MainSliderIndicator";
 import { MainSliderControls } from "./MainSliderCtl";
 import { heroSlides } from "@/shared/slider";
-
-const preloadImage = (imagePath: string) => {
-  const img = new Image();
-  img.src = imagePath;
-};
 
 export function MainArticleSlider() {
   const products = heroSlides;
@@ -51,27 +46,20 @@ export function MainArticleSlider() {
     }),
   };
 
-  useEffect(() => {
-    products.forEach((product) => {
-      preloadImage(product.productImage);
-    });
-  }, [products]);
-
   return (
     <aside className="w-full relative flex justify-center mx-auto max-w-full overflow-hidden">
       <div>
         {products.length > 0 && (
-          <div
-            className="absolute inset-0 bg-cover opacity-90"
-            style={{
-              backgroundImage: `url(${products[currentIndex].productImage})`,
-              backgroundPosition: "center 45%",
-            }}
-          ></div>
+          <div className="absolute inset-0 bg-black">
+          <img
+            src={products[currentIndex].productImage}
+            alt="product"
+            className="w-full absolute -top-[110%] opacity-70"
+          />
+        </div>
         )}
-        <div className="absolute inset-0 bg-white opacity-50"></div>
+        <div className="absolute inset-0 bg-white opacity-25"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50"></div>
-
         <section className="relative w-full h-full p-10 flex mt-8">
           <div className="max-w-screen-xl mx-auto flex flex-col mt-10 relative">
             <div><h3 className="text-5xl font-bold mb-2 tracking-wide">오늘의 책</h3></div>

@@ -25,8 +25,8 @@ export const Header: React.FC = () => {
     <header
       className={`w-full fixed top-0 left-0 z-10 flex items-center justify-between px-4 py-3 md:px-8 md:py-4 h-[60px] ${
         isScrolled
-          ? "border-b border-black bg-gray-50 duration-300"
-          : "bg-transparent border-none"
+          ? "shadow-lg bg-gray-50 duration-300"
+          : "shadow-lg bg-transparent border-none"
       }`}
     >
       <div className="w-full">
