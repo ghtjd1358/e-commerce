@@ -8,9 +8,9 @@ import { SellerOrderCard } from "./SellerOrderCard";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useSellerOrders } from "@/features/order/hooks/useFetchSellerOrders";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
-import { SellerProductCardSkeleton } from "@/pages/common/components/skeletons/SellerProductCardSkeleton";
 import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
 import { Pagination } from "@/pages/common/components/Pagination";
+import { MypageCardSkeleton } from "@/pages/common/components/skeletons/MypageCardSkeleton";
 
 interface Order {
   id: string;
@@ -66,7 +66,7 @@ export const SellerOrderList: React.FC = () => {
           {/* Skeleton 로딩 상태 */}
           {isLoading ? (
             Array.from({ length: pageSize }).map((_, idx) => (
-              <SellerProductCardSkeleton key={idx} />
+              <MypageCardSkeleton key={idx} />
             ))
           ) : currentOrders && currentOrders.length > 0 ? (
             <>

@@ -32,7 +32,7 @@ export const ProfilePayload: React.FC<ProfilePayloadProps> = ({
 
   return (
     <div className="w-full">
-      <Card className="bg-gray-800 border-gray-700 text-gray-300">
+      <Card className="bg-gray-50 border-black text-black">
         <CardHeader>
           <CardTitle className="text-yellow-500 text-2xl">
             {location.pathname === "/checkout" ? "배송지 정보" : "계정 정보"}

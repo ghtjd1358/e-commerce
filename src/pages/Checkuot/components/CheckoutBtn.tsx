@@ -6,15 +6,6 @@ import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useCartStore } from "@/store/cart/useCartStore";
 import React, { useEffect, useState } from "react";
 
-const loadIamportScript = () => {
-  if (!document.querySelector('script[src="https://cdn.iamport.kr/v1/iamport.js"]')) {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.iamport.kr/v1/iamport.js';
-    script.async = true;
-    document.body.appendChild(script);
-  }
-};
-
 export const CheckoutBtn: React.FC = () => {
   const { user } = useAuthStore();
   const { cart, totalPrice, removeCartItem } = useCartStore();
@@ -22,15 +13,22 @@ export const CheckoutBtn: React.FC = () => {
   const { data: orders = [] } = useFetchOrders(user?.uid ?? "", ["결제 대기"]);
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
+  const loadIamportScript = () => {
+    if (!document.querySelector('script[src="https://cdn.iamport.kr/v1/iamport.js"]')) {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.iamport.kr/v1/iamport.js';
+      script.async = true;
+      script.onload = () => {
+        setIsScriptLoaded(true);
+      };
+      document.body.appendChild(script);
+    } else {
+      setIsScriptLoaded(true);
+    }
+  };
+
   useEffect(() => {
     loadIamportScript();
-    const scriptLoadedHandler = () => {
-      setIsScriptLoaded(true);
-    };
-    document.addEventListener('load', scriptLoadedHandler);
-    return () => {
-      document.removeEventListener('load', scriptLoadedHandler);
-    };
   }, []);
 
   const selectedCartItems = cart.filter((item) => item.isSelected);
@@ -56,7 +54,7 @@ export const CheckoutBtn: React.FC = () => {
     }
 
     const paymentData = {
-      pg: "kakaopay",
+      pg: "paypal",
       pay_method: "card",
       merchant_uid: `mid_${new Date().getTime()}`, // 가맹점 주문번호
       name: `${selectedCartItemsProductName}`, // 상품명

@@ -15,7 +15,7 @@ export const CheckoutProductTable: React.FC<CheckoutProductTableProps> = ({
   buyer,
 }) => {
   return (
-    <Card className="bg-gray-800 border-gray-700">
+    <Card className="bg-gray-50 border-gray-700 text-black">
       <CardHeader>
         <CardTitle className="text-yellow-500 font-semibold text-2xl">
           주문 상품
@@ -25,8 +25,8 @@ export const CheckoutProductTable: React.FC<CheckoutProductTableProps> = ({
         {buyer?.map((item) =>
           item?.status === "결제 대기" ? (
             <div className="w-full flex justify-between" key={item.id}>
-              <span className="text-white">{item.productName}</span>
-              <span className="text-white">{item.productQuantity} 개</span>
+              <span>{item.productName}</span>
+              <span>{item.productQuantity} 개</span>
             </div>
           ) : null,
         )}

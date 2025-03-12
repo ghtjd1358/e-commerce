@@ -4,8 +4,8 @@ import { BuyerProductCard } from "./BuyerProductCard";
 import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { useFetchOrders } from "@/features/order/hooks/useFetchOrders";
-import { OrderProductCardSkeleton } from "@/pages/common/components/skeletons/OrderProductCardSkeleton";
 import { Pagination } from "@/pages/common/components/Pagination";
+import { MypageCardSkeleton } from "@/pages/common/components/skeletons/MypageCardSkeleton";
 
 interface ProductOrderListProps {
   buyerId: string;
@@ -59,31 +59,35 @@ export const BuyerProductList: React.FC<ProductOrderListProps> = ({ buyerId }) =
         <CardContent>
           {ordersLoading ? (
             Array.from({ length: PAGE_SIZE }).map((_, idx) => (
-              <OrderProductCardSkeleton key={idx} />
+              <MypageCardSkeleton key={idx} />
             ))
-          ) : paginatedDates.length > 0 ? (
-            <>
-              {paginatedDates.map(date => (
-                <div key={date} className="mb-6">
-                  <h3 className="text-lg font-semibold text-black mb-3">{date}</h3>
-                  <div className="flex flex-col space-y-2">
-                    {groupedOrders[date].map(product => (
-                      <BuyerProductCard key={product.id} product={product} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-              <Pagination
-                currentPage={page}
-                totalPages={totalPages}
-                onClick={handlePageClick}
-              />
-            </>
           ) : (
-            <EmptyProduct />
+            <>
+              {paginatedDates.length > 0 ? (
+                <>
+                  {paginatedDates.map(date => (
+                    <div key={date} className="mb-6">
+                      <h3 className="text-lg font-semibold text-black mb-3">{date}</h3>
+                      <div className="flex flex-col space-y-2">
+                        {groupedOrders[date].map(product => (
+                          <BuyerProductCard key={product.id} product={product} />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  <Pagination
+                    currentPage={page}
+                    totalPages={totalPages}
+                    onClick={handlePageClick}
+                  />
+                </>
+              ) : (
+                <EmptyProduct />
+              )}
+            </>
           )}
         </CardContent>
       </div>
     </div>
-  );
+  );  
 };

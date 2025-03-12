@@ -64,12 +64,14 @@ export const BuyerProductCard: React.FC<BuyerProductCardProps> = ({ product }) =
 
       {/* 취소/재구매 버튼 */}
       <div className="flex justify-end items-end sm:w-auto">
-        <Button 
+        {
+          product.status === "주문 완료" ? <Button 
           className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black rounded"
           onClick={() => handleCancelOrderApi(product.id)}
         >
-          {product.status === "주문 취소" ? "재구매" : "구매 취소"}
-        </Button>
+          구매 취소
+        </Button> : <p className="text-red-500 tracking-wider">주문이 취소되었습니다</p>
+        }
       </div>
     </div>
   );

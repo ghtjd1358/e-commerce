@@ -91,7 +91,21 @@ export const cancelOrderApi = async (orderId: string) => {
         throw new Error("주문을 찾을 수 없습니다.");
       }
 
-      // 주문 상태를 "CANCELLED"로 변경
+      const productId = orderSnap.data().productId;
+      const productQuantity = orderSnap.data().productQuantity;
+
+      const productRef = doc(db, "products", productId);
+      const productSnap = await transaction.get(productRef);
+
+      if (!productSnap.exists()) {
+        throw new Error("상품을 찾을 수 없습니다.");
+      }
+
+      // 상품 재고 복구
+      const newStock = productSnap.data().productQuantity + productQuantity;
+      transaction.update(productRef, { productQuantity: newStock });
+
+      // 주문 상태를 "주문 취소"로 변경
       transaction.update(orderRef, { status: "주문 취소" });
     });
 
@@ -103,6 +117,7 @@ export const cancelOrderApi = async (orderId: string) => {
     }
   }
 };
+
 
 // 구매자 주문 상태 변경 API
 export const updateOrderStatusApi = async (

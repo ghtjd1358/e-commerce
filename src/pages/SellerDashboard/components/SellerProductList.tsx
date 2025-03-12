@@ -10,11 +10,11 @@ import {
 } from "@/pages/common/ui/card";
 import { SellerProductCard } from "@/pages/SellerDashboard/components/SellerProductCard";
 import { SellerProductFilter } from "./SellerProductFilter";
-import { SellerProductCardSkeleton } from "@/pages/common/components/skeletons/SellerProductCardSkeleton";
 import { Pagination } from "@/pages/common/components/Pagination";
 import { EmptyProduct } from "@/pages/common/components/EmptyProduct";
 import { useFetchProducts } from "@/features/products/hooks/useFetchProducts";
 import { ProductRegistrationModal } from "./ProductRegisterModal";
+import { MypageCardSkeleton } from "@/pages/common/components/skeletons/MypageCardSkeleton";
 
 
 export const SellerProductList = ({ pageSize = 5 }) => {
@@ -67,7 +67,7 @@ export const SellerProductList = ({ pageSize = 5 }) => {
           {/* Skeleton 로딩 상태 */}
           {isLoading ? (
             Array.from({ length: pageSize }).map((_, idx) => (
-              <SellerProductCardSkeleton key={idx} />
+              <MypageCardSkeleton key={idx} />
             ))
           ) : currentProducts.length > 0 ? (
             <>
